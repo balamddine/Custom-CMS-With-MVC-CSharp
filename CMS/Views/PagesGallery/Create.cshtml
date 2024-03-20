@@ -1,0 +1,68 @@
+﻿@model Data.Models.PagesGalleryModel
+@{
+    Layout = "~/Views/Shared/_PagesLayout.cshtml";
+    ViewBag.Title = "Add new Page Image(s)";
+    
+}
+
+<div class="content-wrapper">
+
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Add Page Images: @ViewBag.PageName</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Content("~/Home")">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Content("~/PagesGallery/"+Model.PageId)">Page Images</a></li>
+                        <li class="breadcrumb-item active">Add Page Images</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Create</h3>
+                        </div>
+                        @using (Html.BeginForm("Create", "PagesGallery", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                        {
+                            <input type="hidden" id="myhfid" value="-1" />
+                            
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(x => x.PageId)
+                            @Html.ValidationSummary(true, "Error creating Page Image, Check your info!", new { @class = "text-danger" });
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <b>Choose Image(s)</b>
+                                    @Html.TextBoxFor(m => m.Image, new { type = "file", accept = "image/*", datatarget = "previewImage", @multiple = "multiple" })
+
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Add Images</button>
+                                @Html.ActionLink("Cancel", "Index", "PagesGallery", new { Model.PageId }, new { @class = "btn btn-default float-right" })
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        var t = "@Model.PageId";        
+        setTimeout(function () {
+            highlightTreemenu("#apage" + t);
+        },500)
+    </script>
+}

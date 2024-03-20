@@ -1,0 +1,109 @@
+﻿
+@model List<Data.Models.PageContentTypeModel>
+@{
+    Layout = "~/Views/Shared/_PagesLayout.cshtml";
+    ViewBag.Title = "Page Content Type";
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Page Content Types</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="@Url.Content("~/Home")">Home</a></li>
+                            <li class="breadcrumb-item active">Page Content Types</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        @*<div class="card-header">
+                                <h5 class="m-0">Featured</h5>
+                            </div>*@
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <div id="dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12 mb-3 alignright">
+                                            @Html.ActionLink("Create New", "Create", "PageContentType", new { }, new { @class = "btn btn-primary" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            @{
+                                                WebGrid grid = new WebGrid(@Model, rowsPerPage: 10, canSort: false);
+
+                                                @grid.GetHtml(tableStyle: "table",
+                                                     mode: WebGridPagerModes.All,
+                                                     firstText: "<< First",
+                                                     previousText: "< Prev",
+                                                     nextText: "Next >",
+                                                     lastText: "Last >>",
+                                                     columns: grid.Columns(
+                                                          grid.Column("Name", "Name"),                                                                                                  
+                         grid.Column(header: "Actions", format: (item) =>
+                         new HtmlString(
+                                 "<a title='Fields' href='" + Url.Action("Index", "PageContentTypeFields", new { id = item.id }) + "' class='btn btn-action'><i class='fa fa-clone' aria-hidden='true'></i></a>" + " " +                        
+                           "<a title='Edit' href='" + Url.Action("Edit", "PageContentType", new { id = item.id }) + "' class='btn btn-action'><i class='fa fa-edit' aria-hidden='true'></i></a>" + " " +
+                         (item.Id==0?"":"<a  title='Delete record' class='modalLink btn btn-action' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>")
+
+
+                         )
+                         )
+                         )
+                         )
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteRow" tabindex="-1" role="dialog" aria-labelledby="deleteRowLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteRowLabel">Ready to Delete?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Select "Delete" below if you are sure you want to delete this record.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a href="@Url.Action("Delete", "PageContentType", new { })" class="btn btn-primary deleteSlider">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        highlightmenu("#apagecontenttypes");
+
+        $(document).on("click", ".modalLink", function () {
+            var passedID = $(this).data('id');
+            $(".modal-footer .deleteSlider").attr("href", "@Url.Content("~/PageContentType/Delete/")" + passedID)
+        });
+    </script>
+}
+
+

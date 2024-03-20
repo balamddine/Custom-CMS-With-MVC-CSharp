@@ -1,0 +1,121 @@
+﻿@model Data.Models.PageModel
+@{
+    Layout = "~/Views/Shared/_PagesLayout.cshtml";
+    ViewBag.Title = "Add new page";
+}
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Add new page</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Content("~/Home")">Home</a></li>
+                        <li class="breadcrumb-item active">Add new page</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                @using (Html.BeginForm("Create", "Pages", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.PageContentID)
+                    @Html.HiddenFor(x => x.PageTemplateID)
+                    @Html.HiddenFor(x => x.isDeleted)
+                    @Html.HiddenFor(x => x.ParentId)                    
+                    <input type="hidden" name="link" value="@ViewBag.TemplateLink" />
+                    @Html.ValidationSummary(true, "Error creating page, Check your info!", new { @class = "text-danger" });
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="card mb-3">
+                                    <div class="card-header right-align">
+                                        <input class="btn btn-primary" type="submit" value="Save" />&nbsp;
+                                        @Html.ActionLink("Cancel", "Index", "Pages", new { Model.Id }, new { @class = "btn btn-secondary" })
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="row mb-2">
+                                            <div class="col-md-2">
+                                                <b>@Html.LabelFor(m => m.Name, new { @class = "form-control" })</b>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control ", @onkeyup = "UpdateTitle(this)" })
+                                                @Html.ValidationMessageFor(u => u.Name, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-2">
+                                                <b>@Html.LabelFor(m => m.FriendlyUrl, new { @class = "form-control" })</b>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.FriendlyUrl, new { @class = "form-control " })
+                                                @Html.ValidationMessageFor(u => u.FriendlyUrl, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-2">
+                                                <b>@Html.LabelFor(m => m.MenuOrder, new { @class = "form-control" })</b>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.MenuOrder, new { @class = "form-control ", @type = "number", @min = "0" })
+                                                @Html.ValidationMessageFor(u => u.MenuOrder, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-2">
+                                                <b>@Html.LabelFor(m => m.isHidden, new { @class = "form-control" })</b>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.CheckBoxFor(m => m.isHidden, "true")
+                                                @Html.ValidationMessageFor(u => u.isHidden, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        @Html.Raw(ViewBag.InputDisplay)                                       
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-mask]').inputmask();
+        });
+        setTimeout(function () {
+            var parentpageid = "@Model.ParentId";
+            highlightTreemenu("#apage" + parentpageid);
+        }, 500);
+        
+        function UpdateTitle(sender) {
+            var t = $(sender).val();
+            $("#txtTitle").val(t);
+            var frdurl = t.replace(/ /g, "-");
+            frdurl = frdurl.replace("+", "-");
+            frdurl = frdurl.toLowerCase();
+            $("#FriendlyUrl").val("/" + frdurl);
+            
+            
+        }
+    </script>
+}

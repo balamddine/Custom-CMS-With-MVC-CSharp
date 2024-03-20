@@ -1,0 +1,56 @@
+﻿@model CMS.Models.UserLoginModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_CMSLayout.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-body login-card-body">
+        <p class="login-box-msg">Sign in here</p>
+
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="input-group mb-3">
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "Username" })
+                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="input-group mb-3">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <div class="icheck-primary">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="col-4">
+                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                </div>
+
+            </div>
+            @*<input type="submit" value="Log in" class="btn btn-primary btn-block" />*@
+
+        }
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

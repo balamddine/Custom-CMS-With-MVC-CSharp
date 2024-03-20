@@ -1,0 +1,36 @@
+﻿@model List<Data.Models.LanguageModel>
+@if (Model != null && Model.Count > 1)
+{
+
+    <li class="nav-item dropdown">
+        <a class="nav-link selectedlang" data-toggle="dropdown" href="#">
+            @ViewBag.SelectedLanguage
+        </a>
+        <div class="dropdown-menu dropdown-menu-right p-0 ">
+            @{
+                string LangSelected = "";
+                foreach (Data.Models.LanguageModel m in Model)
+                {
+
+                    if (m.Id == ViewBag.LangID) { LangSelected = " active "; }
+                    else { LangSelected = ""; }
+                    <a href="javascript:;" class="dropdown-item @LangSelected languageitem" onclick="changeselect(@m.Id);">
+                        @m.Name
+                    </a>
+                }
+            }            
+        </div>
+    </li>    
+}
+<script>
+    function changeselect(id) {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Home/_changeLang/")" + id,
+            success: function (result) {
+
+                window.location.reload(true);
+            }
+        });
+    }
+</script>

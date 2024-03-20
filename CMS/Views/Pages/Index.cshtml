@@ -1,0 +1,61 @@
+﻿@model Data.Models.PageModel
+@{
+    Layout = "~/Views/Shared/_PagesLayout.cshtml";
+    ViewBag.Title = "Website Pages";
+}
+
+<div class="content-wrapper">
+    @*<div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">&nbsp;</h1>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    <div class="content" style="padding-top:10px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        @*<div class="card-header">
+                                <h5 class="m-0">Title</h5>
+                            </div>*@
+                        <div class="card-body">
+                            @*<h6 class="card-title">Desc</h6>*@
+
+                            <p class="card-text">
+                                Right click on the desired page to open it's menu                                
+                            </p>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="m-0 d-inline-block" id="hPageName"></h5>
+                            <a href="javascript:;" id="aEdit" class="btn btn-primary float-right">Edit</a>
+                        </div>
+                        <div class="card-body">
+                            <div  id="ifrpage">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Viewpagecontent(@Model.Id);
+        });
+    </script>
+    }
+

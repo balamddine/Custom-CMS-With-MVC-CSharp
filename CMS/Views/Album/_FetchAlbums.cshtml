@@ -1,0 +1,72 @@
+﻿@model List<Data.Models.AlbumModel>
+@{
+    string id = ViewBag.hfieldid as string;
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="deleteRowLabel">Select Gallery</h5>
+</div>
+<div class="modal-body">
+    <p>Select the desired gallery to assign</p>
+    
+        <div class="row">
+            <div class="col-12">
+                <div class="form-input">
+                    <div class="selectHolder position-relative">
+                        <input type="text" id="txtgallery" name="gallery" placeholder="Select" autocomplete="off" value="@ViewBag.selectedids" />                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</div>
+<div class="modal-footer">
+    <a href="javascript:;" class="btn btn-success" onclick="AssignGallery();">Save changes</a>&nbsp;
+    <a href="javascript:;" class="btn btn-secondary" onclick="closefancybox();">Cancel</a>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var comboTree2;
+        $(document).ready(function () {
+            GetData();
+        });
+        function GetData() {
+            var AjaxArgs = {};
+            $.ajax({
+                url: "@Url.Content("~/Album/_FetchAlbumsFct")",
+                type: "POST",
+                dataType: 'json',
+                data: AjaxArgs,
+                success: function (response) {
+                    comboTree2 = $('#txtgallery').comboTree({
+                        source: response.lst,
+                        selected: [@ViewBag.selectedids]
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+        function AssignGallery() {
+            var vle = $("#txtgallery").val();
+            if (vle == "") {
+                alert("Please choose an item");
+                return;
+            }
+            var selectedid = comboTree2._selectedItem.id;
+            var name = comboTree2._selectedItem.title;
+            $("#@id", parent.document).val(selectedid);
+            $("[data-hiddenid='@id']", parent.document).html(name);
+            $("[data-hiddenid='@id']", parent.document).addClass("green");
+            $("[data-hiddenid='@id']", parent.document).attr("data-pgids", selectedid);
+            closefancybox();
+        }
+    </script>
+
+}
+
+
+

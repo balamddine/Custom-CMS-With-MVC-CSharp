@@ -1,0 +1,117 @@
+﻿@model Data.Models.PageContentTypeFieldModel
+@{
+    Layout = "~/Views/Shared/_PagesLayout.cshtml";
+    ViewBag.Title = "Add new content type field";
+}
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Add new content type field: @ViewBag.ParentName</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Content("~/Home")">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "PageContentTypeFields", new { id = ViewBag.ParentID })">Page content type fields</a></li>
+                        <li class="breadcrumb-item active">Add new content type field</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm("Create", "PageContentTypeFields", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <p id="err" class="text-danger" style="display:none;"></p>
+                            @Html.HiddenFor(m => m.ParentID)
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="card mb-3">
+                                            <div class="card-header">
+                                                <i class="fa"></i><b>Add new content type field.</b>
+                                            </div>
+
+                                            <div class="card-body">
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4">
+                                                        <b>@Html.LabelFor(m => m.Name, new { @class = "form-control" })</b>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control ", autocomplete = "off", id = "txtname" })
+                                                        @Html.ValidationMessageFor(u => u.Name, null, new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4">
+                                                        <b>@Html.LabelFor(m => m.TypeName, new { @class = "form-control" })</b>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <input type="hidden" name="TypeName" id="hftypename" value="Html" />
+                                                        @Html.DropDownList("TypeId", new SelectList(ViewBag.FieldsType, "Id", "Name", "1"), null, new { id = "ddType", @class = "form-control" })
+                                                    </div>
+                                                </div>                                               
+                                                <a href="javascript:;" id="btnsubmit" class="btn btn-primary" type="submit">Save</a>&nbsp;
+                                                @Html.ActionLink("Cancel", "Index", "PageContentTypeFields", new { id=ViewBag.ParentID }, new { @class = "btn btn-secondary" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        highlightmenu("#apagecontenttypes");
+        $(document).ready(function () {
+            $("#ddType").change(function () {
+                var tname = $("#ddType option:selected").html();
+                $("#hftypename").val(tname);
+            });
+
+            $("#btnsubmit").on("click", function () {
+                $("#err").hide();
+                 $("#err").html();
+                var vld = $("form").valid();
+                if (vld) {
+                    $.ajax({
+                        url: '@Url.Content("~/PageContentTypeFields/Create")',
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        async: true,
+                        data: JSON.stringify({
+                            ParentID: "@ViewBag.ParentID",
+                            Name: $("#txtname").val(),
+                            TypeId: $("#ddType").val(),
+                            TypeName: $("#hftypename").val()
+                        }),
+                        success: function (data) {
+                            if (data.success) {
+                                window.location.href = "@Url.Action("Index", "PageContentTypeFields", new { id = ViewBag.ParentID })"
+                            }
+                            else {
+                                $("#err").show();
+                                  $("#err").html(data.error);
+                            }
+                        }
+                    });
+                }
+               
+            });
+        });
+    </script>
+}

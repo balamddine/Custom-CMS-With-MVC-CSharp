@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IMDGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="IMDGEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="IMDGModel.Admin" />
+    <EntitySet Name="AlbumContents" EntityType="IMDGModel.AlbumContent" />
+    <EntitySet Name="Albums" EntityType="IMDGModel.Album" />
+    <EntitySet Name="AlbumsItems" EntityType="IMDGModel.AlbumsItem" />
+    <EntitySet Name="Languages" EntityType="IMDGModel.Language" />
+    <EntitySet Name="Logs" EntityType="IMDGModel.Log" />
+    <EntitySet Name="PageContentTypeFields" EntityType="IMDGModel.PageContentTypeField" />
+    <EntitySet Name="PageContentTypesIds" EntityType="IMDGModel.PageContentTypesId" />
+    <EntitySet Name="Pages" EntityType="IMDGModel.Page" />
+    <EntitySet Name="PagesContents" EntityType="IMDGModel.PagesContent" />
+    <EntitySet Name="PagesContentTypes" EntityType="IMDGModel.PagesContentType" />
+    <EntitySet Name="PagesFriendlyUrls" EntityType="IMDGModel.PagesFriendlyUrl" />
+    <EntitySet Name="PagesGalleries" EntityType="IMDGModel.PagesGallery" />
+    <EntitySet Name="PageTemplates" EntityType="IMDGModel.PageTemplate" />
+    <EntitySet Name="UserAddresses" EntityType="IMDGModel.UserAddress" />
+    <EntitySet Name="Users" EntityType="IMDGModel.User" />
+    <AssociationSet Name="FK_AlbumContent_Albums" Association="IMDGModel.FK_AlbumContent_Albums">
+      <End Role="Album" EntitySet="Albums" />
+      <End Role="AlbumContent" EntitySet="AlbumContents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AlbumContent_Language" Association="IMDGModel.FK_AlbumContent_Language">
+      <End Role="Language" EntitySet="Languages" />
+      <End Role="AlbumContent" EntitySet="AlbumContents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AlbumsItems_Albums" Association="IMDGModel.FK_AlbumsItems_Albums">
+      <End Role="Album" EntitySet="Albums" />
+      <End Role="AlbumsItem" EntitySet="AlbumsItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AlbumsItems_Language" Association="IMDGModel.FK_AlbumsItems_Language">
+      <End Role="Language" EntitySet="Languages" />
+      <End Role="AlbumsItem" EntitySet="AlbumsItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PagesFriendlyUrl_Language" Association="IMDGModel.FK_PagesFriendlyUrl_Language">
+      <End Role="Language" EntitySet="Languages" />
+      <End Role="PagesFriendlyUrl" EntitySet="PagesFriendlyUrls" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PageContentTypeFields_PagesContentTypes" Association="IMDGModel.FK_PageContentTypeFields_PagesContentTypes">
+      <End Role="PagesContentType" EntitySet="PagesContentTypes" />
+      <End Role="PageContentTypeField" EntitySet="PageContentTypeFields" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pages_PageTemplate" Association="IMDGModel.FK_Pages_PageTemplate">
+      <End Role="PageTemplate" EntitySet="PageTemplates" />
+      <End Role="Page" EntitySet="Pages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PagesContents_Pages" Association="IMDGModel.FK_PagesContents_Pages">
+      <End Role="Page" EntitySet="Pages" />
+      <End Role="PagesContent" EntitySet="PagesContents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PagesGallery_Pages" Association="IMDGModel.FK_PagesGallery_Pages">
+      <End Role="Page" EntitySet="Pages" />
+      <End Role="PagesGallery" EntitySet="PagesGalleries" />
+    </AssociationSet>
+    <EntitySet Name="Subscribers" EntityType="IMDGModel.Subscriber" />
+  </EntityContainer>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CMSUserRoleId" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Pwd" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="isDisabled" Type="Boolean" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="AlbumContent">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LangId" Type="Int32" Nullable="false" />
+    <Property Name="AlbumId" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Album" Relationship="IMDGModel.FK_AlbumContent_Albums" FromRole="AlbumContent" ToRole="Album" />
+    <NavigationProperty Name="Language" Relationship="IMDGModel.FK_AlbumContent_Language" FromRole="AlbumContent" ToRole="Language" />
+  </EntityType>
+  <EntityType Name="Album">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ParentId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="VideoFile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+    <Property Name="IsHidden" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="AlbumContents" Relationship="IMDGModel.FK_AlbumContent_Albums" FromRole="Album" ToRole="AlbumContent" />
+    <NavigationProperty Name="AlbumsItems" Relationship="IMDGModel.FK_AlbumsItems_Albums" FromRole="Album" ToRole="AlbumsItem" />
+  </EntityType>
+  <EntityType Name="AlbumsItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AlbumId" Type="Int32" Nullable="false" />
+    <Property Name="LangId" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="YoutubeVideo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ItemType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="MobileImage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Fileitem" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Videoitem" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="OrderDisplay" Type="Int32" Nullable="false" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="isHidden" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Album" Relationship="IMDGModel.FK_AlbumsItems_Albums" FromRole="AlbumsItem" ToRole="Album" />
+    <NavigationProperty Name="Language" Relationship="IMDGModel.FK_AlbumsItems_Language" FromRole="AlbumsItem" ToRole="Language" />
+  </EntityType>
+  <EntityType Name="Language">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Culture" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AlbumContents" Relationship="IMDGModel.FK_AlbumContent_Language" FromRole="Language" ToRole="AlbumContent" />
+    <NavigationProperty Name="AlbumsItems" Relationship="IMDGModel.FK_AlbumsItems_Language" FromRole="Language" ToRole="AlbumsItem" />
+    <NavigationProperty Name="PagesFriendlyUrls" Relationship="IMDGModel.FK_PagesFriendlyUrl_Language" FromRole="Language" ToRole="PagesFriendlyUrl" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LogDate" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="PageContentTypeField">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ParentID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TypeId" Type="Int32" Nullable="false" />
+    <Property Name="TypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PagesContentType" Relationship="IMDGModel.FK_PageContentTypeFields_PagesContentTypes" FromRole="PageContentTypeField" ToRole="PagesContentType" />
+  </EntityType>
+  <EntityType Name="PageContentTypesId">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Page">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ParentId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Link" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FriendlyUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PageContentID" Type="Int32" Nullable="false" />
+    <Property Name="PageTemplateID" Type="Int32" Nullable="false" />
+    <Property Name="MenuOrder" Type="Int32" Nullable="false" />
+    <Property Name="isHidden" Type="Boolean" Nullable="false" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="PageTemplate" Relationship="IMDGModel.FK_Pages_PageTemplate" FromRole="Page" ToRole="PageTemplate" />
+    <NavigationProperty Name="PagesContents" Relationship="IMDGModel.FK_PagesContents_Pages" FromRole="Page" ToRole="PagesContent" />
+    <NavigationProperty Name="PagesGalleries" Relationship="IMDGModel.FK_PagesGallery_Pages" FromRole="Page" ToRole="PagesGallery" />
+  </EntityType>
+  <EntityType Name="PagesContent">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PageID" Type="Int32" Nullable="false" />
+    <Property Name="LangId" Type="Int32" Nullable="false" />
+    <Property Name="ContentFieldID" Type="Int32" Nullable="false" />
+    <Property Name="ContentFieldTypeID" Type="Int32" Nullable="false" />
+    <Property Name="HtmlContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ImageContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FileContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DateContent" Type="DateTime" Precision="3" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Page" Relationship="IMDGModel.FK_PagesContents_Pages" FromRole="PagesContent" ToRole="Page" />
+  </EntityType>
+  <EntityType Name="PagesContentType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PageContentTypeFields" Relationship="IMDGModel.FK_PageContentTypeFields_PagesContentTypes" FromRole="PagesContentType" ToRole="PageContentTypeField" />
+  </EntityType>
+  <EntityType Name="PagesFriendlyUrl">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LangId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FriendlyUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Language" Relationship="IMDGModel.FK_PagesFriendlyUrl_Language" FromRole="PagesFriendlyUrl" ToRole="Language" />
+  </EntityType>
+  <EntityType Name="PagesGallery">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PageId" Type="Int32" Nullable="false" />
+    <Property Name="Image" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Display" Type="Int32" Nullable="false" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="isHidden" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Page" Relationship="IMDGModel.FK_PagesGallery_Pages" FromRole="PagesGallery" ToRole="Page" />
+  </EntityType>
+  <EntityType Name="PageTemplate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Link" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ContentTypeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Pages" Relationship="IMDGModel.FK_Pages_PageTemplate" FromRole="PageTemplate" ToRole="Page" />
+  </EntityType>
+  <EntityType Name="UserAddress">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="AddressName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Address1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Address2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="State" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RequestedDate" Type="DateTime" Precision="3" />
+    <Property Name="Approved" Type="Boolean" Nullable="false" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="IsDefaultAddress" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Mobile" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="JobTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FBProfileId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Blocked" Type="Boolean" Nullable="false" />
+    <Property Name="RegisteredDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IpAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="ConfirmationDate" Type="DateTime" Precision="3" />
+    <Property Name="FirstLoginDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <Association Name="FK_AlbumContent_Albums">
+    <End Type="IMDGModel.Album" Role="Album" Multiplicity="1" />
+    <End Type="IMDGModel.AlbumContent" Role="AlbumContent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Album">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AlbumContent">
+        <PropertyRef Name="AlbumId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AlbumContent_Language">
+    <End Type="IMDGModel.Language" Role="Language" Multiplicity="1" />
+    <End Type="IMDGModel.AlbumContent" Role="AlbumContent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AlbumContent">
+        <PropertyRef Name="LangId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AlbumsItems_Albums">
+    <End Type="IMDGModel.Album" Role="Album" Multiplicity="1" />
+    <End Type="IMDGModel.AlbumsItem" Role="AlbumsItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Album">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AlbumsItem">
+        <PropertyRef Name="AlbumId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AlbumsItems_Language">
+    <End Type="IMDGModel.Language" Role="Language" Multiplicity="1" />
+    <End Type="IMDGModel.AlbumsItem" Role="AlbumsItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AlbumsItem">
+        <PropertyRef Name="LangId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PagesFriendlyUrl_Language">
+    <End Type="IMDGModel.Language" Role="Language" Multiplicity="1" />
+    <End Type="IMDGModel.PagesFriendlyUrl" Role="PagesFriendlyUrl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PagesFriendlyUrl">
+        <PropertyRef Name="LangId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PageContentTypeFields_PagesContentTypes">
+    <End Type="IMDGModel.PagesContentType" Role="PagesContentType" Multiplicity="1" />
+    <End Type="IMDGModel.PageContentTypeField" Role="PageContentTypeField" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PagesContentType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PageContentTypeField">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pages_PageTemplate">
+    <End Type="IMDGModel.PageTemplate" Role="PageTemplate" Multiplicity="1" />
+    <End Type="IMDGModel.Page" Role="Page" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PageTemplate">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Page">
+        <PropertyRef Name="PageTemplateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PagesContents_Pages">
+    <End Type="IMDGModel.Page" Role="Page" Multiplicity="1" />
+    <End Type="IMDGModel.PagesContent" Role="PagesContent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Page">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PagesContent">
+        <PropertyRef Name="PageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PagesGallery_Pages">
+    <End Type="IMDGModel.Page" Role="Page" Multiplicity="1" />
+    <End Type="IMDGModel.PagesGallery" Role="PagesGallery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Page">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PagesGallery">
+        <PropertyRef Name="PageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Subscriber">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="SubscriptionDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="IpAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

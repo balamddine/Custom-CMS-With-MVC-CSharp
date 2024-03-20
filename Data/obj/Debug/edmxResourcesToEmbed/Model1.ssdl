@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IMDGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CMSUserRoleId" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Pwd" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="200" />
+    <Property Name="isDeleted" Type="bit" Nullable="false" />
+    <Property Name="isDisabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AlbumContent">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LangId" Type="int" Nullable="false" />
+    <Property Name="AlbumId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="500" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Albums">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ParentId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="500" />
+    <Property Name="Image" Type="nvarchar" MaxLength="500" />
+    <Property Name="VideoFile" Type="nvarchar" MaxLength="500" />
+    <Property Name="DisplayOrder" Type="int" Nullable="false" />
+    <Property Name="IsHidden" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AlbumsItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AlbumId" Type="int" Nullable="false" />
+    <Property Name="LangId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="500" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="YoutubeVideo" Type="nvarchar" MaxLength="500" />
+    <Property Name="ItemType" Type="nvarchar" MaxLength="100" />
+    <Property Name="Image" Type="nvarchar" MaxLength="500" />
+    <Property Name="MobileImage" Type="nvarchar" MaxLength="500" />
+    <Property Name="Fileitem" Type="nvarchar" MaxLength="500" />
+    <Property Name="Videoitem" Type="nvarchar" MaxLength="500" />
+    <Property Name="OrderDisplay" Type="int" Nullable="false" />
+    <Property Name="isDeleted" Type="bit" Nullable="false" />
+    <Property Name="isHidden" Type="bit" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Language">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Culture" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Descr" Type="text" />
+    <Property Name="LogDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PageContentTypeFields">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ParentID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="TypeId" Type="int" Nullable="false" />
+    <Property Name="TypeName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="PageContentTypesIds">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Pages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ParentId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FriendlyUrl" Type="nvarchar(max)" />
+    <Property Name="PageContentID" Type="int" Nullable="false" />
+    <Property Name="PageTemplateID" Type="int" Nullable="false" />
+    <Property Name="MenuOrder" Type="int" Nullable="false" />
+    <Property Name="isHidden" Type="bit" Nullable="false" />
+    <Property Name="isDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PagesContents">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PageID" Type="int" Nullable="false" />
+    <Property Name="LangId" Type="int" Nullable="false" />
+    <Property Name="ContentFieldID" Type="int" Nullable="false" />
+    <Property Name="ContentFieldTypeID" Type="int" Nullable="false" />
+    <Property Name="HtmlContent" Type="nvarchar(max)" />
+    <Property Name="ImageContent" Type="nvarchar(max)" />
+    <Property Name="FileContent" Type="nvarchar(max)" />
+    <Property Name="DateContent" Type="datetime" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PagesContentTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="PagesFriendlyUrl">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LangId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="FriendlyUrl" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="PagesGallery">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PageId" Type="int" Nullable="false" />
+    <Property Name="Image" Type="nvarchar" MaxLength="500" />
+    <Property Name="Display" Type="int" Nullable="false" />
+    <Property Name="isDeleted" Type="bit" Nullable="false" />
+    <Property Name="isHidden" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PageTemplate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" />
+    <Property Name="Link" Type="nvarchar" MaxLength="200" />
+    <Property Name="ContentTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Subscribers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="250" />
+    <Property Name="SubscriptionDate" Type="datetime" Nullable="false" />
+    <Property Name="isDeleted" Type="bit" Nullable="false" />
+    <Property Name="IpAddress" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="UserAddresses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="AddressName" Type="nvarchar" MaxLength="200" />
+    <Property Name="Address1" Type="nvarchar" MaxLength="500" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="500" />
+    <Property Name="Country" Type="nvarchar" MaxLength="200" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="30" />
+    <Property Name="City" Type="nvarchar" MaxLength="200" />
+    <Property Name="State" Type="nvarchar" MaxLength="200" />
+    <Property Name="ZipCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="RequestedDate" Type="datetime" />
+    <Property Name="Approved" Type="bit" Nullable="false" />
+    <Property Name="isDeleted" Type="bit" Nullable="false" />
+    <Property Name="IsDefaultAddress" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="200" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="200" />
+    <Property Name="JobTitle" Type="nvarchar" MaxLength="200" />
+    <Property Name="CompanyName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FBProfileId" Type="nvarchar" MaxLength="500" />
+    <Property Name="Blocked" Type="bit" Nullable="false" />
+    <Property Name="RegisteredDate" Type="datetime" Nullable="false" />
+    <Property Name="IpAddress" Type="nvarchar" MaxLength="500" />
+    <Property Name="isDeleted" Type="bit" Nullable="false" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="ConfirmationDate" Type="datetime" />
+    <Property Name="FirstLoginDate" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_AlbumContent_Albums">
+    <End Role="Albums" Type="Self.Albums" Multiplicity="1" />
+    <End Role="AlbumContent" Type="Self.AlbumContent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Albums">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AlbumContent">
+        <PropertyRef Name="AlbumId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AlbumContent_Language">
+    <End Role="Language" Type="Self.Language" Multiplicity="1" />
+    <End Role="AlbumContent" Type="Self.AlbumContent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AlbumContent">
+        <PropertyRef Name="LangId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AlbumsItems_Albums">
+    <End Role="Albums" Type="Self.Albums" Multiplicity="1" />
+    <End Role="AlbumsItems" Type="Self.AlbumsItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Albums">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AlbumsItems">
+        <PropertyRef Name="AlbumId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AlbumsItems_Language">
+    <End Role="Language" Type="Self.Language" Multiplicity="1" />
+    <End Role="AlbumsItems" Type="Self.AlbumsItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AlbumsItems">
+        <PropertyRef Name="LangId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PageContentTypeFields_PagesContentTypes">
+    <End Role="PagesContentTypes" Type="Self.PagesContentTypes" Multiplicity="1" />
+    <End Role="PageContentTypeFields" Type="Self.PageContentTypeFields" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PagesContentTypes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PageContentTypeFields">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pages_PageTemplate">
+    <End Role="PageTemplate" Type="Self.PageTemplate" Multiplicity="1" />
+    <End Role="Pages" Type="Self.Pages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PageTemplate">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Pages">
+        <PropertyRef Name="PageTemplateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PagesContents_Pages">
+    <End Role="Pages" Type="Self.Pages" Multiplicity="1" />
+    <End Role="PagesContents" Type="Self.PagesContents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pages">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PagesContents">
+        <PropertyRef Name="PageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PagesFriendlyUrl_Language">
+    <End Role="Language" Type="Self.Language" Multiplicity="1" />
+    <End Role="PagesFriendlyUrl" Type="Self.PagesFriendlyUrl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PagesFriendlyUrl">
+        <PropertyRef Name="LangId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PagesGallery_Pages">
+    <End Role="Pages" Type="Self.Pages" Multiplicity="1" />
+    <End Role="PagesGallery" Type="Self.PagesGallery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pages">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PagesGallery">
+        <PropertyRef Name="PageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="IMDGModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AlbumContent" EntityType="Self.AlbumContent" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Albums" EntityType="Self.Albums" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AlbumsItems" EntityType="Self.AlbumsItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PageContentTypeFields" EntityType="Self.PageContentTypeFields" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PageContentTypesIds" EntityType="Self.PageContentTypesIds" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PagesContents" EntityType="Self.PagesContents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PagesContentTypes" EntityType="Self.PagesContentTypes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PagesFriendlyUrl" EntityType="Self.PagesFriendlyUrl" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PagesGallery" EntityType="Self.PagesGallery" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PageTemplate" EntityType="Self.PageTemplate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Subscribers" EntityType="Self.Subscribers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserAddresses" EntityType="Self.UserAddresses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_AlbumContent_Albums" Association="Self.FK_AlbumContent_Albums">
+      <End Role="Albums" EntitySet="Albums" />
+      <End Role="AlbumContent" EntitySet="AlbumContent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AlbumContent_Language" Association="Self.FK_AlbumContent_Language">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="AlbumContent" EntitySet="AlbumContent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AlbumsItems_Albums" Association="Self.FK_AlbumsItems_Albums">
+      <End Role="Albums" EntitySet="Albums" />
+      <End Role="AlbumsItems" EntitySet="AlbumsItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AlbumsItems_Language" Association="Self.FK_AlbumsItems_Language">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="AlbumsItems" EntitySet="AlbumsItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PageContentTypeFields_PagesContentTypes" Association="Self.FK_PageContentTypeFields_PagesContentTypes">
+      <End Role="PagesContentTypes" EntitySet="PagesContentTypes" />
+      <End Role="PageContentTypeFields" EntitySet="PageContentTypeFields" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pages_PageTemplate" Association="Self.FK_Pages_PageTemplate">
+      <End Role="PageTemplate" EntitySet="PageTemplate" />
+      <End Role="Pages" EntitySet="Pages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PagesContents_Pages" Association="Self.FK_PagesContents_Pages">
+      <End Role="Pages" EntitySet="Pages" />
+      <End Role="PagesContents" EntitySet="PagesContents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PagesFriendlyUrl_Language" Association="Self.FK_PagesFriendlyUrl_Language">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="PagesFriendlyUrl" EntitySet="PagesFriendlyUrl" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PagesGallery_Pages" Association="Self.FK_PagesGallery_Pages">
+      <End Role="Pages" EntitySet="Pages" />
+      <End Role="PagesGallery" EntitySet="PagesGallery" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

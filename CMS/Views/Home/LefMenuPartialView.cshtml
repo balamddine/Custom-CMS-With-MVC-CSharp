@@ -1,0 +1,92 @@
+﻿<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="@Url.Content(System.Configuration.ConfigurationManager.AppSettings["CMSUrl"])" class="brand-link" title="Home">
+        <img src="~/css/images/logo.png" alt="CMS logo" title="Home" class="brand-image elevation-3">
+        <span class="brand-text font-weight-light">@System.Configuration.ConfigurationManager.AppSettings["WebsiteName"]</span>
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        @Html.Action("_WelcomeMenu", "Home")
+       
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent " data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Home")" title="Dashboard" class="nav-link" id="adashboard">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a target="_blank" href="@Url.Action("Index", "Pages",new { id=Data.Common.Sitesettings.RootPageId })" title="Pages" class="nav-link" id="apages">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Website Content
+                        </p>
+                    </a>
+                </li>
+                @*<li class="nav-item">
+                    <a target="_blank" href="@Url.Action("Index", "Album",new { id=Data.Common.Sitesettings.RootAlbumId })" title="Gallery" class="nav-link" id="aalbum">
+                        <i class="nav-icon fas fa-images"></i>
+                        <p>
+                            Gallery
+                        </p>
+                    </a>
+                </li>*@
+                
+                <li class="nav-item has-treeview " id="asystem">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa fa-cube"></i>
+                        <p>
+                            System
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Logs")" title="Logs" class="nav-link" id="alogs" data-tree="#asystem">
+                                <i class="nav-icon fas fa fa-dot-circle"></i>
+                                <p>
+                                    Logs
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-item has-treeview " id="aadminsettings">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-users-cog"></i>
+                        <p>
+                            Admin Settings
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Admin")" title="Users" class="nav-link" id="ausers" data-tree="#aadminsettings">
+                                <i class="nav-icon fas fa fa-dot-circle"></i>
+                                <p>
+                                    Administrators
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Forms")" class="nav-link" id="aforms">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                            Forms
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>
+

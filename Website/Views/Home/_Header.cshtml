@@ -1,0 +1,51 @@
+﻿
+<header>
+
+    <div class="mainMenu">
+        @*@{
+                if (Model.languagesL != null && Model.languagesL.Count > 0)
+                {
+                        <div class="languageHolder">
+                            <span id="splang">@Model.selectedlangName</span>
+                            <ul>
+                                @{
+                                    foreach (var item in Model.languagesL)
+                                    {
+                                        if (item.Name != "Greek")
+                                        {
+                                            string activecls = item.ID == Model.selectedlangid ? "active" : "";
+                                            <li class="@activecls"><a href="javascript:;" data-culture="@item.Culture" data-id="@item.ID" onclick="switchLanguge(this)">@item.Name</a></li>
+                                        }
+                                    }
+                                }
+
+                            </ul>
+
+                        </div>
+                }
+            }*@
+
+        <div class="listMenu">
+            <ul>
+                <li id="ahome"><a href="@Url.Content("~/Home/Index")">@Resources.Website.Home </a></li>          
+            </ul>
+        </div>
+    </div>
+    <div class="clearBoth"></div>
+</header>
+@*<script type="text/javascript">
+        function switchLanguge(sender) {
+            var langCulture = $(sender).data("culture");
+            var url = "@Url.Content("~/Home/_switchLangauge")";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { langCulture:langCulture },
+                dataType: "json",
+                success: function (d) {
+                    window.location.reload(true);
+                },
+                error(xhr) { console.log(xhr); }
+            });
+        }
+    </script>*@

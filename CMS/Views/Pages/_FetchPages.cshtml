@@ -1,0 +1,74 @@
+﻿@model List<Data.Models.PageModel>
+@{
+    string id = ViewBag.hfieldid as string;
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="deleteRowLabel">Select Items</h5>
+</div>
+<div class="modal-body">
+    <p>Select the desired Items to assign</p>
+    
+        <div class="row">
+            <div class="col-12">
+                <div class="form-input">
+                    <div class="selectHolder">
+                        <input type="text" id="txtpages" name="pages" placeholder="Select" autocomplete="off" value="@ViewBag.selectedids" />                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</div>
+<div class="modal-footer">
+    <a href="javascript:;" class="btn btn-success" onclick="AssignPages();">Save changes</a>&nbsp;
+    <a href="javascript:;" class="btn btn-secondary" onclick="closefancybox();">Cancel</a>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var comboTree2;
+        $(document).ready(function () {
+            GetData();
+        });
+        function GetData() {
+            var AjaxArgs = {};
+            $.ajax({
+                url: "@Url.Content("~/Pages/_FetchPagesFct")",
+                type: "POST",
+                dataType: 'json',
+                data: AjaxArgs,
+                success: function (response) {
+                    comboTree2 = $('#txtpages').comboTree({
+                        source: response.lst,
+                        isMultiple: true,
+                        cascadeSelect: true,
+                        selected: [@ViewBag.selectedids]
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+        function AssignPages() {
+            var vle = $("#txtpages").val();
+            if (vle == "") {
+                alert("Please choose at least 1 item");
+                return;
+            }
+            var selecteditems = comboTree2.getSelectedIds();
+            var names = comboTree2.getSelectedNames();
+            $("#@id", parent.document).val(selecteditems.join(','));
+            $("[data-hiddenid='@id']", parent.document).html(names.join(','));
+            $("[data-hiddenid='@id']", parent.document).addClass("green")
+            $("[data-hiddenid='@id']", parent.document).attr("data-pgids", selecteditems.join(','));
+            closefancybox();
+        }
+    </script>
+
+}
+
+
+

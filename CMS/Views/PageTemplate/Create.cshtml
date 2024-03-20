@@ -1,0 +1,92 @@
+﻿@model Data.Models.PageTemplateModel
+@{
+     Layout = "~/Views/Shared/_PagesLayout.cshtml";
+    ViewBag.Title = "Add new template";
+}
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Add new template</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Content("~/Home")">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Content("~/PageTemplate")">Page Template</a></li>
+                        <li class="breadcrumb-item active">Add new template</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm("Create", "PageTemplate", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "Error creating content type, Check your info!", new { @class = "text-danger" });
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="card mb-3">
+                                            @*<div class="card-header">
+                                                <i class="fa"></i><b>Add new template.</b>
+                                            </div>*@
+                                            <div class="card-body">
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4">
+                                                        <b>@Html.LabelFor(m => m.Name, new { @class = "form-control" })</b>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control ", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(u => u.Name, null, new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                
+
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4">
+                                                        <b>@Html.LabelFor(m => m.ContentTypeId, new { @class = "form-control" })</b>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownList("ContentTypeId", new SelectList(ViewBag.ContentTypedd, "Id", "Name", "1"), null, new { id = "ddType", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                              
+                                                    <div class="row mb-2">
+                                                        <div class="col-md-4">
+                                                            <b>@Html.LabelFor(m => m.Link, new { @class = "form-control" })</b>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.Link, new { @class = "form-control ", autocomplete = "off" })
+                                                            @Html.ValidationMessageFor(u => u.Link, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                               
+
+
+                                                <input class="btn btn-primary" type="submit" value="Save" />
+                                                @Html.ActionLink("Cancel", "Index", "PageTemplate", new { }, new { @class = "btn btn-secondary" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        highlightmenu("#apagetemplate");       
+    </script>
+}

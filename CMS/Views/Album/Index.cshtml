@@ -1,0 +1,35 @@
+﻿@model Data.Models.AlbumModel
+@{
+    Layout = "~/Views/Shared/_AlbumsLayout.cshtml";
+    ViewBag.Title = "Website Albums";
+    string myid = "#apage" + Model.Id;
+}
+
+<div class="content-wrapper">
+    <div class="content" style="padding-top:10px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">
+                                Right click on the desired item to open it's menu
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setTimeout(function () {
+                highlightTreemenu("@myid");
+            },400)
+            
+        });
+    </script>
+}
+

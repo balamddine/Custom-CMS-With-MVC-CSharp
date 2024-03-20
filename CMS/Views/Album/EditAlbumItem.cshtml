@@ -1,0 +1,195 @@
+﻿@model Data.Models.AlbumItemsModel
+@{
+    ViewBag.Title = "Edit Album Item";
+    Layout = "~/Views/Shared/_AlbumsLayout.cshtml";
+}
+
+<div class="content-wrapper fixerrormsg">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Edit Album item: @Model.Title</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Content("~/Home")">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Content("~/Album/Index")">Album</a></li>
+                        <li class="breadcrumb-item active">Edit Album item</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        @using (Html.BeginForm("EditAlbumItem", null, FormMethod.Post, new { id = "frm", @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, null, new { @class = "text-danger" });
+            @Html.HiddenFor(x => x.Id)
+            <input type="hidden" name="AlbumId" value="@ViewBag.albumid" />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Content Details</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        @Html.LabelFor(m => m.Title, new { @class = "" })
+                                        <div class="form-input">
+                                            @Html.TextBoxFor(model => model.Title, new { @class = "form-control ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(u => u.Title, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        @Html.LabelFor(m => m.OrderDisplay, new { @class = "" })
+                                        <div class="form-input">
+                                            @Html.TextBoxFor(model => model.OrderDisplay, new { @class = "form-control ", autocomplete = "off", @type = "number" })
+                                            @Html.ValidationMessageFor(u => u.OrderDisplay, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label>Item type</label>
+                                        <div class="form-input">
+                                            <select id="dditemType" class="form-control" name="ItemType" onchange="typeChange()">
+                                                <option value="image">Image</option>
+                                                <option value="video">Video</option>
+                                                <option value="file">File</option>
+                                                <option value="youtube">Youtube video</option>
+                                            </select>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        @Html.LabelFor(m => m.Description, new { @class = "" })
+                                        <div class="form-input">
+                                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control ck", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(u => u.Description, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        @Html.LabelFor(m => m.isHidden)
+                                        <div class="custom-control custom-checkbox">
+                                            @Html.CheckBoxFor(model => model.isHidden, new { id = "chkisHidden", @class = "custom-control-input ", autocomplete = "off" })
+                                            <label for="chkisHidden" class="custom-control-label">Yes</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Media Content</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+
+                                        @Html.LabelFor(m => m.Image, new { @class = "" })
+                                        <div class="form-input">
+                                            <input type="hidden" id="Image" name="Image" value="@Model.Image" />
+                                            <input id="Image" name="Image" value="@Model.Image" type="file" accept="image/*" data-target="previewImage" />
+                                            <img id="previewImage" src="@Model.Image" width="100%" style="display:block; margin-top:15px" alt="" />
+                                            @Html.ValidationMessageFor(model => model.Image, null, new { @class = "text-danger" })
+                                        </div>
+
+                                    </div>
+                                    <div class="col-6" id="dvFileitem" style="display:none;">
+                                        @Html.LabelFor(m => m.Fileitem, new { @class = "" })
+                                        <div class="form-input">
+                                            <input type="hidden" id="Fileitem" name="Fileitem" value="@Model.Fileitem" />
+                                            <input id="Fileitem" name="Fileitem" value="@Model.Fileitem" type="file" data-target="previewFileitem" />
+                                            <img id="previewFileitem" src="@Model.Fileitem" width="100%" style="display:block; margin-top:15px" alt="" />
+                                            @Html.ValidationMessageFor(model => model.Fileitem, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-6" id="dvVideoitem" style="display:none;">
+                                        @Html.LabelFor(m => m.Videoitem, new { @class = "" })
+                                        <div class="form-input">
+                                            <input type="hidden" id="Videoitem" name="Videoitem" value="@Model.Videoitem" />
+                                            <input id="Videoitem" name="Videoitem" value="@Model.Videoitem" type="file" data-target="previewVideoitem" />
+                                            <img id="previewVideoitem" src="@Model.Videoitem" width="100%" style="display:block; margin-top:15px" alt="" />
+                                            @Html.ValidationMessageFor(model => model.Videoitem, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-6" id="dvYoutubeVideo" style="display:none;">
+                                        @Html.LabelFor(m => m.YoutubeVideo, new { @class = "" })
+                                        <div class="form-input">
+                                            @Html.TextBoxFor(model => model.YoutubeVideo, new { @class = "form-control ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(u => u.YoutubeVideo, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success">Save changes</button>
+                    <a href="@Url.Content("~/Album/ItemListing?albumid="+ViewBag.albumid)" class="btn btn-secondary">Cancel</a>
+                </div>
+            </div>
+            <br />
+        }
+    </section>
+</div>
+
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $("#dditemType").val("@Model.ItemType");
+        typeChange();
+        var id = "#apage" +@ViewBag.albumid;
+        setTimeout(function () {
+            highlightTreemenu(id);
+        }, 100);
+        function typeChange() {
+           
+            $("#dvVideoitem").hide();
+            $("#dvFileitem").hide();
+            $("#dvYoutubeVideo").hide();
+
+            var vle = $("#dditemType").val();                        
+            if (vle == "video") {
+                $("#dvVideoitem").show();
+            }
+            else if (vle == "file") {
+                $("#dvFileitem").show();
+            }
+            else if (vle == "youtube") {
+                $("#dvYoutubeVideo").show();
+            }
+        }
+    </script>
+}
