@@ -61,7 +61,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to alrightreserved.
+        ///   Looks up a localized string similar to All Right Reserved.
         /// </summary>
         internal static string alrightreserved {
             get {
@@ -70,7 +70,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Designedanddevelopedby.
+        ///   Looks up a localized string similar to Designed and developed by.
         /// </summary>
         internal static string Designedanddevelopedby {
             get {

@@ -18,13 +18,12 @@ namespace Website
 
 
             bundles.Add(new ScriptBundle("~/Content/scripts").Include(
-                   "~/Scripts/plugins.js",
                    "~/Scripts/functions.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/styles/plugins.css",
-                      "~/styles/stylesheet.css",
-                      "~/styles/stylesheet-responsive.css"));
+                      "~/styles/bootstrap.min.css",
+                      "~/styles/style.css",
+                      "~/styles/style-responsive.css"));
         }
     }
 }

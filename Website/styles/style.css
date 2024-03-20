@@ -134,7 +134,7 @@ img.animated.pulse {
     margin-top: -85px;
     padding-top: 12rem;
     padding-bottom: 6rem;
-    background: url(../img/bg.png) center center no-repeat;
+    background: url(../images/bg.png) center center no-repeat;
     background-size: cover;
 }
 
@@ -181,7 +181,7 @@ img.animated.pulse {
 /*** Deal ***/
 .deal {
     position: relative;
-    background: url(../img/bg.png) center center no-repeat;
+    background: url(../images/bg.png) center center no-repeat;
     background-size: cover;
 }
 
@@ -213,7 +213,7 @@ img.animated.pulse {
 /*** How To Use ***/
 .how-to-use {
     position: relative;
-    background: url(../img/bg.png) center center no-repeat;
+    background: url(../images/bg.png) center center no-repeat;
     background-size: cover;
 }
 
@@ -257,7 +257,7 @@ img.animated.pulse {
 /*** Testimonial ***/
 .testimonial {
     position: relative;
-    background: url(../img/bg.png) center center no-repeat;
+    background: url(../images/bg.png) center center no-repeat;
     background-size: cover;
 }
 
@@ -350,7 +350,7 @@ img.animated.pulse {
 /*** Newsletter ***/
 .newsletter {
     position: relative;
-    background: url(../img/bg.png) center center no-repeat;
+    background: url(../images/bg.png) center center no-repeat;
     background-size: cover;
 }
 

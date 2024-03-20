@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="alrightreserved" xml:space="preserve">
-    <value>alrightreserved</value>
+    <value>All Right Reserved</value>
   </data>
   <data name="Designedanddevelopedby" xml:space="preserve">
-    <value>Designedanddevelopedby</value>
+    <value>Designed and developed by</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
