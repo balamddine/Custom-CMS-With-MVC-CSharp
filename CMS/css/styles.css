@@ -11,7 +11,7 @@
         margin: 0px;
         padding: 0px;
         width: 100%;
-        max-width:100%;
+        max-width: 100%;
         display: block;
     }
 
@@ -21,28 +21,39 @@
         border: none;
         box-shadow: none;
     }
+
 .green {
     color: #28a745;
-    font-weight:700;
+    font-weight: 700;
 }
+
 .red {
     color: #dc3545;
     text-indent: 1px;
 }
+
 .fancyboxwidth {
     max-width: 800px;
     min-height: 600px;
 }
+
 .addpadd {
-padding:7px 0px;
+    padding: 7px 0px;
 }
+
 .pace .pace-progress {
     background: #5cb85c !important;
     height: 5px !important;
 }
+
 .contentTable {
-max-width:80%;
+    max-width: 80%;
 }
-.contentTable tr td{
-    padding: 5px 0px;
+
+    .contentTable tr td {
+        padding: 5px 0px;
+    }
+
+.disabled{
+    pointer-events:none !important;
 }

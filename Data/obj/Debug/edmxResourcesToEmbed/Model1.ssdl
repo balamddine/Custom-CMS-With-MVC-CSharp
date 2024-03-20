@@ -107,6 +107,7 @@
     <Property Name="MenuOrder" Type="int" Nullable="false" />
     <Property Name="isHidden" Type="bit" Nullable="false" />
     <Property Name="isDeleted" Type="bit" Nullable="false" />
+    <Property Name="isList" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="PagesContents">
     <Key>

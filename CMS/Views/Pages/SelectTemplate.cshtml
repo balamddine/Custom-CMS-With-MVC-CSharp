@@ -59,28 +59,28 @@
                                                         }
                                                     }
                                                 </select>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="row mb-2" id="dvContentTypes" style="display:none">
                                             <div class="col-md-4">
-                                                <b><label class = "form-control" >Content type</label></b>
+                                                <b><label class="form-control">Content type</label></b>
                                             </div>
                                             <div class="col-md-8">
-                                                <select name="PageContentID" id="ddPageContentID" class ="form-control">
+                                                <select name="PageContentID" id="ddPageContentID" class="form-control">
                                                     @{
                                                         foreach (var item in ViewBag.PageContentID)
                                                         {
                                                             <option value="@item.id">@item.Name</option>
                                                         }
                                                     }
-                                                </select>                                                
+                                                </select>
                                             </div>
                                         </div>
 
                                         <a href="javascript:;" onclick="redirectto();" class="btn btn-primary">Continue</a>
                                         &nbsp;
-                                        <a href="/" class="btn btn-secondary">Cancel</a>
+                                        <a href="javascript:;" onclick="cancel();" class="btn btn-secondary">Cancel</a>
 
                                     </div>
                                 </div>
@@ -99,9 +99,13 @@
     <script type="text/javascript">
          var parentpageid = "@ViewBag.pageid";
         setTimeout(function () {
-           
             highlightTreemenu("#apage" + parentpageid);
         }, 500);
+
+        function cancel() {
+            window.location.href = "@Url.Content("~/Pages/index/")" + parentpageid;
+        }
+
         function redirectto() {
             var tid = $("#dvtemplatewithContent").is(":visible") ? $("#ddTemplate").val() : 0;
             var cid = $("#dvContentTypes").is(":visible") ? $("#ddPageContentID").val() : $("#ddTemplate option:selected").attr("data-content-id");

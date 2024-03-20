@@ -175,6 +175,7 @@
     <NavigationProperty Name="PageTemplate" Relationship="IMDGModel.FK_Pages_PageTemplate" FromRole="Page" ToRole="PageTemplate" />
     <NavigationProperty Name="PagesContents" Relationship="IMDGModel.FK_PagesContents_Pages" FromRole="Page" ToRole="PagesContent" />
     <NavigationProperty Name="PagesGalleries" Relationship="IMDGModel.FK_PagesGallery_Pages" FromRole="Page" ToRole="PagesGallery" />
+    <Property Name="isList" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="PagesContent">
     <Key>

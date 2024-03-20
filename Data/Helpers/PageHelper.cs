@@ -214,6 +214,7 @@ namespace Data.Helpers
                         PageTemplateID = item.PageTemplateID,
                         Link = item.Link,
                         FriendlyUrl = item.FriendlyUrl,
+                        isList = item.isList,
                         ParentId = item.ParentId                        
                     };
                     cnx.Pages.Add(t);
@@ -243,6 +244,7 @@ namespace Data.Helpers
                         t.isHidden = model.isHidden;
                         t.MenuOrder = model.MenuOrder;
                         t.FriendlyUrl = model.FriendlyUrl;
+                        t.isList = model.isList;
                         cnx.SaveChanges();
                         return true;
                     }
@@ -274,5 +276,37 @@ namespace Data.Helpers
             }
         }
 
+       
+
+        public List<PageModel> Search(int langId,int parentId, int pageSize, int currentPage, string search,  ref int totalrec, bool WithHidden = true)
+        {
+            try
+            {
+                using (IMDGEntities cnx = new IMDGEntities())
+                {
+                    var query = cnx.Pages.SqlQuery("select * from pages where isDeleted=0 " + (WithHidden ? "" : " and isHidden=0")).ToList();
+                    if (parentId > 0)
+                    {
+                        query = query.Where(x => x.ParentId == parentId).ToList();
+                    }
+                    if (search != "")
+                    {
+                        query = query.Where(x => x.Name.ToLower() == search.ToLower()).ToList();
+                    }
+                    totalrec = query.Count();
+                    var L = query.ToList().OrderBy(x => x.MenuOrder).ToList().Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                    List<PageModel> c = new List<PageModel>();
+                    foreach (var item in query)
+                        c.Add(PageModel.GetFromPage(item, langId));
+                    return c.OrderBy(x => x.MenuOrder).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Utilities.LogError(ex, "Page", "Get All");
+                return null;
+            }
+        }
     }
 }

@@ -56,7 +56,7 @@
                                                 <b>@Html.LabelFor(m => m.FriendlyUrl, new { @class = "form-control" })</b>
                                             </div>
                                             <div class="col-md-4">
-                                                @Html.TextBoxFor(model => model.FriendlyUrl, new { @class = "form-control"})
+                                                @Html.TextBoxFor(model => model.FriendlyUrl, new { @class = "form-control" })
                                                 @Html.ValidationMessageFor(u => u.FriendlyUrl, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -69,13 +69,19 @@
                                                 @Html.ValidationMessageFor(u => u.MenuOrder, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-2">
-                                                <b>@Html.LabelFor(m => m.isHidden, new { @class = "form-control" })</b>
-                                            </div>
-                                            <div class="col-md-4">
+                                       
+                                        <div class="row">
+                                            <div class="form-check">
                                                 @Html.CheckBoxFor(m => m.isHidden, "true")
+                                                @Html.LabelFor(m => m.isHidden, new { @class = "" })
+
                                                 @Html.ValidationMessageFor(u => u.isHidden, null, new { @class = "text-danger" })
+                                            </div>
+                                            <div class="form-check">
+                                                @Html.CheckBoxFor(m => m.isList, "false")
+                                                @Html.LabelFor(m => m.isList, new { @class = "" })
+
+                                                @Html.ValidationMessageFor(u => u.isList, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>

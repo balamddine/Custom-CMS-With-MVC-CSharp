@@ -212,6 +212,14 @@
     <Content Include="images\testimonial-1.jpg" />
     <Content Include="images\testimonial-2.jpg" />
     <Content Include="images\testimonial-3.jpg" />
+    <Content Include="lib\owlcarousel\assets\ajax-loader.gif" />
+    <Content Include="lib\owlcarousel\assets\owl.carousel.css" />
+    <Content Include="lib\owlcarousel\assets\owl.carousel.min.css" />
+    <Content Include="lib\owlcarousel\assets\owl.theme.default.css" />
+    <Content Include="lib\owlcarousel\assets\owl.theme.default.min.css" />
+    <Content Include="lib\owlcarousel\assets\owl.theme.green.css" />
+    <Content Include="lib\owlcarousel\assets\owl.theme.green.min.css" />
+    <Content Include="lib\owlcarousel\assets\owl.video.play.png" />
     <Content Include="Scripts\functions.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="html\lib\owlcarousel\LICENSE" />
@@ -336,7 +344,6 @@
   <ItemGroup>
     <Folder Include="emails\" />
     <Folder Include="ErrorLoging\" />
-    <Folder Include="lib\owlcarousel\assets\" />
     <Folder Include="Media\" />
   </ItemGroup>
   <ItemGroup>

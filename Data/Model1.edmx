@@ -112,6 +112,7 @@
           <Property Name="MenuOrder" Type="int" Nullable="false" />
           <Property Name="isHidden" Type="bit" Nullable="false" />
           <Property Name="isDeleted" Type="bit" Nullable="false" />
+          <Property Name="isList" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PagesContents">
           <Key>
@@ -556,6 +557,7 @@
           <NavigationProperty Name="PageTemplate" Relationship="IMDGModel.FK_Pages_PageTemplate" FromRole="Page" ToRole="PageTemplate" />
           <NavigationProperty Name="PagesContents" Relationship="IMDGModel.FK_PagesContents_Pages" FromRole="Page" ToRole="PagesContent" />
           <NavigationProperty Name="PagesGalleries" Relationship="IMDGModel.FK_PagesGallery_Pages" FromRole="Page" ToRole="PagesGallery" />
+          <Property Name="isList" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="PagesContent">
           <Key>
@@ -881,6 +883,7 @@
           <EntitySetMapping Name="Pages">
             <EntityTypeMapping TypeName="IMDGModel.Page">
               <MappingFragment StoreEntitySet="Pages">
+                <ScalarProperty Name="isList" ColumnName="isList" />
                 <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
                 <ScalarProperty Name="isHidden" ColumnName="isHidden" />
                 <ScalarProperty Name="MenuOrder" ColumnName="MenuOrder" />

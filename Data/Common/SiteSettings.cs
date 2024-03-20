@@ -19,6 +19,8 @@ namespace Data.Common
         public static string CaptchaSiteKey = ConfigurationManager.AppSettings["CaptchaSiteKey"] != null ? ConfigurationManager.AppSettings["CaptchaSiteKey"].ToString() : "";
         public static string WebsiteUrl = ConfigurationManager.AppSettings["WebsiteUrl"] != null ? ConfigurationManager.AppSettings["WebsiteUrl"].ToString() : "";
         public static string WebsitePath = ConfigurationManager.AppSettings["WebsitePath"] != null ? ConfigurationManager.AppSettings["WebsitePath"].ToString() : "";
+        public static string WebsiteLang = ConfigurationManager.AppSettings["WebsiteLang"] != null ? ConfigurationManager.AppSettings["WebsiteLang"].ToString() : "";
+        public static string DefaultCulture = ConfigurationManager.AppSettings["DefaultCulture"] != null ? ConfigurationManager.AppSettings["DefaultCulture"].ToString() : "";
         
         public static string EmailTemplateSitePath = ConfigurationManager.AppSettings["AdminCookie"] != null ? ConfigurationManager.AppSettings["AdminCookie"].ToString() : "";
         public static string MediaPath = ConfigurationManager.AppSettings["MediaPath"] != null ? ConfigurationManager.AppSettings["MediaPath"].ToString() : "";

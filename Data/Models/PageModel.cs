@@ -16,13 +16,15 @@ namespace Data.Models
 
         [DisplayName("is Hidden")]
         public bool isHidden { get; set; }
-        public List<PageModel> ChildNodes { get; set; }
+        public List<PageModel> ChildNodes { get; set; }        
         public Dictionary<string, dynamic> Contents { get; set; }
         [DisplayName("Friendly url")]
         public string FriendlyUrl { get; set; }
         public int ParentId { get; set; }
         public string Link { get; set; }
         public bool isDeleted { get; set; }
+        [DisplayName("Is list Page")]
+        public bool isList { get; set; }
         public PageTemplateModel mPageTemplate { get; set; }
         [DisplayName("Display Order")]
         [Required]
@@ -46,6 +48,7 @@ namespace Data.Models
                 ParentId = item.ParentId,
                 isDeleted = item.isDeleted,
                 isHidden = item.isHidden,
+                isList = item.isList,
                 MenuOrder = item.MenuOrder,
                 ChildNodes = new List<PageModel>(),
                 PageContentID = item.PageContentID,
@@ -53,6 +56,7 @@ namespace Data.Models
                 FriendlyUrl = item.FriendlyUrl,
                 menuHTML = "",
                 Link = Sitesettings.WebsiteUrl + item.Link,
+                
                 Contents = GetContents(item.Id, langid)
             };
 

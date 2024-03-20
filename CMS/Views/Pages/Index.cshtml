@@ -26,9 +26,9 @@
                             @*<h6 class="card-title">Desc</h6>*@
 
                             <p class="card-text">
-                                Right click on the desired page to open it's menu                                
+                                Right click on the desired page to open it's menu
                             </p>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -41,10 +41,21 @@
                             <a href="javascript:;" id="aEdit" class="btn btn-primary float-right">Edit</a>
                         </div>
                         <div class="card-body">
-                            <div  id="ifrpage">
-                                
+                            <div id="ifrpage">
+
                             </div>
                         </div>
+                        @{
+                            if (Model.isList == true)
+                            {
+                                <div class="card-body">
+                                    <div id="isListDv">
+                                        @Html.Action("_PageIsList", "Pages")
+                                    </div>
+                                </div>
+                            }
+                        }
+
                     </div>
                 </div>
             </div>
@@ -55,7 +66,38 @@
     <script type="text/javascript">
         $(document).ready(function () {
             Viewpagecontent(@Model.Id);
+
         });
+        function Viewpagecontent(id) {
+            var pagemodify = @ViewBag.pagemodify;
+            if (pagemodify != null && pagemodify == 1) {
+                return;
+            }
+            $.ajax({
+                url: "@Url.Content("~/Pages/_GetPagesContent")",
+                type: "POST",
+                dataType: 'json',
+                data: { id: id },
+                beforeSend: function () {
+                    Pace.start();
+                },
+                success: function (response) {
+                    Pace.stop();
+                    $("#hPageName").html("Page: " + response.name);
+                    var editlink = "@Url.Content("~/Pages/Edit/")" + id;
+                    $("#aEdit").attr("href", editlink);
+                    $("#ifrpage").html(response.data);
+                    $(".nav-link.active").removeClass("active");
+                    setTimeout(function () {
+                        highlightTreemenu("#apage" + id);
+                    }, 100);
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
     </script>
-    }
+}
 

@@ -278,27 +278,27 @@ namespace Data.Common
         }
         public static int GetLangID()
         {
-            string langCulture = ConfigurationManager.AppSettings["DefaultCulture"].ToString();
+            string langCulture = Sitesettings.DefaultCulture;
             if (HttpContext.Current.Request.QueryString["langid"] != null)
             {
                 langCulture = HttpContext.Current.Request.QueryString["langid"].ToString();
-                HttpContext.Current.Response.Cookies[ConfigurationManager.AppSettings["WebsiteLang"]].Value = langCulture;
-                HttpContext.Current.Response.Cookies[ConfigurationManager.AppSettings["WebsiteLang"]].Expires = DateTime.Now.AddYears(1);
+                HttpContext.Current.Response.Cookies[Sitesettings.WebsiteLang].Value = langCulture;
+                HttpContext.Current.Response.Cookies[Sitesettings.WebsiteLang].Expires = DateTime.Now.AddYears(1);
 
             }
-            else if (HttpContext.Current.Request.Cookies[ConfigurationManager.AppSettings["WebsiteLang"]] == null || HttpContext.Current.Request.Cookies[ConfigurationManager.AppSettings["WebsiteLang"]].Value == "")
+            else if (HttpContext.Current.Request.Cookies[Sitesettings.WebsiteLang] == null || HttpContext.Current.Request.Cookies[Sitesettings.WebsiteLang].Value == "")
             {
 
-                HttpContext.Current.Response.Cookies[ConfigurationManager.AppSettings["WebsiteLang"]].Value = langCulture;
-                HttpContext.Current.Response.Cookies[ConfigurationManager.AppSettings["WebsiteLang"]].Expires = DateTime.Now.AddYears(1);
-                langCulture = HttpContext.Current.Request.Cookies[ConfigurationManager.AppSettings["WebsiteLang"]].Value.ToString();
-                HttpContext.Current.Response.Cookies.Add(HttpContext.Current.Request.Cookies[ConfigurationManager.AppSettings["WebsiteLang"]]);
+                HttpContext.Current.Response.Cookies[Sitesettings.WebsiteLang].Value = langCulture;
+                HttpContext.Current.Response.Cookies[Sitesettings.WebsiteLang].Expires = DateTime.Now.AddYears(1);
+                langCulture = HttpContext.Current.Request.Cookies[Sitesettings.WebsiteLang].Value.ToString();
+                HttpContext.Current.Response.Cookies.Add(HttpContext.Current.Request.Cookies[Sitesettings.WebsiteLang]);
             }
-            else langCulture = HttpContext.Current.Request.Cookies[ConfigurationManager.AppSettings["WebsiteLang"]].Value.ToString();
+            else langCulture = HttpContext.Current.Request.Cookies[Sitesettings.WebsiteLang].Value.ToString();
 
             if (langCulture == "")
             {
-                langCulture = ConfigurationManager.AppSettings["DefaultCulture"].ToString();
+                langCulture = Sitesettings.DefaultCulture.ToString();
             }
 
             int langid = 0;

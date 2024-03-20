@@ -31,6 +31,7 @@ namespace Data
         public int MenuOrder { get; set; }
         public bool isHidden { get; set; }
         public bool isDeleted { get; set; }
+        public bool isList { get; set; }
     
         public virtual PageTemplate PageTemplate { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

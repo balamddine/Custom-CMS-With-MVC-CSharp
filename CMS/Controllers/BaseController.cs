@@ -45,7 +45,7 @@ namespace CMS.Controllers
             }
 
             ViewBag.pagemodify = 1;
-            LangId = Utilities.GetCMSLanguage(Sitesettings.CMSLangCookieName);
+            //LangId = Utilities.GetCMSLanguage(Sitesettings.CMSLangCookieName);
             //  ViewBag.LangID = LangId;
             base.OnActionExecuting(context);
 

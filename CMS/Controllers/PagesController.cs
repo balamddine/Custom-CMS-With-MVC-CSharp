@@ -64,8 +64,9 @@ namespace CMS.Controllers
         }
         public ActionResult _HideUnhide(int id)
         {
-            PageModel mde = new PageHelper().GetById(id, LangId);
             PageHelper pghelper = new PageHelper();
+            PageModel mde = pghelper.GetById(id, LangId);
+           
             string hide = "hide";
             if (mde.isHidden)
             {
@@ -133,6 +134,16 @@ namespace CMS.Controllers
             ViewBag.selectedids = ids;
             return PartialView();
         }
+        public PartialViewResult _PageIsList(int id,int page=1,string search = "")
+        {
+            PageHelper pghelper = new PageHelper();
+            int totalrec = 0; int pagesize = 20;
+            List<PageModel> lst = pghelper.Search(LangId, id, pagesize, page, search, ref totalrec,true);
+
+            ViewBag.rowsPerPage = pagesize;
+            ViewBag.rowCount = totalrec;
+            return PartialView(lst);
+        }
         [HttpPost]
         public JsonResult _FetchPagesFct()
         {
@@ -161,15 +172,20 @@ namespace CMS.Controllers
             var nodes = list.Where(x => parentNode == null ? x.ParentId == -1 : x.ParentId == parentNode.Id);
             foreach (var node in nodes)
             {
+               
                 if (parentNode == null)
                 {
                     treeView1.Add(node);
                 }
                 else
                 {
-                    parentNode.ChildNodes.Add(node);
-                    parentNode.ChildNodes = parentNode.ChildNodes.OrderBy(x => x.MenuOrder).ToList();
+                   // if (!parentNode.isList)
+                   // {
+                        parentNode.ChildNodes.Add(node);
+                        parentNode.ChildNodes = parentNode.ChildNodes.OrderBy(x => x.MenuOrder).ToList();
+                   // }                    
                 }
+
                 BindTree(list, node);
             }
             return treeView1;
@@ -288,6 +304,7 @@ namespace CMS.Controllers
                 PageContentID = mde.PageContentID,
                 PageTemplateID = mde.PageTemplateID,
                 ParentId = mde.ParentId,
+                isList = mde.isList,
                 FriendlyUrl = mde.FriendlyUrl,
                 Link = mde.PageContentID == 1 ? obj["link"] : ""
             };

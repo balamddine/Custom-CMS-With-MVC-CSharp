@@ -1,0 +1,18 @@
+﻿@model List<Data.Models.PageModel>
+@{
+    WebGrid grid = new WebGrid(rowsPerPage: ViewBag.rowsPerPage, ajaxUpdateContainerId: "gridContent", canSort: false);
+    grid.Bind(Model, autoSortAndPage: false, rowCount: ViewBag.rowCount);
+    @grid.GetHtml(tableStyle: "table table-striped", footerStyle: "table-pager",
+mode: WebGridPagerModes.All,
+firstText: "<< First",
+previousText: "< Prev",
+nextText: "Next >",
+lastText: "Last >>",
+columns: grid.Columns(
+grid.Column(columnName: "Id", header: "Id"),
+grid.Column(columnName: "Name", header: "Name"),
+grid.Column(header: "Hidden", format: (item) => item.IsHidden ? new HtmlString("<span class='badge bg-danger'>true</span>") : new HtmlString("<span class='badge bg-success'>false</span>")),
+grid.Column(header: "Actions", format: (item) => new HtmlString(
+"<a  title='Edit content type' class='modalLink btn btn-danger  btn-sm' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>"))
+));
+}

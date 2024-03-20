@@ -35,7 +35,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         @Html.Action("_PagesTree", "Pages")
         @RenderBody()
         <footer class="main-footer">
-            <strong>Copyright &copy; @DateTime.Now.Year 
+            <strong>Copyright &copy; @DateTime.Now.Year
         </footer>
     </div>
     @Html.Action("_Logout", "Account")
@@ -90,7 +90,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     html += "<li class='nav-item has-treeview position-relative "+opentree+"' >";
                     html += GetLi(data[item]);
                     html += " <ul class='nav nav-treeview'>";
-                    html += DrawTree(data[item].ChildNodes, true); // Submenu found. Calling recursively same method (and wrapping it in a div)
+                    if (!data[item].isList) {
+                        html += DrawTree(data[item].ChildNodes, true); // Submenu found. Calling recursively same method (and wrapping it in a div)
+                    }
                     html += "</ul>";
                     html += '</li>';
                 }
@@ -108,7 +110,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             var parentid = "apage" + item.ParentId;
             var hschild = item.ChildNodes.length > 0
             var ishidden = item.isHidden ? "red" : "green";
-            var haschild2 = hschild ? "<i class='right fas fa-angle-left'></i>" : "";
+            var isList = item.isList;
+            var haschild2 = hschild && !isList ? "<i class='right fas fa-angle-left'></i>" : "";
 
             var editlink = "@Url.Content("~/Pages/Index/")" + item.Id;
             var contentlink = "@Url.Content("~/Pages/Index/")" + item.Id;
@@ -117,8 +120,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             var moveupurl = "@Url.Content("~/Pages/MoveUp/")" + item.Id;
             var movedownurl = "@Url.Content("~/Pages/MoveDown/")" + item.Id;
             var photogalleryurl = "@Url.Content("~/PagesGallery/Index/")" + item.Id;
-            var editcontenttypelink ="@Url.Content("~/Pages/_EditContentType/")" + item.Id;
-            var html = "<a  class='nav-link' data-tooltip='#tooltip_content" + id + "' id='" + id + "' data-tree='#"+parentid+"' data-contextmenu "
+            var editcontenttypelink = "@Url.Content("~/Pages/_EditContentType/")" + item.Id;
+          
+            var isFolder = hschild;
+            var html = "<a  class='nav-link' data-tooltip='#tooltip_content" + id + "' id='" + id + "' data-tree='#" + parentid + "' data-contextmenu "
                 + " data-id='" + item.Id + "' "
                 + " data-tpid='" + item.PageTemplateID + "' "
                 + " data-friendlyurl='" + item.FriendlyUrl + "' "
@@ -129,9 +134,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 + " data-photogalleryurl='" + photogalleryurl + "' "
                 + " data-moveupurl='" + moveupurl + "' "
                 + " data-movedownurl='" + movedownurl + "' "
-                + "> "
-                + (item.ChildNodes.length > 0 ? "<i class='nav-icon far fas fa-folder " + ishidden + "'></i>" : "<i class='nav-icon far fas fa-file " + ishidden + "'></i>")
-                + "<p>" + item.Name + haschild2 + "</p>"
+                + "> ";
+            if (isList) {
+                html += "<i class='nav-icon far fas fa-table " + ishidden + "'></i>"
+            }
+            else {
+                html += isFolder ? "<i class='nav-icon far fas fa-folder " + ishidden + "'></i>" : "<i class='nav-icon far fas fa-file " + ishidden + "'></i>";
+            }
+
+            html += "<p>" + item.Name + (isList ? " (" + item.ChildNodes.length + ")" : "") + haschild2  +"</p>"
                 + "</a>";
             //draw tooltip
 
@@ -158,7 +169,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             (ctpid == 0 ? {} : { label: '<i class="fa fa-eye" aria-hidden="true"></i><span class="title">View page</span>', icon: '', onClick: () => { window.open(this.dataset.friendlyurl, "_blank"); } }),
                             { label: '<i class="fa fa-edit"></i><span class="title">Edit page content</span>', icon: '', onClick: () => { window.location.href = this.dataset.editlink; } },
                             { label: '<i class="fa fa-edit"></i><span class="title">Edit content type</span>', icon: '', onClick: () => { window.location.href = this.dataset.editcontenttypelink; } },
-                            
+
                             { label: '<i class="fa fa-images" aria-hidden="true"></i><span class="title">Photo gallery</span>', icon: '', onClick: () => { window.location.href = this.dataset.photogalleryurl; } },
                             { label: '<i class="fa fa-arrow-up" aria-hidden="true"></i><span class="title">Move up</span>', icon: '', onClick: () => { window.location.href = this.dataset.moveupurl; } },
                             { label: '<i class="fa fa-arrow-down" aria-hidden="true"></i><span class="title">Move down</span>', icon: '', onClick: () => { window.location.href = this.dataset.movedownurl; } },
@@ -175,36 +186,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             //});
         }
-        function Viewpagecontent(id) {
-            var pagemodify = @ViewBag.pagemodify;
-            if (pagemodify != null && pagemodify == 1) {
-                return;
-            }
-            $.ajax({
-                url: "@Url.Content("~/Pages/_GetPagesContent")",
-                type: "POST",
-                dataType: 'json',
-                data: { id: id },
-                beforeSend: function () {
-                     Pace.start();
-                },
-                success: function (response) {
-                    Pace.stop();
-                    $("#hPageName").html("Page: " + response.name);
-                    var editlink = "@Url.Content("~/Pages/Edit/")" + id;
-                    $("#aEdit").attr("href", editlink);
-                    $("#ifrpage").html(response.data);
-                    $(".nav-link.active").removeClass("active");
-                    setTimeout(function () {
-                        highlightTreemenu("#apage" + id);
-                    }, 100);
 
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            });
-        }
     </script>
 </body>
 </html>

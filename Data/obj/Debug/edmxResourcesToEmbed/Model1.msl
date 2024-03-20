@@ -105,6 +105,7 @@
     <EntitySetMapping Name="Pages">
       <EntityTypeMapping TypeName="IMDGModel.Page">
         <MappingFragment StoreEntitySet="Pages">
+          <ScalarProperty Name="isList" ColumnName="isList" />
           <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
           <ScalarProperty Name="isHidden" ColumnName="isHidden" />
           <ScalarProperty Name="MenuOrder" ColumnName="MenuOrder" />
