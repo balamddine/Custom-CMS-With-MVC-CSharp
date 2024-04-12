@@ -1,18 +1,62 @@
 ﻿@model List<Data.Models.PageModel>
 @{
-    WebGrid grid = new WebGrid(rowsPerPage: ViewBag.rowsPerPage, ajaxUpdateContainerId: "gridContent", canSort: false);
+    WebGrid grid = new WebGrid(rowsPerPage: ViewBag.rowsPerPage, ajaxUpdateContainerId: "WebGrid", canSort: false);
     grid.Bind(Model, autoSortAndPage: false, rowCount: ViewBag.rowCount);
-    @grid.GetHtml(tableStyle: "table table-striped", footerStyle: "table-pager",
+    @grid.GetHtml(tableStyle: "table table-striped table-expandable", footerStyle: "table-pager",
 mode: WebGridPagerModes.All,
 firstText: "<< First",
 previousText: "< Prev",
 nextText: "Next >",
 lastText: "Last >>",
 columns: grid.Columns(
-grid.Column(columnName: "Id", header: "Id"),
-grid.Column(columnName: "Name", header: "Name"),
-grid.Column(header: "Hidden", format: (item) => item.IsHidden ? new HtmlString("<span class='badge bg-danger'>true</span>") : new HtmlString("<span class='badge bg-success'>false</span>")),
-grid.Column(header: "Actions", format: (item) => new HtmlString(
-"<a  title='Edit content type' class='modalLink btn btn-danger  btn-sm' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>"))
-));
+            grid.Column(header: "", format: (item) => new HtmlString(
+                    "<a  title='Expand' class='modalLink btn btn-sm' onclick='getChildren(this," + item.Id + ")' href='javascript:;'><i class='fas fa-angle-right ' aria-hidden='true'></i></a>"
+            )),
+            grid.Column(columnName: "Id", header: "Id"),
+            grid.Column(columnName: "Name", header: "Name"),
+            grid.Column(header: "Hidden", format: (item) => item.IsHidden ? new HtmlString("<span class='badge bg-danger'>true</span>") : new HtmlString("<span class='badge bg-success'>false</span>")),
+            grid.Column(header: "Actions", format: (item) => new HtmlString(
+                    "<a  title='Edit content type' class='modalLink btn btn-danger  btn-sm' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>"
+            ))
+
+        ));
 }
+
+<script type="text/javascript">
+    //$(document).ready(function () {
+    //    $("#WebGrid .ChildGrid").each(function () {
+    //        //Copy the Child Grid to DIV.
+    //        var childGrid = $(this).clone();
+    //        $(this).closest("TR").find("TD").eq(0).find("DIV").append(childGrid);
+
+    //        //Remove the Last Column from the Row.
+    //        $(this).parent().remove();
+    //    });
+    //})
+    function getChildren(sender, parentId) {
+        var $this = $(sender)
+        var angle = $this.children(":first");
+
+        // not expanded
+        if (angle.hasClass("fa-angle-right")) {
+           var url = "@Url.Content("~/Pages/_getPageChidlrenInList")?parentId="+parentId;
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {},
+                dataType: "json",
+                success: function (d) {
+                    $(sender).closest("tr").after("<tr><td></td><td colspan = '999'>" + d.data + "</td></tr>");
+                    angle.removeClass("fa-angle-right");
+                    angle.addClass("fa-angle-down");
+                },
+                error(xhr) { console.log(xhr); }
+            });
+          
+        }
+        else { // expanded
+            $this.closest("tr").next().remove();
+            angle.addClass("fa-angle-right")
+        }
+    }
+</script>

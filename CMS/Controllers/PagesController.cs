@@ -4,6 +4,7 @@ using Data;
 using Data.Common;
 using Data.Helpers;
 using Data.Models;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -144,6 +145,18 @@ namespace CMS.Controllers
             ViewBag.rowCount = totalrec;
             return PartialView(lst);
         }
+        [HttpGet]
+        public ActionResult _getPageChidlrenInList(int parentId, int page = 1, string search = "")
+        {
+            PageHelper pghelper = new PageHelper();
+            int totalrec = 0; int pagesize = 20;
+            List<PageModel> lst = pghelper.Search(LangId, parentId, pagesize, page, search, ref totalrec, true);
+
+            ViewBag.rowsPerPage = pagesize;
+            ViewBag.rowCount = totalrec;
+            string data = Utilities.RenderRazorViewToString(this, "_PageIsList", lst);
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public JsonResult _FetchPagesFct()
         {
@@ -208,7 +221,7 @@ namespace CMS.Controllers
             }
             else
             {
-                str.Append("<p>" + pg.Name + " has no content</p>");
+                str.Append("<p>" + pg.Name + " page has no content to display</p>");
             }
 
 
