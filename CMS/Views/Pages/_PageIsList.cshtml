@@ -1,4 +1,5 @@
 ﻿@model List<Data.Models.PageModel>
+@using Newtonsoft.Json;
 @{
     WebGrid grid = new WebGrid(rowsPerPage: ViewBag.rowsPerPage, ajaxUpdateContainerId: "WebGrid", canSort: false);
     grid.Bind(Model, autoSortAndPage: false, rowCount: ViewBag.rowCount);
@@ -12,51 +13,97 @@ columns: grid.Columns(
             grid.Column(header: "", format: (item) => new HtmlString(
                     "<a  title='Expand' class='modalLink btn btn-sm' onclick='getChildren(this," + item.Id + ")' href='javascript:;'><i class='fas fa-angle-right ' aria-hidden='true'></i></a>"
             )),
-            grid.Column(columnName: "Id", header: "Id"),
+            grid.Column(header: "Id", format: (item) => new HtmlString(
+                "<div class='listContextMenu'>"
+                + "<span>" + item.Id + "</span>"
+        + "<a  class='nav-link listMenuA' title='Right click to view " + item.Name + " page actions' data-tooltip='#tooltip_content" + item.Id + "' id='apage" + item.Id + "' data-tree='#apage" + item.ParentId + "'  data-contextmenu "
+        + " data-id='" + item.Id + "'"
+        + " data-isList='" + (item.isList ? 1 : 0) + "'"
+        + " data-isFolder='" + (item.ChildNodes.Count > 0 ? 1 : 0) + "'"
+        + " data-isHidden='" + (item.IsHidden ? 1 : 0) + "'"
+        + " data-tpid='" + item.PageTemplateID + "'"
+        + " data-friendlyurl='" + item.FriendlyUrl + "' "
+        + " data-editlink='" + Url.Content("~/Pages/Index/") + item.Id + "' "
+        + " data-editcontenttypelink='" + Url.Content("~/Pages/_EditContentType/") + item.Id + "' "
+        + " data-addlink='" + Url.Content("~/Pages/SelectTemplate/") + item.Id + "'"
+        + " data-hideunhideurl='" + Url.Content("~/Pages/_HideUnhide/") + item.Id + "'"
+        + " data-photogalleryurl='" + Url.Content("~/PagesGallery/Index/") + item.Id + "'"
+        + " data-moveupurl='" + Url.Content("~/Pages/MoveUp/") + item.Id + "' "
+        + " data-movedownurl='" + Url.Content("~/Pages/MoveDown/") + item.Id + "' "
+        + "> &nbsp;</a>"
+        + "</div>"
+)),
             grid.Column(columnName: "Name", header: "Name"),
-            grid.Column(header: "Hidden", format: (item) => item.IsHidden ? new HtmlString("<span class='badge bg-danger'>true</span>") : new HtmlString("<span class='badge bg-success'>false</span>")),
-            grid.Column(header: "Actions", format: (item) => new HtmlString(
-                    "<a  title='Edit content type' class='modalLink btn btn-danger  btn-sm' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>"
-            ))
+            grid.Column(header: "Hidden", format: (item) => item.IsHidden ? new HtmlString("<span class='badge bg-danger'>true</span>") : new HtmlString("<span class='badge bg-success'>false</span>"))
+
 
         ));
 }
 
 <script type="text/javascript">
-    //$(document).ready(function () {
-    //    $("#WebGrid .ChildGrid").each(function () {
-    //        //Copy the Child Grid to DIV.
-    //        var childGrid = $(this).clone();
-    //        $(this).closest("TR").find("TD").eq(0).find("DIV").append(childGrid);
+    $(document).ready(function () {
+        drawlistMenuA();
+    })
+    async function getChildren(sender, parentId) {
+        try {
+            var $this = $(sender)
+            var angle = $this.children(":first");
+            // not expanded
+            if (angle.hasClass("fa-angle-right")) {
+                const responce = await this.getchildFromDB(parentId)
+                if (responce && responce.data) {
+                    $(sender).closest("tr").after("<tr><td></td><td colspan = '999'>" + responce.data + "</td></tr>");
+                    angle.removeClass("fa-angle-right");
+                    angle.addClass("fa-angle-down");
+                    drawlistMenuA();
 
-    //        //Remove the Last Column from the Row.
-    //        $(this).parent().remove();
-    //    });
-    //})
-    function getChildren(sender, parentId) {
-        var $this = $(sender)
-        var angle = $this.children(":first");
+                }
+            }
+            else { // expanded
+                $this.closest("tr").next().remove();
+                angle.addClass("fa-angle-right")
+            }
+        }
+        catch (ex) {
+            console.log(ex)
+        }
 
-        // not expanded
-        if (angle.hasClass("fa-angle-right")) {
-           var url = "@Url.Content("~/Pages/_getPageChidlrenInList")?parentId="+parentId;
+    }
+    async function getchildFromDB(parentId) {
+        var url = "@Url.Content("~/Pages/_getPageChidlrenInList")?parentId=" + parentId;
+        return new Promise((resolve, reject) => {
             $.ajax({
                 type: "GET",
                 url: url,
                 data: {},
                 dataType: "json",
                 success: function (d) {
-                    $(sender).closest("tr").after("<tr><td></td><td colspan = '999'>" + d.data + "</td></tr>");
-                    angle.removeClass("fa-angle-right");
-                    angle.addClass("fa-angle-down");
+                    resolve(d)
                 },
-                error(xhr) { console.log(xhr); }
+                error(xhr) {
+                    console.log(xhr);
+                    reject(xhr);
+                }
             });
-          
-        }
-        else { // expanded
-            $this.closest("tr").next().remove();
-            angle.addClass("fa-angle-right")
-        }
+        })
+    }
+    function drawlistMenuA() {
+        $(".listMenuA").each(function () {
+            var html = "";
+            var isList = $(this).attr("data-isList")==1
+            var isFolder = $(this).attr("data-isFolder") == 1
+            var ishidden = $(this).attr("data-isHidden") == 1  ? "red" : "green";
+            if (isList) {
+                html += "<i class='nav-icon far fas fa-table " + ishidden + "'></i>"
+            }
+            else {
+                html += isFolder ? "<i class='nav-icon far fas fa-folder " + ishidden + "'></i>" : "<i class='nav-icon far fas fa-file " + ishidden + "'></i>";
+            }
+
+            $(this).html(html)
+
+        })
+
+        BindContextMenu();
     }
 </script>

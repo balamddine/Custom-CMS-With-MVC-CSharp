@@ -54,9 +54,29 @@
         padding: 5px 0px;
     }
 
-.disabled{
-    pointer-events:none !important;
+.disabled {
+    pointer-events: none !important;
 }
+
 .table-expandable tr td:first-child {
     width: 5%;
 }
+
+.dropdown-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+}
+
+.listContextMenu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+    .listContextMenu a {
+        padding: 0px;
+        padding-left: 4px;
+        cursor: pointer;
+    }

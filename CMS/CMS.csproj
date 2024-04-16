@@ -187,6 +187,7 @@
     <Content Include="js\jquery.inputmask.bundle.min.js" />
     <Content Include="js\jquery.matchHeight.js" />
     <Content Include="js\plugins.js" />
+    <Content Include="js\treeFunctions.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />

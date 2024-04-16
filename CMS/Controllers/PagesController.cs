@@ -5,6 +5,7 @@ using Data.Common;
 using Data.Helpers;
 using Data.Models;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace CMS.Controllers
             PageModel pg = new PageHelper().GetById(id,LangId);
             if (pg == null)
             {
+              
                 return RedirectToAction("Index", new { id = Sitesettings.RootPageId });
             }
             return View(pg);
