@@ -9,7 +9,6 @@
     <EntitySet Name="Logs" EntityType="IMDGModel.Log" />
     <EntitySet Name="PageContentTypeFields" EntityType="IMDGModel.PageContentTypeField" />
     <EntitySet Name="PageContentTypesIds" EntityType="IMDGModel.PageContentTypesId" />
-    <EntitySet Name="Pages" EntityType="IMDGModel.Page" />
     <EntitySet Name="PagesContents" EntityType="IMDGModel.PagesContent" />
     <EntitySet Name="PagesContentTypes" EntityType="IMDGModel.PagesContentType" />
     <EntitySet Name="PagesFriendlyUrls" EntityType="IMDGModel.PagesFriendlyUrl" />
@@ -41,9 +40,11 @@
       <End Role="PagesContentType" EntitySet="PagesContentTypes" />
       <End Role="PageContentTypeField" EntitySet="PageContentTypeFields" />
     </AssociationSet>
-    <AssociationSet Name="FK_Pages_PageTemplate" Association="IMDGModel.FK_Pages_PageTemplate">
-      <End Role="PageTemplate" EntitySet="PageTemplates" />
+    <EntitySet Name="Subscribers" EntityType="IMDGModel.Subscriber" />
+    <EntitySet Name="Pages" EntityType="IMDGModel.Page" />
+    <AssociationSet Name="FK_Pages_Pages" Association="IMDGModel.FK_Pages_Pages">
       <End Role="Page" EntitySet="Pages" />
+      <End Role="Page1" EntitySet="Pages" />
     </AssociationSet>
     <AssociationSet Name="FK_PagesContents_Pages" Association="IMDGModel.FK_PagesContents_Pages">
       <End Role="Page" EntitySet="Pages" />
@@ -53,7 +54,6 @@
       <End Role="Page" EntitySet="Pages" />
       <End Role="PagesGallery" EntitySet="PagesGalleries" />
     </AssociationSet>
-    <EntitySet Name="Subscribers" EntityType="IMDGModel.Subscriber" />
   </EntityContainer>
   <EntityType Name="Admin">
     <Key>
@@ -158,25 +158,6 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
-  <EntityType Name="Page">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ParentId" Type="Int32" Nullable="false" />
-    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Link" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="FriendlyUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="PageContentID" Type="Int32" Nullable="false" />
-    <Property Name="PageTemplateID" Type="Int32" Nullable="false" />
-    <Property Name="MenuOrder" Type="Int32" Nullable="false" />
-    <Property Name="isHidden" Type="Boolean" Nullable="false" />
-    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="PageTemplate" Relationship="IMDGModel.FK_Pages_PageTemplate" FromRole="Page" ToRole="PageTemplate" />
-    <NavigationProperty Name="PagesContents" Relationship="IMDGModel.FK_PagesContents_Pages" FromRole="Page" ToRole="PagesContent" />
-    <NavigationProperty Name="PagesGalleries" Relationship="IMDGModel.FK_PagesGallery_Pages" FromRole="Page" ToRole="PagesGallery" />
-    <Property Name="isList" Type="Boolean" Nullable="false" />
-  </EntityType>
   <EntityType Name="PagesContent">
     <Key>
       <PropertyRef Name="Id" />
@@ -231,7 +212,6 @@
     <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="Link" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="ContentTypeId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Pages" Relationship="IMDGModel.FK_Pages_PageTemplate" FromRole="PageTemplate" ToRole="Page" />
   </EntityType>
   <EntityType Name="UserAddress">
     <Key>
@@ -345,15 +325,45 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Pages_PageTemplate">
-    <End Type="IMDGModel.PageTemplate" Role="PageTemplate" Multiplicity="1" />
-    <End Type="IMDGModel.Page" Role="Page" Multiplicity="*" />
+  <EntityType Name="Subscriber">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="SubscriptionDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="IpAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Page">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Link" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FriendlyUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PageContentID" Type="Int32" Nullable="false" />
+    <Property Name="PageTemplateID" Type="Int32" Nullable="false" />
+    <Property Name="MenuOrder" Type="Int32" Nullable="false" />
+    <Property Name="isHidden" Type="Boolean" Nullable="false" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="isList" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Pages1" Relationship="IMDGModel.FK_Pages_Pages" FromRole="Page" ToRole="Page1" />
+    <NavigationProperty Name="Page1" Relationship="IMDGModel.FK_Pages_Pages" FromRole="Page1" ToRole="Page" />
+    <NavigationProperty Name="PagesContents" Relationship="IMDGModel.FK_PagesContents_Pages" FromRole="Page" ToRole="PagesContent" />
+    <NavigationProperty Name="PagesGalleries" Relationship="IMDGModel.FK_PagesGallery_Pages" FromRole="Page" ToRole="PagesGallery" />
+  </EntityType>
+  <Association Name="FK_Pages_Pages">
+    <End Type="IMDGModel.Page" Role="Page" Multiplicity="0..1" />
+    <End Type="IMDGModel.Page" Role="Page1" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="PageTemplate">
-        <PropertyRef Name="id" />
+      <Principal Role="Page">
+        <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Page">
-        <PropertyRef Name="PageTemplateID" />
+      <Dependent Role="Page1">
+        <PropertyRef Name="ParentId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -381,14 +391,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="Subscriber">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-    <Property Name="SubscriptionDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
-    <Property Name="IpAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-  </EntityType>
 </Schema>

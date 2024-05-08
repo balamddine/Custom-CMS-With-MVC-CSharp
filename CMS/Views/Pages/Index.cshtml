@@ -5,30 +5,16 @@
 }
 
 <div class="content-wrapper">
-    @*<div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">&nbsp;</h1>
-                    </div>
-                </div>
-            </div>
-        </div>*@
+   
     <div class="content" style="padding-top:10px;">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        @*<div class="card-header">
-                                <h5 class="m-0">Title</h5>
-                            </div>*@
                         <div class="card-body">
-                            @*<h6 class="card-title">Desc</h6>*@
-
                             <p class="card-text">
                                 Right click on the desired page to open it's menu
                             </p>
-
                         </div>
                     </div>
                 </div>
@@ -66,7 +52,6 @@
     <script type="text/javascript">
         $(document).ready(function () {
             Viewpagecontent(@Model.Id);
-
         });
         function Viewpagecontent(id) {
             var pagemodify = @ViewBag.pagemodify;
@@ -89,7 +74,9 @@
                     $("#ifrpage").html(response.data);
                     $(".nav-link.active").removeClass("active");
                     setTimeout(function () {
-                        highlightTreemenu("#apage" + id);
+                        if (id !=@Data.Common.Sitesettings.RootPageId) {
+                            highlightTreemenu("#apage" + id);
+                        }                        
                     }, 100);
 
                 },

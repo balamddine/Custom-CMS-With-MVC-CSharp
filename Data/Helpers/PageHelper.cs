@@ -13,7 +13,7 @@ namespace Data.Helpers
     {
 
 
-        public PageModel GetByFriendlyUrl(string friendlyuurl,int langid)
+        public PageModel GetByFriendlyUrl(string friendlyuurl, int langid)
         {
             try
             {
@@ -30,6 +30,8 @@ namespace Data.Helpers
             return null;
         }
 
+       
+
         public List<PageModel> GetByids(List<string> ids, int langId)
         {
             try
@@ -39,7 +41,7 @@ namespace Data.Helpers
                     var ContentType = cnx.Pages.Where(x => x.PagesContents.Any(z => z.LangId == langId) && ids.Contains(x.Id.ToString()));
                     List<PageModel> c = new List<PageModel>();
                     foreach (var item in ContentType)
-                        c.Add(PageModel.GetFromPage(item,langId));
+                        c.Add(PageModel.GetFromPage(item, langId));
                     return c.OrderBy(x => x.MenuOrder).ToList();
                 }
             }
@@ -78,7 +80,7 @@ namespace Data.Helpers
                         var c = cnx.Pages.First(x => x.Id == pageid);
                         var lst = cnx.PagesContents.Where(x => x.PageID == pageid);
                         c.PageContentID = contenttypeid;
-                        cnx.PagesContents.RemoveRange(lst);                        
+                        cnx.PagesContents.RemoveRange(lst);
                         cnx.SaveChanges();
                     }
                 }
@@ -108,20 +110,19 @@ namespace Data.Helpers
 
 
 
-        public List<PageModel> GetAll(int langid,bool WithHidden = true, int parentid = 0)
+        public List<PageModel> GetAll(int langid, bool WithHidden = true, int parentid = -1)
         {
             try
             {
                 using (IMDGEntities cnx = new IMDGEntities())
                 {
-                    var ContentType = cnx.Pages.SqlQuery("select * from pages where isDeleted=0 " + (WithHidden ? "" : " and isHidden=0")).ToList();
-                    if (parentid > 0)
-                    {
-                        ContentType = ContentType.Where(x => x.ParentId == parentid).ToList();
-                    }
+                    string q = "select * from pages where isDeleted=0 and (" + (parentid == -1 ? "ParentId is null" : "ParentId=" + parentid) + ") " + (WithHidden ? "" : " and isHidden=0");
+
+                    var ContentType = cnx.Pages.SqlQuery(q).ToList();
+
                     List<PageModel> c = new List<PageModel>();
                     foreach (var item in ContentType)
-                        c.Add(PageModel.GetFromPage(item,langid));
+                        c.Add(PageModel.GetFromPage(item, langid));
                     return c.OrderBy(x => x.MenuOrder).ToList();
                 }
             }
@@ -133,7 +134,7 @@ namespace Data.Helpers
             }
 
         }
-        public List<PageModel> GetAllPagesByTemplateId(int templateid,int langid)
+        public List<PageModel> GetAllPagesByTemplateId(int templateid, int langid)
         {
             try
             {
@@ -142,7 +143,7 @@ namespace Data.Helpers
                     var ContentType = cnx.Pages.Where(x => x.isDeleted == false && x.PageTemplateID == templateid).ToList();
                     List<PageModel> c = new List<PageModel>();
                     foreach (var item in ContentType)
-                        c.Add(PageModel.GetFromPage(item,langid));
+                        c.Add(PageModel.GetFromPage(item, langid));
 
                     return c.OrderBy(x => x.MenuOrder).ToList();
                 }
@@ -155,7 +156,7 @@ namespace Data.Helpers
             }
 
         }
-        public void updateLink(int id, string link,int contenttypeid=-1)
+        public void updateLink(int id, string link, int contenttypeid = -1)
         {
             try
             {
@@ -165,7 +166,7 @@ namespace Data.Helpers
                     {
                         var t = cnx.Pages.First(x => x.Id == id);
                         t.Link = link;
-                        if(contenttypeid >-1)
+                        if (contenttypeid > -1)
                         {
                             t.PageContentID = contenttypeid;
                             var allcontent = cnx.PagesContents.Where(x => x.PageID == id).ToList();
@@ -180,14 +181,14 @@ namespace Data.Helpers
                 Utilities.LogError(ex, "Page", "Get by ID");
             }
         }
-        public PageModel GetById(int id,int langid)
+        public PageModel GetById(int id, int langid=1)
         {
             try
             {
                 using (IMDGEntities cnx = new IMDGEntities())
                 {
                     if (cnx.Pages.Any(x => x.Id == id))
-                        return PageModel.GetFromPage(cnx.Pages.First(x => x.Id == id), langid);                    
+                        return PageModel.GetFromPage(cnx.Pages.First(x => x.Id == id), langid);
                 }
             }
             catch (Exception ex)
@@ -215,7 +216,7 @@ namespace Data.Helpers
                         Link = item.Link,
                         FriendlyUrl = item.FriendlyUrl,
                         isList = item.isList,
-                        ParentId = item.ParentId                        
+                        ParentId = item.ParentId
                     };
                     cnx.Pages.Add(t);
                     cnx.SaveChanges();
@@ -276,9 +277,9 @@ namespace Data.Helpers
             }
         }
 
-       
 
-        public List<PageModel> Search(int langId,int parentId, int pageSize, int currentPage, string search,  ref int totalrec, bool WithHidden = true)
+
+        public List<PageModel> Search(int langId, int parentId, int pageSize, int currentPage, string search, ref int totalrec, bool WithHidden = true)
         {
             try
             {
@@ -308,5 +309,7 @@ namespace Data.Helpers
                 return null;
             }
         }
+
+       
     }
 }

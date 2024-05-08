@@ -4,6 +4,8 @@ using Data;
 using Data.Common;
 using Data.Helpers;
 using Data.Models;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using System;
@@ -11,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Mvc;
 
 namespace CMS.Controllers
@@ -23,18 +26,16 @@ namespace CMS.Controllers
         public ActionResult Index(int id)
         {
             ViewBag.pagemodify = 0;
-            PageModel pg = new PageHelper().GetById(id,LangId);
+            ViewBag.pageId = id;
+            PageModel pg = new PageHelper().GetById(id, LangId);
             if (pg == null)
             {
-              
+
                 return RedirectToAction("Index", new { id = Sitesettings.RootPageId });
             }
             return View(pg);
         }
-        public PartialViewResult _PagesTree()
-        {
-            return PartialView();
-        }
+     
         public PartialViewResult _PagesMenu()
         {
             return PartialView();
@@ -69,7 +70,7 @@ namespace CMS.Controllers
         {
             PageHelper pghelper = new PageHelper();
             PageModel mde = pghelper.GetById(id, LangId);
-           
+
             string hide = "hide";
             if (mde.isHidden)
             {
@@ -91,7 +92,7 @@ namespace CMS.Controllers
             PageHelper helper = new PageHelper();
             PageModel curr = helper.GetById(ID, LangId);
             int tempDisplay = curr.MenuOrder;
-            PageModel other = helper.GetAll(LangId,parentid: curr.ParentId).Where(x => x.MenuOrder < tempDisplay).OrderByDescending(y => y.MenuOrder).FirstOrDefault();
+            PageModel other = helper.GetAll(LangId, parentid: curr.ParentId).Where(x => x.MenuOrder < tempDisplay).OrderByDescending(y => y.MenuOrder).FirstOrDefault();
             if (other != null)
             {
                 curr.MenuOrder = other.MenuOrder;
@@ -106,7 +107,7 @@ namespace CMS.Controllers
             PageHelper helper = new PageHelper();
             PageModel curr = helper.GetById(ID, LangId);
             int tempDisplay = curr.MenuOrder;
-            PageModel other = helper.GetAll(LangId,parentid: curr.ParentId).Where(x => x.MenuOrder > tempDisplay).OrderBy(y => y.MenuOrder).FirstOrDefault();
+            PageModel other = helper.GetAll(LangId, parentid: curr.ParentId).Where(x => x.MenuOrder > tempDisplay).OrderBy(y => y.MenuOrder).FirstOrDefault();
             if (other != null)
             {
                 curr.MenuOrder = other.MenuOrder;
@@ -119,7 +120,7 @@ namespace CMS.Controllers
 
         public ActionResult PhotoGallery(int id)
         {
-            PageModel mde = new PageHelper().GetById(id,LangId);
+            PageModel mde = new PageHelper().GetById(id, LangId);
 
             return View();
         }
@@ -137,11 +138,11 @@ namespace CMS.Controllers
             ViewBag.selectedids = ids;
             return PartialView();
         }
-        public PartialViewResult _PageIsList(int id,int page=1,string search = "")
+        public PartialViewResult _PageIsList(int id, int page = 1, string search = "")
         {
             PageHelper pghelper = new PageHelper();
             int totalrec = 0; int pagesize = 20;
-            List<PageModel> lst = pghelper.Search(LangId, id, pagesize, page, search, ref totalrec,true);
+            List<PageModel> lst = pghelper.Search(LangId, id, pagesize, page, search, ref totalrec, true);
 
             ViewBag.rowsPerPage = pagesize;
             ViewBag.rowCount = totalrec;
@@ -163,7 +164,7 @@ namespace CMS.Controllers
         public JsonResult _FetchPagesFct()
         {
             PageHelper pghelper = new PageHelper();
-            List<PageModel> AllParentL = pghelper.GetAll(LangId,true, 0);
+            List<PageModel> AllParentL = pghelper.GetAll(LangId, true, 0);
             List<PageModel> data = BindTree(AllParentL, null);
             List<Combotree> lst = Utilities.ConverttoComboxtreePages(data);
             return Json(new { lst }, JsonRequestBehavior.AllowGet);
@@ -171,34 +172,65 @@ namespace CMS.Controllers
         #endregion
 
         #region Pages Tree
-        [HttpPost]
-        public ActionResult _BindPagesTree()
-        {
-            // Utilities.RenderRazorViewToString(this, "_Listing", AllNde) 
-            PageHelper pghelper = new PageHelper();
-            List<PageModel> AllParentPagesL = pghelper.GetAll(LangId,true);
-            List<PageModel> data = BindTree(AllParentPagesL, null);
 
+        public PartialViewResult _PagesTree(int pageId=-1)
+        {
+            ViewBag.pageId = pageId;
+            PageModel pg = new PageHelper().GetById(Sitesettings.RootPageId, LangId);            
+            return PartialView(new List<PageModel> { pg});
+        }
+
+        [HttpPost]
+        public ActionResult _BindPagesTree(int parentid = -1)
+        {
+            ViewBag.parentId = parentid;          
+            PageHelper pghelper = new PageHelper();
+            List<PageModel> existingTree = HttpContext.Cache["Tree"] as List<PageModel>;
+            string data = "";
+            if (existingTree == null)
+            {
+                existingTree = new List<PageModel>();
+            }
+
+            List<PageModel> exist = existingTree.Where(x => x.ParentId == parentid).ToList();
+            if (exist.Any())
+            {
+                data = Utilities.RenderRazorViewToString(this, "_treeChildrens", exist);
+            }
+            else
+            {
+                List<PageModel> AllParentPagesL = pghelper.GetAll(LangId, true, parentid);
+                existingTree.AddRange(AllParentPagesL);
+                HttpContext.Cache.Insert("Tree", existingTree, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(30));
+                data = Utilities.RenderRazorViewToString(this, "_treeChildrens", AllParentPagesL);
+            }
             return Json(new { data = data }, JsonRequestBehavior.AllowGet);
         }
+
+        public PartialViewResult _treeChildrens()
+        {
+            return PartialView();
+        }
+
+
         private List<PageModel> BindTree(List<PageModel> list, PageModel parentNode)
         {
             List<PageModel> treeView1 = new List<PageModel>();
             var nodes = list.Where(x => parentNode == null ? x.ParentId == -1 : x.ParentId == parentNode.Id);
             foreach (var node in nodes)
             {
-               
+
                 if (parentNode == null)
                 {
                     treeView1.Add(node);
                 }
                 else
                 {
-                   // if (!parentNode.isList)
-                   // {
-                        parentNode.ChildNodes.Add(node);
-                        parentNode.ChildNodes = parentNode.ChildNodes.OrderBy(x => x.MenuOrder).ToList();
-                   // }                    
+                    // if (!parentNode.isList)
+                    // {
+                    parentNode.ChildNodes.Add(node);
+                    parentNode.ChildNodes = parentNode.ChildNodes.OrderBy(x => x.MenuOrder).ToList();
+                    // }                    
                 }
 
                 BindTree(list, node);

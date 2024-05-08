@@ -19,7 +19,7 @@ columns: grid.Columns(
         + "<a  class='nav-link listMenuA' title='Right click to view " + item.Name + " page actions' data-tooltip='#tooltip_content" + item.Id + "' id='apage" + item.Id + "' data-tree='#apage" + item.ParentId + "'  data-contextmenu "
         + " data-id='" + item.Id + "'"
         + " data-isList='" + (item.isList ? 1 : 0) + "'"
-        + " data-isFolder='" + (item.ChildNodes.Count > 0 ? 1 : 0) + "'"
+        + " data-isFolder='" + (item.ChildCount > 0 ? 1 : 0) + "'"
         + " data-isHidden='" + (item.IsHidden ? 1 : 0) + "'"
         + " data-tpid='" + item.PageTemplateID + "'"
         + " data-friendlyurl='" + item.FriendlyUrl + "' "

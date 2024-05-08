@@ -98,7 +98,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ParentId" Type="int" Nullable="false" />
+    <Property Name="ParentId" Type="int" />
     <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
     <Property Name="FriendlyUrl" Type="nvarchar(max)" />
@@ -270,15 +270,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Pages_PageTemplate">
-    <End Role="PageTemplate" Type="Self.PageTemplate" Multiplicity="1" />
-    <End Role="Pages" Type="Self.Pages" Multiplicity="*" />
+  <Association Name="FK_Pages_Pages">
+    <End Role="Pages" Type="Self.Pages" Multiplicity="0..1" />
+    <End Role="Pages1" Type="Self.Pages" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="PageTemplate">
-        <PropertyRef Name="id" />
+      <Principal Role="Pages">
+        <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Pages">
-        <PropertyRef Name="PageTemplateID" />
+      <Dependent Role="Pages1">
+        <PropertyRef Name="ParentId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -356,9 +356,9 @@
       <End Role="PagesContentTypes" EntitySet="PagesContentTypes" />
       <End Role="PageContentTypeFields" EntitySet="PageContentTypeFields" />
     </AssociationSet>
-    <AssociationSet Name="FK_Pages_PageTemplate" Association="Self.FK_Pages_PageTemplate">
-      <End Role="PageTemplate" EntitySet="PageTemplate" />
+    <AssociationSet Name="FK_Pages_Pages" Association="Self.FK_Pages_Pages">
       <End Role="Pages" EntitySet="Pages" />
+      <End Role="Pages1" EntitySet="Pages" />
     </AssociationSet>
     <AssociationSet Name="FK_PagesContents_Pages" Association="Self.FK_PagesContents_Pages">
       <End Role="Pages" EntitySet="Pages" />

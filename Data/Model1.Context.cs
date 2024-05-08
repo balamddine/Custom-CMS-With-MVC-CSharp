@@ -33,7 +33,6 @@ namespace Data
         public virtual DbSet<Log> Logs { get; set; }
         public virtual DbSet<PageContentTypeField> PageContentTypeFields { get; set; }
         public virtual DbSet<PageContentTypesId> PageContentTypesIds { get; set; }
-        public virtual DbSet<Page> Pages { get; set; }
         public virtual DbSet<PagesContent> PagesContents { get; set; }
         public virtual DbSet<PagesContentType> PagesContentTypes { get; set; }
         public virtual DbSet<PagesFriendlyUrl> PagesFriendlyUrls { get; set; }
@@ -42,5 +41,6 @@ namespace Data
         public virtual DbSet<UserAddress> UserAddresses { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Subscriber> Subscribers { get; set; }
+        public virtual DbSet<Page> Pages { get; set; }
     }
 }

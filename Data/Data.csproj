@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Common\Combotree.cs" />
     <Compile Include="Common\ExcelExport.cs" />
+    <Compile Include="Common\PagesService.cs" />
     <Compile Include="Common\SiteSettings.cs" />
     <Compile Include="Common\Utilities.cs" />
     <Compile Include="Helpers\AdminHelper.cs" />

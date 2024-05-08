@@ -1,4 +1,28 @@
-﻿function BindContextMenu() {
+﻿async function BindPagesTree(url, parentid) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: 'json',
+            data: { parentid: parentid },
+            beforeSend: function () {
+                Pace.start();
+            },
+            success: function (response) {
+                Pace.stop();
+                
+                resolve(response.data)
+               
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+    })
+   
+}
+function BindContextMenu() {
     $("a[data-contextmenu]").each(function (item) {
         var id = $(this).data("id");
         var ctpid = $(this).data("tpid");

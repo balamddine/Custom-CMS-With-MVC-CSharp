@@ -80,3 +80,7 @@
         padding-left: 4px;
         cursor: pointer;
     }
+.nav-sidebar .nav-treeview.active{
+    display:block !important;
+
+}

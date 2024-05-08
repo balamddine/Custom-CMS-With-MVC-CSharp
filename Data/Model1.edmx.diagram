@@ -13,7 +13,6 @@
         <EntityTypeShape EntityType="IMDGModel.Log" Width="1.5" PointX="9.75" PointY="0.75" />
         <EntityTypeShape EntityType="IMDGModel.PageContentTypeField" Width="1.5" PointX="3" PointY="8.875" />
         <EntityTypeShape EntityType="IMDGModel.PageContentTypesId" Width="1.5" PointX="11.75" PointY="0.75" />
-        <EntityTypeShape EntityType="IMDGModel.Page" Width="1.5" PointX="3" PointY="2.5" />
         <EntityTypeShape EntityType="IMDGModel.PagesContent" Width="1.5" PointX="5.25" PointY="1.125" />
         <EntityTypeShape EntityType="IMDGModel.PagesContentType" Width="1.5" PointX="0.75" PointY="9.25" />
         <EntityTypeShape EntityType="IMDGModel.PagesFriendlyUrl" Width="1.5" PointX="10" PointY="8.5" />
@@ -27,10 +26,11 @@
         <AssociationConnector Association="IMDGModel.FK_AlbumsItems_Language" />
         <AssociationConnector Association="IMDGModel.FK_PagesFriendlyUrl_Language" />
         <AssociationConnector Association="IMDGModel.FK_PageContentTypeFields_PagesContentTypes" />
-        <AssociationConnector Association="IMDGModel.FK_Pages_PageTemplate" />
+        <EntityTypeShape EntityType="IMDGModel.Subscriber" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="IMDGModel.Page" Width="1.5" PointX="3" PointY="2.25" />
+        <AssociationConnector Association="IMDGModel.FK_Pages_Pages" />
         <AssociationConnector Association="IMDGModel.FK_PagesContents_Pages" />
         <AssociationConnector Association="IMDGModel.FK_PagesGallery_Pages" />
-        <EntityTypeShape EntityType="IMDGModel.Subscriber" Width="1.5" PointX="0.75" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

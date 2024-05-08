@@ -17,12 +17,13 @@ namespace Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Page()
         {
+            this.Pages1 = new HashSet<Page>();
             this.PagesContents = new HashSet<PagesContent>();
             this.PagesGalleries = new HashSet<PagesGallery>();
         }
     
         public int Id { get; set; }
-        public int ParentId { get; set; }
+        public Nullable<int> ParentId { get; set; }
         public string Name { get; set; }
         public string Link { get; set; }
         public string FriendlyUrl { get; set; }
@@ -33,7 +34,9 @@ namespace Data
         public bool isDeleted { get; set; }
         public bool isList { get; set; }
     
-        public virtual PageTemplate PageTemplate { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Page> Pages1 { get; set; }
+        public virtual Page Page1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PagesContent> PagesContents { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

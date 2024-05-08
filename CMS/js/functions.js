@@ -6,6 +6,9 @@
         }
     });
 }
+function openWindow(url) {
+    window.open(url, "_self");
+}
 function highlightmenu(id) {
     var elem = $(id);
     if (elem !== null && elem.length > 0) {
@@ -17,12 +20,12 @@ function highlightmenu(id) {
         $(id).addClass("active");
     }
 }
-function highlightTreemenu(id) {
+function highlightTreemenu(id) {    
     var elem = $(id);
     if (elem !== null && elem.length > 0) {
         $(elem).parents().find(".has-treeview").not(".menu-open").addClass("menu-open");
         $(elem).parents().find(".nav-treeview").show();
-        $(id).addClass("active");
+        $($(id +" :first-child")[0]).addClass("active");
     }
 }
 var ck = document.querySelectorAll('.ck');

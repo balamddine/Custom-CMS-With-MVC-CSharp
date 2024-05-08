@@ -991,6 +991,7 @@
     <Content Include="Views\Pages\_EditContentType.cshtml" />
     <Content Include="Views\NewsletterSubscription\Index.cshtml" />
     <Content Include="Views\Pages\_PageIsList.cshtml" />
+    <Content Include="Views\Pages\_treeChildrens.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

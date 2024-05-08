@@ -16,7 +16,9 @@ namespace Data.Models
 
         [DisplayName("is Hidden")]
         public bool isHidden { get; set; }
-        public List<PageModel> ChildNodes { get; set; }        
+        public List<PageModel> ChildNodes { get; set; }
+
+        public int ChildCount { get; set; }
         public Dictionary<string, dynamic> Contents { get; set; }
         [DisplayName("Friendly url")]
         public string FriendlyUrl { get; set; }
@@ -45,7 +47,7 @@ namespace Data.Models
             {
                 Id = item.Id,
                 Name = item.Name,
-                ParentId = item.ParentId,
+                ParentId = item.ParentId.HasValue ? item.ParentId.Value : -1,
                 isDeleted = item.isDeleted,
                 isHidden = item.isHidden,
                 isList = item.isList,
@@ -54,12 +56,20 @@ namespace Data.Models
                 PageContentID = item.PageContentID,
                 PageTemplateID = item.PageTemplateID,
                 FriendlyUrl = item.FriendlyUrl,
+                ChildCount = item.Pages1 != null ? item.Pages1.Count() : 0,
                 menuHTML = "",
                 Link = Sitesettings.WebsiteUrl + item.Link,
-                
+
                 Contents = GetContents(item.Id, langid)
             };
-
+            if(item.Pages1!=null &&  item.Pages1.Count() > 0)
+            {
+                foreach (Page Chlditem in item.Pages1)
+                {
+                    PageModel chld = GetFromPage(Chlditem, langid);
+                    b.ChildNodes.Add(chld);
+                }
+            } 
             return b;
         }
         public static Dictionary<string, dynamic> GetContents(int pageid, int langid)

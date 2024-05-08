@@ -1,0 +1,71 @@
+﻿@model List<Data.Models.PageModel>
+@{
+    foreach (Data.Models.PageModel item in Model)
+    {
+        string id = "apage" + item.Id;
+        string parentid = "apage" + item.ParentId;
+        bool hschild = item.ChildCount > 0;
+        string ishidden = item.isHidden ? "red" : "green";
+        bool isList = item.isList;        
+        string editlink = @Url.Content("~/Pages/Index/") + item.Id;
+        string addlink = @Url.Content("~/Pages/SelectTemplate/") + item.Id;
+        string hideunhideurl = @Url.Content("~/Pages/_HideUnhide/") + item.Id;
+        string photogalleryurl = @Url.Content("~/PagesGallery/Index/") + item.Id;
+        string moveupurl = @Url.Content("~/Pages/MoveUp/") + item.Id;
+        string movedownurl = @Url.Content("~/Pages/MoveDown/") + item.Id;
+        string editcontenttypelink = @Url.Content("~/Pages/_EditContentType/") + item.Id;
+        bool isFolder = hschild;
+        string onclick = isList ? "openWindow('" + editlink + "')" : "parentClick(this, " + item.Id + ", event)";
+        string Name = item.Name + (isList ? " (" + item.ChildCount + ")" : "");
+        <li class="nav-item @(hschild?"has-treeview ":"")"  id="@id" onclick="@onclick">
+            <a href="#" class="nav-link" data-tooltip="#tooltip_content_@id" id="navlink_@item.Id" data-tree="#@parentid" data-contextmenu
+               data-id="@item.Id"
+               data-tpid="@item.PageTemplateID"
+               data-friendlyurl="@item.FriendlyUrl"
+               data-editlink="@editlink"
+               data-editcontenttypelink="@editcontenttypelink"
+               data-addlink="@addlink"
+               data-hideunhideurl="@hideunhideurl"
+               data-photogalleryurl="@photogalleryurl"
+               data-moveupurl="@moveupurl"
+               data-movedownurl="@movedownurl">
+                @{
+                    if (isList)
+                    {
+                        <i class="nav-icon far fas fa-table @ishidden"></i>
+                    }
+                    else
+                    {
+                        if (isFolder)
+                        {
+                            <i class="nav-icon far fas fa-folder @ishidden"></i>
+                        }
+                        else
+                        {
+                            <i class="nav-icon far fas fa-file @ishidden"></i>
+                        }
+                    }
+                }
+                <p>
+                    @Name
+                    @{
+                        if (hschild && !isList)
+                        {
+                            <i class="right fas fa-angle-left"></i>
+                        }
+                    }
+                </p>
+
+            </a>
+            @{
+                if (hschild && !isList)
+                {
+                        <ul class="nav nav-treeview" id="childsUl-@id">
+                            @Html.Partial("_treeChildrens", item.ChildNodes)
+                        </ul>
+                }
+            }
+
+        </li>
+    }
+}

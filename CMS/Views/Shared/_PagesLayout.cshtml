@@ -32,7 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             @Html.Action("_PagesMenu", "Pages")
             @Html.Action("NotificationsPartialView", "Home")
         </nav>
-        @Html.Action("_PagesTree", "Pages")
+        @Html.Action("_PagesTree", "Pages",new { pageId = ViewBag.pageId })
         @RenderBody()
         <footer class="main-footer">
             <strong>Copyright &copy; @DateTime.Now.Year
@@ -55,101 +55,46 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="@Url.Content("~/js/admin.js")"></script>
     @RenderSection("Scripts", false)
 
-<script type="text/javascript">
-        BindPagesTree();
-        function BindPagesTree() {
-            $.ajax({
-                url: "@Url.Content("~/Pages/_BindPagesTree")",
-                type: "POST",
-                dataType: 'json',
-                data: {},
-                beforeSend: function () {
-                     Pace.start();
-                },
-                success: function (response) {
-                      Pace.stop();
-                  var t =  DrawTree(response.data);
-                    $("#ulPages").html(t);
-                    setTimeout(function () {
-                        BindContextMenu();
-                        Collpsetreeview();
-                        Inittreesearch();
-                    }, 100);
+    <script type="text/javascript">
+    //var url = "@Url.Content("~/Pages/_BindPagesTree")";
 
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            });
+        //$(document).ready(async function () {
+        //    try {
+        //        var data = await BindPagesTree(url, -1);
+        //        $("#ulPages").html(data);
+        //    }
+        //    catch (ex) {
+        //        console.log(ex)
+        //    }
+        //})
+
+        
+        function parentClick(sender, currentNodeId, e) {
+            
+            var $toggle = $(sender)
+            var $nested = $(sender).find("ul#childsUl-apage" + currentNodeId);
+            Collpsetreeview();
+            $toggle.toggleClass("menu-is-opening menu-open");
+            $nested.toggleClass("active");
+            //if (!$nested.hasClass("loaded")) {
+            //    BindPagesTree(url, currentNodeId).then(data => {
+            //        if (data) {
+            //            $nested.html(data).addClass("loaded");                        
+            //            setTimeout(function () {
+            //                BindContextMenu();
+            //                Inittreesearch();
+            //            }, 100);
+            //        }
+            //    }).catch(ex => {
+            //        console.log(ex)
+            //    });
+            //}
+           
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         }
-
-        function DrawTree(data) {
-            var html = ''; // Wrap with div if true
-            for (item in data) {
-                var opentree = data[item].Id == 1 ? "menu-is-opening menu-open" : "";
-                if (typeof (data[item].ChildNodes) === 'object' && data[item].ChildNodes.length > 0) { // An array will return 'object'
-                    html += "<li class='nav-item has-treeview position-relative "+opentree+"' >";
-                    html += GetLi(data[item]);
-                    html += " <ul class='nav nav-treeview'>";
-                    if (!data[item].isList) {
-                        html += DrawTree(data[item].ChildNodes, true); // Submenu found. Calling recursively same method (and wrapping it in a div)
-                    }
-                    html += "</ul>";
-                    html += '</li>';
-                }
-                else {
-                    html += "<li class='nav-item' >";
-                    html += GetLi(data[item]);
-                    html += '</li>';
-                }
-
-            }
-            return html;
-        }
-        function GetLi(item) {
-            var id = "apage" + item.Id;
-            var parentid = "apage" + item.ParentId;
-            var hschild = item.ChildNodes.length > 0
-            var ishidden = item.isHidden ? "red" : "green";
-            var isList = item.isList;
-            var haschild2 = hschild && !isList ? "<i class='right fas fa-angle-left'></i>" : "";
-
-            var editlink = "@Url.Content("~/Pages/Index/")" + item.Id;
-            var addlink = "@Url.Content("~/Pages/SelectTemplate/")" + item.Id;
-            var hideunhideurl = "@Url.Content("~/Pages/_HideUnhide/")" + item.Id;
-             var photogalleryurl = "@Url.Content("~/PagesGallery/Index/")" + item.Id;
-            var moveupurl = "@Url.Content("~/Pages/MoveUp/")" + item.Id;
-            var movedownurl = "@Url.Content("~/Pages/MoveDown/")" + item.Id;
-
-            var editcontenttypelink = "@Url.Content("~/Pages/_EditContentType/")" + item.Id;
-
-            var isFolder = hschild;
-            var html = "<a  class='nav-link' data-tooltip='#tooltip_content" + id + "' id='" + id + "' data-tree='#" + parentid + "' data-contextmenu "
-                + " data-id='" + item.Id + "' "
-                + " data-tpid='" + item.PageTemplateID + "' "
-                + " data-friendlyurl='" + item.FriendlyUrl + "' "
-                + " data-editlink='" + editlink + "' "
-                + " data-editcontenttypelink='" + editcontenttypelink + "' "
-                + " data-addlink='" + addlink + "' "
-                + " data-hideunhideurl='" + hideunhideurl + "' "
-                + " data-photogalleryurl='" + photogalleryurl + "' "
-                + " data-moveupurl='" + moveupurl + "' "
-                + " data-movedownurl='" + movedownurl + "' "
-                + "> ";
-            if (isList) {
-                html += "<i class='nav-icon far fas fa-table " + ishidden + "'></i>"
-            }
-            else {
-                html += isFolder ? "<i class='nav-icon far fas fa-folder " + ishidden + "'></i>" : "<i class='nav-icon far fas fa-file " + ishidden + "'></i>";
-            }
-
-            html += "<p>" + item.Name + (isList ? " (" + item.ChildNodes.length + ")" : "") + haschild2  +"</p>"
-                + "</a>";
-            return html;
-        }
-
-
-</script>
+    </script>
 </body>
 </html>
 
