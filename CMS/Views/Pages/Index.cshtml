@@ -5,7 +5,7 @@
 }
 
 <div class="content-wrapper">
-   
+
     <div class="content" style="padding-top:10px;">
         <div class="container-fluid">
             <div class="row">
@@ -67,13 +67,11 @@
                     Pace.start();
                 },
                 success: function (response) {
-                    Pace.stop();                 
+                    Pace.stop();
                     $("#ifrpage").html(response.data);
                     $(".nav-link.active").removeClass("active");
                     setTimeout(function () {
-                        if (id !=@Data.Common.Sitesettings.RootPageId) {
                             highlightTreemenu("#apage" + id);
-                        }                        
                     }, 100);
 
                 },
