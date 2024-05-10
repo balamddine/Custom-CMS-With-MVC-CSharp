@@ -2638,8 +2638,8 @@
             parentLi.removeClass(CLASS_NAME_IS_OPENING$1 + " " + CLASS_NAME_OPEN$2);
             treeviewMenu.stop().slideUp(this._config.animationSpeed, function () {
                 $__default['default'](_this2._element).trigger(collapsedEvent);
-                treeviewMenu.find(SELECTOR_OPEN + " > " + SELECTOR_TREEVIEW_MENU).slideUp();
-                treeviewMenu.find(SELECTOR_OPEN).removeClass(CLASS_NAME_OPEN$2);
+              //  treeviewMenu.find(SELECTOR_OPEN + " > " + SELECTOR_TREEVIEW_MENU).slideUp();
+               // treeviewMenu.find(SELECTOR_OPEN).removeClass(CLASS_NAME_OPEN$2);
             });
         };
 

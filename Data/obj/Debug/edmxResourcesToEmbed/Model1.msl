@@ -28,20 +28,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Albums">
-      <EntityTypeMapping TypeName="IMDGModel.Album">
-        <MappingFragment StoreEntitySet="Albums">
-          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-          <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
-          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-          <ScalarProperty Name="VideoFile" ColumnName="VideoFile" />
-          <ScalarProperty Name="Image" ColumnName="Image" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="AlbumsItems">
       <EntityTypeMapping TypeName="IMDGModel.AlbumsItem">
         <MappingFragment StoreEntitySet="AlbumsItems">
@@ -222,6 +208,20 @@
           <ScalarProperty Name="PageContentID" ColumnName="PageContentID" />
           <ScalarProperty Name="FriendlyUrl" ColumnName="FriendlyUrl" />
           <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Albums">
+      <EntityTypeMapping TypeName="IMDGModel.Album">
+        <MappingFragment StoreEntitySet="Albums">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
+          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+          <ScalarProperty Name="VideoFile" ColumnName="VideoFile" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="ParentId" ColumnName="ParentId" />
           <ScalarProperty Name="Id" ColumnName="Id" />

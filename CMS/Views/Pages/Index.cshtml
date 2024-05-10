@@ -23,8 +23,8 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="m-0 d-inline-block" id="hPageName"></h5>
-                            <a href="javascript:;" id="aEdit" class="btn btn-primary float-right">Edit</a>
+                            <h5 class="m-0 d-inline-block" id="hPageName">Page: @Model.Name</h5>
+                            <a href="@Url.Content("~/Pages/Edit/"+Model.Id)" id="aEdit" class="btn btn-primary float-right">Edit</a>
                         </div>
                         <div class="card-body">
                             <div id="ifrpage">
@@ -67,10 +67,7 @@
                     Pace.start();
                 },
                 success: function (response) {
-                    Pace.stop();
-                    $("#hPageName").html("Page: " + response.name);
-                    var editlink = "@Url.Content("~/Pages/Edit/")" + id;
-                    $("#aEdit").attr("href", editlink);
+                    Pace.stop();                 
                     $("#ifrpage").html(response.data);
                     $(".nav-link.active").removeClass("active");
                     setTimeout(function () {

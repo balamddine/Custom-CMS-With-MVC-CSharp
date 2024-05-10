@@ -18,11 +18,12 @@ namespace Data
         public Album()
         {
             this.AlbumContents = new HashSet<AlbumContent>();
+            this.Albums1 = new HashSet<Album>();
             this.AlbumsItems = new HashSet<AlbumsItem>();
         }
     
         public int Id { get; set; }
-        public int ParentId { get; set; }
+        public Nullable<int> ParentId { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
         public string VideoFile { get; set; }
@@ -32,6 +33,9 @@ namespace Data
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlbumContent> AlbumContents { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Album> Albums1 { get; set; }
+        public virtual Album Album1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlbumsItem> AlbumsItems { get; set; }
     }

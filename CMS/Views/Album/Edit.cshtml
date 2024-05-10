@@ -50,7 +50,7 @@
 
                                     </div>
                                     @{
-                                        if (Model.Id != Models.Common.Sitesettings.RootAlbumId)
+                                        if (Model.Id != Data.Common.Sitesettings.RootAlbumId)
                                         {
                                             <div class="col-6">
                                                 @Html.LabelFor(m => m.DisplayOrder, new { @class = "" })
@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                             @{
-                                if (Model.Id != Models.Common.Sitesettings.RootAlbumId)
+                                if (Model.Id != Data.Common.Sitesettings.RootAlbumId)
                                 {
                                     <div class="form-group">
                                         <div class="row">

@@ -30,7 +30,6 @@ namespace CMS.Controllers
             PageModel pg = new PageHelper().GetById(id, LangId);
             if (pg == null)
             {
-
                 return RedirectToAction("Index", new { id = Sitesettings.RootPageId });
             }
             return View(pg);
@@ -180,32 +179,7 @@ namespace CMS.Controllers
             return PartialView(new List<PageModel> { pg});
         }
 
-        [HttpPost]
-        public ActionResult _BindPagesTree(int parentid = -1)
-        {
-            ViewBag.parentId = parentid;          
-            PageHelper pghelper = new PageHelper();
-            List<PageModel> existingTree = HttpContext.Cache["Tree"] as List<PageModel>;
-            string data = "";
-            if (existingTree == null)
-            {
-                existingTree = new List<PageModel>();
-            }
-
-            List<PageModel> exist = existingTree.Where(x => x.ParentId == parentid).ToList();
-            if (exist.Any())
-            {
-                data = Utilities.RenderRazorViewToString(this, "_treeChildrens", exist);
-            }
-            else
-            {
-                List<PageModel> AllParentPagesL = pghelper.GetAll(LangId, true, parentid);
-                existingTree.AddRange(AllParentPagesL);
-                HttpContext.Cache.Insert("Tree", existingTree, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(30));
-                data = Utilities.RenderRazorViewToString(this, "_treeChildrens", AllParentPagesL);
-            }
-            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
-        }
+      
 
         public PartialViewResult _treeChildrens()
         {

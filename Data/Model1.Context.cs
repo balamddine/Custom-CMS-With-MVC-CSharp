@@ -27,7 +27,6 @@ namespace Data
     
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<AlbumContent> AlbumContents { get; set; }
-        public virtual DbSet<Album> Albums { get; set; }
         public virtual DbSet<AlbumsItem> AlbumsItems { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<Log> Logs { get; set; }
@@ -42,5 +41,6 @@ namespace Data
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Subscriber> Subscribers { get; set; }
         public virtual DbSet<Page> Pages { get; set; }
+        public virtual DbSet<Album> Albums { get; set; }
     }
 }

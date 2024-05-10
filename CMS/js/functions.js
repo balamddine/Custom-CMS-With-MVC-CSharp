@@ -1,11 +1,4 @@
-﻿function Collpsetreeview(){
-    var navtreeview = $(".nav-treeview");
-    $.each(navtreeview, function (index, value) {
-        if (index > 0) {
-            $(this).hide();
-        }
-    });
-}
+﻿
 function openWindow(url) {
     window.open(url, "_self");
 }
@@ -23,7 +16,7 @@ function highlightmenu(id) {
 function highlightTreemenu(id) {    
     var elem = $(id);
     if (elem !== null && elem.length > 0) {
-        $(elem).parents().find(".has-treeview").not(".menu-open").addClass("menu-open");
+        $(elem).parents().find(".nav-item").not(".menu-open").addClass("menu-open");
         $(elem).parents().find(".nav-treeview").show();
         $($(id +" :first-child")[0]).addClass("active");
     }

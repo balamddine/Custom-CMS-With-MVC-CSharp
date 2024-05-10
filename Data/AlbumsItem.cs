@@ -30,7 +30,7 @@ namespace Data
         public bool isHidden { get; set; }
         public System.DateTime CreatedDate { get; set; }
     
-        public virtual Album Album { get; set; }
         public virtual Language Language { get; set; }
+        public virtual Album Album { get; set; }
     }
 }

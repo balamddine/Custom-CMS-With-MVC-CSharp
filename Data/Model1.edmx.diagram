@@ -7,7 +7,6 @@
       <Diagram DiagramId="ff139162efc249db8b1b271bc1f0869d" Name="Diagram1">
         <EntityTypeShape EntityType="IMDGModel.Admin" Width="1.5" PointX="5.75" PointY="8.75" />
         <EntityTypeShape EntityType="IMDGModel.AlbumContent" Width="1.5" PointX="10" PointY="5.25" />
-        <EntityTypeShape EntityType="IMDGModel.Album" Width="1.5" PointX="7.75" PointY="0.875" />
         <EntityTypeShape EntityType="IMDGModel.AlbumsItem" Width="1.5" PointX="13" PointY="4.25" />
         <EntityTypeShape EntityType="IMDGModel.Language" Width="1.5" PointX="7.75" PointY="5.25" />
         <EntityTypeShape EntityType="IMDGModel.Log" Width="1.5" PointX="9.75" PointY="0.75" />
@@ -20,9 +19,7 @@
         <EntityTypeShape EntityType="IMDGModel.PageTemplate" Width="1.5" PointX="0.75" PointY="3.25" />
         <EntityTypeShape EntityType="IMDGModel.UserAddress" Width="1.5" PointX="9.75" PointY="11.75" />
         <EntityTypeShape EntityType="IMDGModel.User" Width="1.5" PointX="11.75" PointY="11.75" />
-        <AssociationConnector Association="IMDGModel.FK_AlbumContent_Albums" />
         <AssociationConnector Association="IMDGModel.FK_AlbumContent_Language" />
-        <AssociationConnector Association="IMDGModel.FK_AlbumsItems_Albums" />
         <AssociationConnector Association="IMDGModel.FK_AlbumsItems_Language" />
         <AssociationConnector Association="IMDGModel.FK_PagesFriendlyUrl_Language" />
         <AssociationConnector Association="IMDGModel.FK_PageContentTypeFields_PagesContentTypes" />
@@ -31,6 +28,10 @@
         <AssociationConnector Association="IMDGModel.FK_Pages_Pages" />
         <AssociationConnector Association="IMDGModel.FK_PagesContents_Pages" />
         <AssociationConnector Association="IMDGModel.FK_PagesGallery_Pages" />
+        <EntityTypeShape EntityType="IMDGModel.Album" Width="1.5" PointX="3.375" PointY="13" />
+        <AssociationConnector Association="IMDGModel.FK_AlbumContent_Albums" />
+        <AssociationConnector Association="IMDGModel.FK_Albums_Albums" />
+        <AssociationConnector Association="IMDGModel.FK_AlbumsItems_Albums" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

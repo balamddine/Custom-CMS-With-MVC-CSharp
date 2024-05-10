@@ -1,0 +1,63 @@
+﻿@model List<Data.Models.AlbumModel>
+@{
+    foreach (Data.Models.AlbumModel item in Model)
+    {
+
+        string id = "apage" + item.Id;
+        string parentid = "apage" + item.ParentId;
+        bool hschild = item.ChildCount > 0;
+        string ishidden = item.IsHidden ? "red" : "green";
+        string haschild2 = hschild ? "<i class='right fas fa-angle-left'></i>" : "";
+        string editlink = @Url.Content("~/Album/Edit/") + item.Id;
+        string addlink = @Url.Content("~/Album/Create/") + item.Id;
+        string hideunhideurl = @Url.Content("~/Album/_HideUnhide/") + item.Id;
+        string moveupurl = @Url.Content("~/Album/MoveUp/") + item.Id;
+        string movedownurl = @Url.Content("~/Album/MoveDown/") + item.Id;
+        string photogalleryurl = @Url.Content("~/Album/ItemListing?albumid=") + item.Id;
+
+
+
+        <li class="nav-item" id="@id">
+            <a href="#" class="nav-link" data-tooltip="#tooltip_content_@id" id="navlink_@item.Id" data-tree="#@parentid" data-contextmenu
+               data-id="@item.Id"
+               data-editlink="@editlink"
+               data-addlink="@addlink"
+               data-hideunhideurl="@hideunhideurl"
+               data-photogalleryurl="@photogalleryurl"
+               data-moveupurl="@moveupurl"
+               data-movedownurl="@movedownurl">
+                @{
+
+                    if (hschild)
+                    {
+                        <i class="nav-icon far fas fa-folder @ishidden"></i>
+                    }
+                    else
+                    {
+                        <i class="nav-icon far fas fa-file @ishidden"></i>
+                    }
+
+                }
+                <p>
+                    @item.Title
+                    @{
+                        if (hschild)
+                        {
+                            <i class="right fas fa-angle-left"></i>
+                        }
+                    }
+                </p>
+
+            </a>
+            @{
+                if (hschild)
+                {
+                    <ul class="nav nav-treeview" id="childsUl-@id">
+                        @Html.Partial("_albumTreeChildrens", item.ChildNodes)
+                    </ul>
+                }
+            }
+
+        </li>
+    }
+}

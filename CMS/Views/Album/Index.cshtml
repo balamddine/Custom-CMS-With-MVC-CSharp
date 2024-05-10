@@ -19,6 +19,77 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="m-0 d-inline-block" id="hPageName">Album: @Model.Name</h5>
+                            <a href="@Url.Content("~/Album/Edit/" + Model.Id)" id="aEdit" class="btn btn-primary float-right">Edit</a>
+                        </div>
+                        <div class="card-body">
+                            <div id="ifrpage">
+                                <table cellpadding='0' cellspacing='0' width='100%' class='contentTable'>
+                                    <tr>
+                                        <td><label>Title</label></td>
+                                        <td>@Model.Title</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Description</label></td>
+                                        @{
+                                            if (!string.IsNullOrWhiteSpace(Model.Description))
+                                            {
+                                                <td>Model.Description</td>
+                                            }
+                                            else
+                                            {
+                                                <td>-</td>
+                                            }
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td><label>Image</label></td>
+                                        @{
+                                            if (!string.IsNullOrWhiteSpace(Model.Image))
+                                            {
+                                                <td><img src="@Model.Image" width="200" height="200" /></td>
+                                            }
+                                            else
+                                            {
+                                                <td>-</td>
+                                            }
+
+
+                                        }
+
+                                    </tr>
+                                    <tr>
+                                        <td><label>Cover Youtube Video</label></td>
+                                        @{
+                                            if (!string.IsNullOrWhiteSpace(Model.VideoFile))
+                                            {
+                                                <td>
+                                                    <iframe width="200" height="200" src="@Model.VideoFile" title="@Model.Title YouTube video"
+                                                            frameborder="0"
+                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                                                    </iframe>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>-</td>
+                                            }
+                                        }
+
+                                    </tr>
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -28,7 +99,7 @@
             setTimeout(function () {
                 highlightTreemenu("@myid");
             },400)
-            
+
         });
     </script>
 }

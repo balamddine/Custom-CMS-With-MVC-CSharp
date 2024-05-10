@@ -48,117 +48,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="@Url.Content("~/vendor/daterangepicker/daterangepicker.js")"></script>
     <script src="@Url.Content("~/vendor/pace-progress/pace.min.js")" data-pace-options='{ "startOnPageLoad": false }'></script>
     <script src="@Url.Content("~/js/plugins.js")"></script>
+    <script src="@Url.Content("~/js/albumtreefunctions.js")"></script>
     <script src="@Url.Content("~/js/functions.js")"></script>
     <script src="@Url.Content("~/js/admin.js")"></script>
     @RenderSection("Scripts", false)
 
-    <script type="text/javascript">
-        BindPagesTree();
-        function BindPagesTree() {
-            $.ajax({
-                url: "@Url.Content("~/Album/_BindAlbumsTree")",
-                type: "POST",
-                dataType: 'json',
-                data: {},
-                beforeSend: function () {
-                     Pace.start();
-                },
-                success: function (response) {
-                      Pace.stop();
-                  var t =  DrawTree(response.data);
-                    $("#ulAlbums").html(t);
-                    setTimeout(function () {
-                        BindContextMenu();
-                        Collpsetreeview();
-                        Inittreesearch();
-                    }, 100);
-
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            });
-        }
-
-        function DrawTree(data) {
-            var html = ''; // Wrap with div if true
-            for (item in data) {
-                var opentree = data[item].Id == 1 ? "menu-is-opening menu-open" : "";
-                if (typeof (data[item].ChildNodes) === 'object' && data[item].ChildNodes.length > 0) { // An array will return 'object'
-                    html += "<li class='nav-item has-treeview position-relative "+opentree+"' >";
-                    html += GetLi(data[item]);
-                    html += " <ul class='nav nav-treeview'>";
-                    html += DrawTree(data[item].ChildNodes, true); // Submenu found. Calling recursively same method (and wrapping it in a div)
-                    html += "</ul>";
-                    html += '</li>';
-                }
-                else {
-                    html += "<li class='nav-item' >";
-                    html += GetLi(data[item]);
-                    html += '</li>';
-                }
-
-            }
-            return html;
-        }
-        function GetLi(item) {
-            var id = "apage" + item.Id;
-            var parentid = "apage" + item.ParentId;
-            var hschild = item.ChildNodes.length > 0
-            var ishidden = item.isHidden ? "red" : "green";
-            var haschild2 = hschild ? "<i class='right fas fa-angle-left'></i>" : "";
-
-            var editlink = "@Url.Content("~/Album/Edit/")" + item.Id;
-            var addlink = "@Url.Content("~/Album/Create/")" + item.Id;
-            var hideunhideurl = "@Url.Content("~/Album/_HideUnhide/")" + item.Id;
-            var moveupurl = "@Url.Content("~/Album/MoveUp/")" + item.Id;
-            var movedownurl = "@Url.Content("~/Album/MoveDown/")" + item.Id;
-            var photogalleryurl = "@Url.Content("~/Album/ItemListing?albumid=")" + item.Id;
-
-            var html = "<a href='javascript:;'  class='nav-link' data-tooltip='#tooltip_content" + id + "' id='" + id + "' data-tree='#"+parentid+"' data-contextmenu "
-                + "data-id='" + item.Id + "' "
-                + "data-editlink='" + editlink + "' "
-                + " data-addlink='" + addlink + "' "
-                + " data-hideunhideurl='" + hideunhideurl + "' "
-                + " data-photogalleryurl='" + photogalleryurl + "' "
-                + " data-moveupurl='" + moveupurl + "' "
-                + " data-movedownurl='" + movedownurl + "' "
-                + "> "
-                + (item.ChildNodes.length > 0 ? "<i class='nav-icon far fas fa-folder " + ishidden + "'></i>" : "<i class='nav-icon far fas fa-file " + ishidden + "'></i>")
-                + "<p>" + item.Title + haschild2 + "</p>"
-                + "</a>";
-            //draw tooltip
-
-            //html += "<div style='display:none;' id='tooltip_content" + id + "'>"
-            //    + "<b>Id</b>: " + item.Id + "<br/>"
-            //    + "<b> Index</b >: " + item.MenuOrder + "<br/>"
-            //    + " <b>Name</b>: " + item.Name + "<br/>"
-            //    + " <b>Template</b>: " + item.mPageTemplate.Name+ "<br/>"
-            //    + " <b>Friendly Url</b>: " + item.FriendlyUrl
-            //    + "</div>";
-            return html;
-        }
-        function BindContextMenu() {
-            $("a[data-contextmenu]").each(function (item) {
-                var id = $(this).data("id");
-                $(this).on('contextmenu', function (e) {
-                    e.preventDefault();
-                    //Add contextual menu here
-                    new Contextual({
-                        isSticky: false,
-                        items: [
-                            { label: '<i class="fa fa-plus-square"></i><span class="title">Add new Album</span>', icon: '', onClick: () => { window.location.href = this.dataset.addlink; } },
-                            { label: '<i class="fa fa-edit"></i><span class="title">Edit</span>', icon: '', onClick: () => { window.location.href = this.dataset.editlink; } },
-                            { label: '<i class="fa fa-images" aria-hidden="true"></i><span class="title">Album items</span>', icon: '', onClick: () => { window.location.href = this.dataset.photogalleryurl; } },
-                            { label: '<i class="fa fa-arrow-up" aria-hidden="true"></i><span class="title">Move up</span>', icon: '', onClick: () => { window.location.href = this.dataset.moveupurl; } },
-                            { label: '<i class="fa fa-arrow-down" aria-hidden="true"></i><span class="title">Move down</span>', icon: '', onClick: () => { window.location.href = this.dataset.movedownurl; } },
-                            { label: '<i class="fa fa-ban" aria-hidden="true"></i><span class="title">Hide/Unhide page</span>', icon: '', onClick: () => { window.location.href = this.dataset.hideunhideurl; } }
-                        ]
-                    });
-                });
-            });
-        }
-    </script>
+  
 </body>
 </html>
 

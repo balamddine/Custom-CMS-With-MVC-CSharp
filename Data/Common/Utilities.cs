@@ -316,6 +316,16 @@ namespace Data.Common
         #endregion
 
         #region Common
+
+        public static string FirstCharToUpper(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            char[] charArray = input.ToCharArray();
+            charArray[0] = char.ToUpper(charArray[0]);
+            return new string(charArray);
+        }
         public static bool IsNumeric(this string s)
         {
             float output;

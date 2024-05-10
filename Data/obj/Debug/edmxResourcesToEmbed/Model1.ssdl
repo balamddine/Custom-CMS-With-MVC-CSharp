@@ -30,7 +30,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ParentId" Type="int" Nullable="false" />
+    <Property Name="ParentId" Type="int" />
     <Property Name="Name" Type="nvarchar" MaxLength="500" />
     <Property Name="Image" Type="nvarchar" MaxLength="500" />
     <Property Name="VideoFile" Type="nvarchar" MaxLength="500" />
@@ -234,6 +234,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Albums_Albums">
+    <End Role="Albums" Type="Self.Albums" Multiplicity="0..1" />
+    <End Role="Albums1" Type="Self.Albums" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Albums">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Albums1">
+        <PropertyRef Name="ParentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_AlbumsItems_Albums">
     <End Role="Albums" Type="Self.Albums" Multiplicity="1" />
     <End Role="AlbumsItems" Type="Self.AlbumsItems" Multiplicity="*" />
@@ -343,6 +355,10 @@
     <AssociationSet Name="FK_AlbumContent_Language" Association="Self.FK_AlbumContent_Language">
       <End Role="Language" EntitySet="Language" />
       <End Role="AlbumContent" EntitySet="AlbumContent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Albums_Albums" Association="Self.FK_Albums_Albums">
+      <End Role="Albums" EntitySet="Albums" />
+      <End Role="Albums1" EntitySet="Albums" />
     </AssociationSet>
     <AssociationSet Name="FK_AlbumsItems_Albums" Association="Self.FK_AlbumsItems_Albums">
       <End Role="Albums" EntitySet="Albums" />

@@ -10,9 +10,9 @@ previousText: "< Prev",
 nextText: "Next >",
 lastText: "Last >>",
 columns: grid.Columns(
-            grid.Column(header: "", format: (item) => new HtmlString(
-                    "<a  title='Expand' class='modalLink btn btn-sm' onclick='getChildren(this," + item.Id + ")' href='javascript:;'><i class='fas fa-angle-right ' aria-hidden='true'></i></a>"
-            )),
+            grid.Column(header: "", format: (item) => item.ChildCount > 0 ? new HtmlString(
+                    "<a  title='Expand' class='modalLink btn btn-sm' onclick='getIsListChildren(this," + item.Id + ")' href='javascript:;'><i class='fas fa-angle-right ' aria-hidden='true'></i></a>"
+            ) : new HtmlString("")) ,
             grid.Column(header: "Id", format: (item) => new HtmlString(
                 "<div class='listContextMenu'>"
                 + "<span>" + item.Id + "</span>"
@@ -44,17 +44,17 @@ columns: grid.Columns(
     $(document).ready(function () {
         drawlistMenuA();
     })
-    async function getChildren(sender, parentId) {
+    async function getIsListChildren(sender, parentId) {
         try {
             var $this = $(sender)
             var angle = $this.children(":first");
             // not expanded
             if (angle.hasClass("fa-angle-right")) {
-                const responce = await this.getchildFromDB(parentId)
+                const responce = await this.getIsListChildFromDB(parentId)
                 if (responce && responce.data) {
                     $(sender).closest("tr").after("<tr><td></td><td colspan = '999'>" + responce.data + "</td></tr>");
                     angle.removeClass("fa-angle-right");
-                    angle.addClass("fa-angle-down");
+                    angle.addClass("fa-angle-down");                   
                     drawlistMenuA();
 
                 }
@@ -69,7 +69,7 @@ columns: grid.Columns(
         }
 
     }
-    async function getchildFromDB(parentId) {
+    async function getIsListChildFromDB(parentId) {
         var url = "@Url.Content("~/Pages/_getPageChidlrenInList")?parentId=" + parentId;
         return new Promise((resolve, reject) => {
             $.ajax({

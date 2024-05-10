@@ -187,6 +187,7 @@
     <Content Include="js\jquery.inputmask.bundle.min.js" />
     <Content Include="js\jquery.matchHeight.js" />
     <Content Include="js\plugins.js" />
+    <Content Include="js\albumtreeFunctions.js" />
     <Content Include="js\treeFunctions.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -992,6 +993,7 @@
     <Content Include="Views\NewsletterSubscription\Index.cshtml" />
     <Content Include="Views\Pages\_PageIsList.cshtml" />
     <Content Include="Views\Pages\_treeChildrens.cshtml" />
+    <Content Include="Views\Album\_albumTreeChildrens.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

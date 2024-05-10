@@ -28,7 +28,7 @@ namespace CMS.Controllers
                 ViewBag.CMSUserID = Convert.ToInt32(Request.Cookies[Sitesettings.AdminCookie].Value);
             }
 
-           
+
             if (!context.IsChildAction)
             {
                 if (ViewBag.CMSUserID != null && ViewBag.CMSUserID > 0)
@@ -45,8 +45,8 @@ namespace CMS.Controllers
             }
 
             ViewBag.pagemodify = 1;
-            //LangId = Utilities.GetCMSLanguage(Sitesettings.CMSLangCookieName);
-            //  ViewBag.LangID = LangId;
+            LangId = Utilities.GetCMSLanguage(Sitesettings.CMSLangCookieName);
+            ViewBag.LangID = LangId;
             base.OnActionExecuting(context);
 
 

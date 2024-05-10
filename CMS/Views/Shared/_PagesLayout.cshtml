@@ -32,7 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             @Html.Action("_PagesMenu", "Pages")
             @Html.Action("NotificationsPartialView", "Home")
         </nav>
-        @Html.Action("_PagesTree", "Pages",new { pageId = ViewBag.pageId })
+        @Html.Action("_PagesTree", "Pages", new { pageId = ViewBag.pageId })
         @RenderBody()
         <footer class="main-footer">
             <strong>Copyright &copy; @DateTime.Now.Year
@@ -54,47 +54,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="@Url.Content("~/js/functions.js")"></script>
     <script src="@Url.Content("~/js/admin.js")"></script>
     @RenderSection("Scripts", false)
-
-    <script type="text/javascript">
-    //var url = "@Url.Content("~/Pages/_BindPagesTree")";
-
-        //$(document).ready(async function () {
-        //    try {
-        //        var data = await BindPagesTree(url, -1);
-        //        $("#ulPages").html(data);
-        //    }
-        //    catch (ex) {
-        //        console.log(ex)
-        //    }
-        //})
-
-        
-        function parentClick(sender, currentNodeId, e) {
-            
-            var $toggle = $(sender)
-            var $nested = $(sender).find("ul#childsUl-apage" + currentNodeId);
-            Collpsetreeview();
-            $toggle.toggleClass("menu-is-opening menu-open");
-            $nested.toggleClass("active");
-            //if (!$nested.hasClass("loaded")) {
-            //    BindPagesTree(url, currentNodeId).then(data => {
-            //        if (data) {
-            //            $nested.html(data).addClass("loaded");                        
-            //            setTimeout(function () {
-            //                BindContextMenu();
-            //                Inittreesearch();
-            //            }, 100);
-            //        }
-            //    }).catch(ex => {
-            //        console.log(ex)
-            //    });
-            //}
-           
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
-    </script>
 </body>
 </html>
 
