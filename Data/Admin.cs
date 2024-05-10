@@ -21,6 +21,7 @@ namespace Data
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string Theme { get; set; }
         public bool isDeleted { get; set; }
         public bool isDisabled { get; set; }
         public System.DateTime CreateDate { get; set; }

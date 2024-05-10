@@ -169,6 +169,7 @@
     <Content Include="css\admin.css" />
     <Content Include="css\fontawesome-all.min.css" />
     <Content Include="css\images\adminicon.png" />
+    <Content Include="css\images\logo-dark.png" />
     <Content Include="css\images\logo.png" />
     <Content Include="css\images\ui-icons_444444_256x240.png" />
     <Content Include="css\images\ui-icons_555555_256x240.png" />
@@ -980,7 +981,6 @@
     <Content Include="Views\PageTemplate\Index.cshtml" />
     <Content Include="Views\Home\ClearCache.cshtml" />
     <Content Include="Views\Home\LefMenuPartialView.cshtml" />
-    <Content Include="Views\Home\NotificationsPartialView.cshtml" />
     <Content Include="Views\Home\PageNotFound.cshtml" />
     <Content Include="Views\Home\_Language.cshtml" />
     <Content Include="Views\Home\_MainMenu.cshtml" />
@@ -994,6 +994,10 @@
     <Content Include="Views\Pages\_PageIsList.cshtml" />
     <Content Include="Views\Pages\_treeChildrens.cshtml" />
     <Content Include="Views\Album\_albumTreeChildrens.cshtml" />
+    <Content Include="Views\Home\_ExtrasLeftMenuItems.cshtml" />
+    <Content Include="Views\Home\_RightMainMenu.cshtml" />
+    <Content Include="Views\Home\_LeftMainMenu.cshtml" />
+    <Content Include="Views\Home\_WebsiteName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

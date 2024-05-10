@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="IMDGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="IMDGEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Admins" EntityType="IMDGModel.Admin" />
     <EntitySet Name="AlbumContents" EntityType="IMDGModel.AlbumContent" />
     <EntitySet Name="AlbumsItems" EntityType="IMDGModel.AlbumsItem" />
     <EntitySet Name="Languages" EntityType="IMDGModel.Language" />
@@ -58,22 +57,8 @@
       <End Role="Album" EntitySet="Albums" />
       <End Role="AlbumsItem" EntitySet="AlbumsItems" />
     </AssociationSet>
+    <EntitySet Name="Admins" EntityType="IMDGModel.Admin" />
   </EntityContainer>
-  <EntityType Name="Admin">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="CMSUserRoleId" Type="Int32" Nullable="false" />
-    <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Pwd" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
-    <Property Name="isDisabled" Type="Boolean" Nullable="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-  </EntityType>
   <EntityType Name="AlbumContent">
     <Key>
       <PropertyRef Name="Id" />
@@ -409,4 +394,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CMSUserRoleId" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Pwd" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Theme" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="isDisabled" Type="Boolean" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
 </Schema>

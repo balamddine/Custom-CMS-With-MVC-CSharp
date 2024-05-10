@@ -1,22 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="IMDGModelStoreContainer" CdmEntityContainer="IMDGEntities">
-    <EntitySetMapping Name="Admins">
-      <EntityTypeMapping TypeName="IMDGModel.Admin">
-        <MappingFragment StoreEntitySet="Admin">
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="isDisabled" ColumnName="isDisabled" />
-          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="Pwd" ColumnName="Pwd" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="CMSUserRoleId" ColumnName="CMSUserRoleId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="AlbumContents">
       <EntityTypeMapping TypeName="IMDGModel.AlbumContent">
         <MappingFragment StoreEntitySet="AlbumContent">
@@ -224,6 +208,23 @@
           <ScalarProperty Name="Image" ColumnName="Image" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Admins">
+      <EntityTypeMapping TypeName="IMDGModel.Admin">
+        <MappingFragment StoreEntitySet="Admin">
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="isDisabled" ColumnName="isDisabled" />
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="Theme" ColumnName="Theme" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="CMSUserRoleId" ColumnName="CMSUserRoleId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

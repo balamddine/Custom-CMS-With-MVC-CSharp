@@ -191,3 +191,42 @@ function removeItemsContent(sender) {
     });
 
 }
+
+
+function toggleAdminTheme(sender) {
+    var url = $(sender).data("url");
+    var currentTheme = $(sender).attr("data-theme")
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: 'json',
+        data: { currentTheme: currentTheme },
+        success: function (response) {
+            switchTheme(currentTheme,sender)
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
+}
+function switchTheme(currentTheme,sender) {
+    var imgSrc = $(".brand-image").attr("src");
+    if (currentTheme == "light") {
+        
+        $(sender).attr("data-theme", "dark")
+        
+        $(sender).find("i").removeClass("fa-moon").addClass("fa-sun")
+        $("body").addClass("dark-mode");
+        $(".brand-image").attr("src", imgSrc.replace("logo.png","logo-dark.png"));
+        $(".main-header").removeClass('navbar-light').addClass('navbar-dark');
+        $(".main-sidebar").removeClass('sidebar-light-primary').addClass('sidebar-dark-primary');
+    }
+    else {
+        $(sender).attr("data-theme", "light")        
+        $(sender).find("i").removeClass("fa-sun").addClass("fa-moon")
+        $(".brand-image").attr("src", imgSrc.replace("logo-dark.png", "logo.png"));
+        $("body").removeClass("dark-mode");
+        $(".main-header").addClass('navbar-light').removeClass('navbar-dark');
+        $(".main-sidebar").addClass('sidebar-light-primary').removeClass('sidebar-dark-primary');
+    }
+}

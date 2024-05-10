@@ -1,0 +1,8 @@
+﻿<!-- Brand Logo -->
+@{
+    string icon = ViewBag.theme == "dark" ? "logo-dark.png" : "logo.png";
+}
+<a href="@Url.Content(System.Configuration.ConfigurationManager.AppSettings["CMSUrl"])" class="brand-link" title="Home">
+    <img src="~/css/images/@icon" alt="CMS logo" title="Home" class="brand-image">
+    <span class="brand-text font-weight-@ViewBag.theme">@System.Configuration.ConfigurationManager.AppSettings["WebsiteName"]</span>
+</a>

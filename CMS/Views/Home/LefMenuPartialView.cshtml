@@ -1,13 +1,12 @@
-﻿<aside class="main-sidebar sidebar-dark-primary elevation-4">
+﻿
+<aside class="main-sidebar sidebar-@ViewBag.theme-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="@Url.Content(System.Configuration.ConfigurationManager.AppSettings["CMSUrl"])" class="brand-link" title="Home">
-        <img src="~/css/images/logo.png" alt="CMS logo" title="Home" class="brand-image elevation-3">
-        <span class="brand-text font-weight-light">@System.Configuration.ConfigurationManager.AppSettings["WebsiteName"]</span>
-    </a>
+
+    @Html.Action("_WebsiteName", "Home")
     <!-- Sidebar -->
     <div class="sidebar">
         @Html.Action("_WelcomeMenu", "Home")
-       
+
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent " data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
@@ -34,7 +33,7 @@
                         </p>
                     </a>
                 </li>
-                
+
                 <li class="nav-item has-treeview " id="asystem">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa fa-cube"></i>
@@ -85,6 +84,21 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item has-treeview " id="aextras">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-plus-square"></i>
+                        <p>
+                            Extras
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+
+                    <ul class="nav nav-treeview">
+                        @Html.Partial("_ExtrasLeftMenuItems")
+                    </ul>
+                </li>
+
+
             </ul>
         </nav>
     </div>

@@ -26,23 +26,26 @@ namespace CMS.Controllers
             else
             {
                 ViewBag.CMSUserID = Convert.ToInt32(Request.Cookies[Sitesettings.AdminCookie].Value);
+
             }
 
 
-            if (!context.IsChildAction)
+            // if (!context.IsChildAction)
+            //  {
+            if (ViewBag.CMSUserID != null && ViewBag.CMSUserID > 0)
             {
-                if (ViewBag.CMSUserID != null && ViewBag.CMSUserID > 0)
-                {
-                    AdminHelper helper = new AdminHelper();
-                    AdminModel item = helper.GetById(ViewBag.CMSUserID);
-                    ViewBag.CMSUserName = item != null ? item.UserName : "";
-                }
-                else
-                {
-                    string returnURL = Request.RawUrl;
-                    context.Result = new RedirectResult("~/Account/Login?returnUrl=" + returnURL);
-                }
+                AdminHelper helper = new AdminHelper();
+                AdminModel item = helper.GetById(ViewBag.CMSUserID);
+                ViewBag.CMSUserName = item != null ? item.UserName : "";
+                ViewBag.theme = item != null ? item.Theme : "light";
+                ViewBag.bodyThemeClass = item != null ? (item.Theme == "dark" ? "dark-mode" : "") : "";
             }
+            else
+            {
+                string returnURL = Request.RawUrl;
+                context.Result = new RedirectResult("~/Account/Login?returnUrl=" + returnURL);
+            }
+            // }
 
             ViewBag.pagemodify = 1;
             LangId = Utilities.GetCMSLanguage(Sitesettings.CMSLangCookieName);

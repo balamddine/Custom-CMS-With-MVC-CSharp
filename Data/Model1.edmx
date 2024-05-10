@@ -16,6 +16,7 @@
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="200" />
+          <Property Name="Theme" Type="nvarchar" MaxLength="50" />
           <Property Name="isDeleted" Type="bit" Nullable="false" />
           <Property Name="isDisabled" Type="bit" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
@@ -399,7 +400,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="IMDGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="IMDGEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Admins" EntityType="IMDGModel.Admin" />
           <EntitySet Name="AlbumContents" EntityType="IMDGModel.AlbumContent" />
           <EntitySet Name="AlbumsItems" EntityType="IMDGModel.AlbumsItem" />
           <EntitySet Name="Languages" EntityType="IMDGModel.Language" />
@@ -456,22 +456,8 @@
             <End Role="Album" EntitySet="Albums" />
             <End Role="AlbumsItem" EntitySet="AlbumsItems" />
           </AssociationSet>
+          <EntitySet Name="Admins" EntityType="IMDGModel.Admin" />
         </EntityContainer>
-        <EntityType Name="Admin">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CMSUserRoleId" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Pwd" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="isDisabled" Type="Boolean" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
         <EntityType Name="AlbumContent">
           <Key>
             <PropertyRef Name="Id" />
@@ -807,28 +793,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CMSUserRoleId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pwd" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Theme" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="isDisabled" Type="Boolean" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="IMDGModelStoreContainer" CdmEntityContainer="IMDGEntities">
-          <EntitySetMapping Name="Admins">
-            <EntityTypeMapping TypeName="IMDGModel.Admin">
-              <MappingFragment StoreEntitySet="Admin">
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="isDisabled" ColumnName="isDisabled" />
-                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="CMSUserRoleId" ColumnName="CMSUserRoleId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AlbumContents">
             <EntityTypeMapping TypeName="IMDGModel.AlbumContent">
               <MappingFragment StoreEntitySet="AlbumContent">
@@ -1036,6 +1022,23 @@
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="IMDGModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="isDisabled" ColumnName="isDisabled" />
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="Theme" ColumnName="Theme" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="CMSUserRoleId" ColumnName="CMSUserRoleId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

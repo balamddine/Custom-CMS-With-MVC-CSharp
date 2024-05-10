@@ -100,7 +100,8 @@ namespace Data.Helpers
                         isDisabled = model.isDisabled,
                         CreateDate = model.CreateDate,
                         CMSUserRoleId = model.CMSUserRoleId,
-                        Email = model.Email
+                        Email = model.Email,
+                        Theme = "light"
                     };
                     cnx.Admins.Add(t);
                     cnx.SaveChanges();
@@ -130,6 +131,7 @@ namespace Data.Helpers
                         t.isDeleted = model.isDeleted;
                         t.Email = model.Email;
                         t.isDisabled = model.isDisabled;
+                        t.Theme = model.Theme;
                         cnx.SaveChanges();
                         return true;
                     }

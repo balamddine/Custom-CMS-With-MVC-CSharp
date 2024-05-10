@@ -1,10 +1,6 @@
 ﻿@model List<Data.Models.PageModel>
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="@Url.Content(System.Configuration.ConfigurationManager.AppSettings["CMSUrl"])" class="brand-link" title="Home">
-        <img src="~/css/images/logo.png" alt="CMS logo" title="Home" class="brand-image elevation-3">
-        <span class="brand-text font-weight-light">@System.Configuration.ConfigurationManager.AppSettings["WebsiteName"]</span>
-    </a>
+<aside class="main-sidebar sidebar-@ViewBag.theme-primary elevation-4">
+    @Html.Action("_WebsiteName", "Home")
     <!-- Sidebar -->
 
     <div class="sidebar">
@@ -23,7 +19,7 @@
 
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" id="ulPages" data-widget="treeview" role="menu" data-accordion="false">
-                @Html.Partial("_treeChildrens",  Model)
+                @Html.Partial("_treeChildrens", Model)
             </ul>
         </nav>
     </div>

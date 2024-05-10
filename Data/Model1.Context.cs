@@ -25,7 +25,6 @@ namespace Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<AlbumContent> AlbumContents { get; set; }
         public virtual DbSet<AlbumsItem> AlbumsItems { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
@@ -42,5 +41,6 @@ namespace Data
         public virtual DbSet<Subscriber> Subscribers { get; set; }
         public virtual DbSet<Page> Pages { get; set; }
         public virtual DbSet<Album> Albums { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
     }
 }

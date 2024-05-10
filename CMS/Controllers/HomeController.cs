@@ -8,6 +8,7 @@ using Data.Helpers;
 using Data.Common;
 using System.Collections;
 using System.Configuration;
+using Data;
 
 namespace CMS.Controllers
 {
@@ -56,7 +57,24 @@ namespace CMS.Controllers
             ModelState.AddModelError("", "Website cache cleared successfully!");
             return View();
         }
-        public PartialViewResult NotificationsPartialView()
+      
+        public PartialViewResult LefMenuPartialView()
+        {
+            ViewBag.Pages = new PageHelper().GetAll(LangId,true, -1);
+            return PartialView();
+        }
+
+        public PartialViewResult _ExtrasLeftMenuItems()
+        {
+           
+            return PartialView();
+        }
+        public PartialViewResult _LeftMainMenu()
+        {
+
+            return PartialView();
+        }
+        public PartialViewResult _RightMainMenu()
         {
             //NotificationModel model = new NotificationModel();
             //int totalCount = 0;
@@ -79,17 +97,12 @@ namespace CMS.Controllers
             //model.ContactCount = ContactRequests;
             //model.NewsltterCount = NewsletterRequests;
             //model.VacancyCount = CareerRequests;
+            int adminId = int.Parse(Request.Cookies[System.Configuration.ConfigurationManager.AppSettings["AdminCookie"]].Value.ToString());
+            AdminModel myadmin = new Data.Helpers.AdminHelper().GetById(adminId);
 
-
-
-            return PartialView();
+            return PartialView(myadmin);
         }
-        public PartialViewResult LefMenuPartialView()
-        {
-            ViewBag.Pages = new PageHelper().GetAll(LangId,true, -1);
-            return PartialView();
-        }
-
+        
         public PartialViewResult _WelcomeMenu()
         {
             return PartialView();
@@ -99,6 +112,11 @@ namespace CMS.Controllers
         {
             return PartialView();
         }
+        public PartialViewResult _WebsiteName()
+        {
+            return PartialView();
+        }
+        
 
         #region "LanguageSelector"
         public ActionResult _Language()
@@ -127,6 +145,27 @@ namespace CMS.Controllers
             }
             return Json(new { success = "true" }, JsonRequestBehavior.AllowGet);
         }
+        #endregion
+
+        #region Theme Selector
+        [HttpPost]
+        public JsonResult _switchTheme(string currentTheme)
+        {
+            int adminId = int.Parse(Request.Cookies[System.Configuration.ConfigurationManager.AppSettings["AdminCookie"]].Value.ToString());
+            AdminHelper helper = new AdminHelper();
+            AdminModel myadmin = helper.GetById(adminId);
+            if (currentTheme == "light")
+            {
+                myadmin.Theme = "dark";
+            }
+            else
+            {
+                myadmin.Theme = "light";
+            }
+            helper.update(myadmin);
+            return Json(new { success = "true" }, JsonRequestBehavior.AllowGet);
+        }
+         
         #endregion
 
 

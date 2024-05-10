@@ -14,6 +14,7 @@ namespace Data.Models
         [DisplayName("Username")]
         [Required]
         public string UserName { get; set; }
+        public string Theme { get; set; }
         [DisplayName("Password")]
         [Required]
         public string Pwd { get; set; }
@@ -46,7 +47,7 @@ namespace Data.Models
                 Pwd = model.Pwd,
                 UserName = model.UserName,
                 Email = model.Email,
-                
+                Theme = !string.IsNullOrWhiteSpace(model.Theme)? model.Theme:"light",
             };
 
             return b;

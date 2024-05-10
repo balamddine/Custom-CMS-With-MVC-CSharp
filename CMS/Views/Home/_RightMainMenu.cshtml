@@ -1,0 +1,15 @@
+﻿@model Data.Models.AdminModel
+    @{ 
+        string icon = Model.Theme == "light" ? "fa-moon" : "fa-sun";
+        string title = Model.Theme == "light" ? "Dark mode" : "light mode";
+        string themeUrl = @Url.Content("~/Home/_switchTheme");
+    }
+<ul class="navbar-nav ml-auto">
+    @Html.Action("_Language", "Home")
+    <li class="nav-item">        
+        <a class="nav-link" title="@title" alt="@title" onclick="toggleAdminTheme(this)" data-url="@themeUrl" data-theme="@Model.Theme">
+            <i class="fas @icon"></i>
+        </a>
+
+    </li>
+</ul>
