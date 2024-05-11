@@ -25,14 +25,14 @@ namespace CMS.Controllers
             if (pg == null)
             {
 
-                return RedirectToAction("Index", new { id = Sitesettings.RootAlbumId });
+                return RedirectToAction("Index", "Album", new { id = Sitesettings.RootAlbumId });
             }
             return View(pg);
         }
         public ActionResult Publish(int id)
         {
             new AlbumHelper().ChangeVisibility(id);
-            return RedirectToAction("Index", new { id = id });
+            return RedirectToAction("Index", "Album", new { id = id });
         }
         public ActionResult MoveUp(int ID)
         {
@@ -48,7 +48,7 @@ namespace CMS.Controllers
                 helper.UpdateOrder(curr);
                 helper.UpdateOrder(other);
             }
-            return RedirectToAction("Index", "Album", new { curr.ParentId });
+            return RedirectToAction("Index", "Album", new { id = curr.Id });
         }
         public ActionResult MoveDown(int ID)
         {
@@ -63,14 +63,14 @@ namespace CMS.Controllers
                 helper.UpdateOrder(curr);
                 helper.UpdateOrder(other);
             }
-            return RedirectToAction("Index", "Album", new { curr.ParentId });
+            return RedirectToAction("Index", "Album", new { id = curr.Id });
         }
         public ActionResult Delete(int id)
         {
 
             AlbumHelper helper = new AlbumHelper();
             helper.Delete(id);
-            return RedirectToAction("Index", new { id = id });
+            return RedirectToAction("Index", "Album", new { id = id });
         }
         #endregion
 
@@ -139,11 +139,11 @@ namespace CMS.Controllers
                     string aditem = obj["aditem"] != null && obj["aditem"] != "" ? obj["aditem"] : "0";
                     if (aditem == "0")
                     {
-                        return RedirectToAction("Index", new { id = albid });
+                        return RedirectToAction("Index", "Album", new { id = albid });
                     }
                     else
                     {
-                        return RedirectToAction("ItemListing", new { albumid = albid });
+                        return RedirectToAction("ItemListing", "Album", new { albumid = albid });
                     }
                 }
                 else
@@ -189,7 +189,7 @@ namespace CMS.Controllers
                 if (vld)
                 {
                     TempData["Success"] = " Album updated Successfully!";
-                    RedirectToAction("Index", new { id = model.Id });
+                    RedirectToAction("Index", "Album", new { id = model.Id });
                 }
                 else
                     ModelState.AddModelError("", "Updating  Album failed. Check your info!");

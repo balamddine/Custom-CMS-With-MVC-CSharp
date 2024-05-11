@@ -30,7 +30,7 @@ namespace CMS.Controllers
             PageModel pg = new PageHelper().GetById(id, LangId);
             if (pg == null)
             {
-                return RedirectToAction("Index", new { id = Sitesettings.RootPageId });
+                return RedirectToAction("Index","Pages", new { id = Sitesettings.RootPageId });
             }
             return View(pg);
         }
@@ -63,7 +63,7 @@ namespace CMS.Controllers
             {
                 new PageHelper().updateContentType(pageid, contenttypeid);
             }
-            return RedirectToAction("Index", new { id = pageid });
+            return RedirectToAction("Index","Pages", new { id = pageid });
         }
         public ActionResult _HideUnhide(int id)
         {
@@ -82,7 +82,7 @@ namespace CMS.Controllers
             }
             pghelper.HideUnhide(mde);
             new LogsHelper().Create(ViewBag.CMSUserID, "HideUnihide Page", "User '" + ViewBag.CMSUserName + "' " + hide + " a page: '" + mde.Name + "'");
-            return RedirectToAction("Index", "Home", new { id = id });
+            return RedirectToAction("Index", "Pages", new { id = id });
         }
 
         public ActionResult MoveUp(int ID)
@@ -128,7 +128,7 @@ namespace CMS.Controllers
             PageModel mde = new PageHelper().GetById(id, LangId);
             new PageHelper().Delete(id);
             new LogsHelper().Create(ViewBag.CMSUserID, "Edit Page", "User '" + ViewBag.CMSUserName + "' deleted a page: '" + mde.Name + "'");
-            return RedirectToAction("Index", "Home", new { });
+            return RedirectToAction("Index", "Pages", new { });
         }
 
         public PartialViewResult _FetchPages(string hfieldid, string ids = "")

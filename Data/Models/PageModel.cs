@@ -69,7 +69,8 @@ namespace Data.Models
                     PageModel chld = GetFromPage(Chlditem, langid);
                     b.ChildNodes.Add(chld);
                 }
-            } 
+            }
+            b.ChildNodes = b.ChildNodes.OrderBy(x => x.MenuOrder).ToList();
             return b;
         }
         public static Dictionary<string, dynamic> GetContents(int pageid, int langid)

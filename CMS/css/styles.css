@@ -80,14 +80,103 @@
         padding-left: 4px;
         cursor: pointer;
     }
-.nav-sidebar .nav-treeview.active{
-    display:block !important;
 
+.nav-sidebar .nav-treeview.active {
+    display: block !important;
 }
 
-.logout{
-    margin-top:4px;
+.logout {
+    margin-top: 4px;
 }
+
 .a_darlight {
-    cursor:pointer;
+    cursor: pointer;
 }
+
+.cke_chrome {
+    border-color: #ced4da !important;
+    border-radius: 0.25rem;
+}
+
+.cke_combo {
+    margin: 0px 2px !important;
+}
+
+    .cke_chrome .cke_toolbar_separator, .cke_toolgroup a.cke_button:last-child:after, .cke_toolgroup a.cke_button.cke_button_disabled:hover:last-child:after, .cke_combo:after {
+        display: none;
+        visibility: hidden;
+    }
+
+.cke_chrome .cke_top a {
+    margin: 0px 2px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #f2f2f2;
+}
+
+    .cke_chrome .cke_top a:hover {
+        padding: 4px 6px;
+        background-color: #FFF !important;
+        border: 1px solid transparent !important;
+    }
+
+.cke_top a.cke_combo_button:hover {
+    padding: 1px !important;
+    margin: 0px 2px;
+    margin-left: 2px !important;
+}
+
+.dark-mode .cke_chrome .cke_top, .dark-mode .cke_chrome .cke_bottom {
+    background-color: #343a40;
+}
+
+    .dark-mode .cke_chrome .cke_top a {
+        background-color: #ced4da;
+    }
+
+.dark-mode .cke_chrome {
+    border-color: #6c757d !important;
+}
+
+
+
+.contextualMenu {
+    z-index: 9999999;
+    background-color: #fff !important;
+}
+.contextualMenuItemTitle {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    font-size:16px;
+    font-weight:500;
+}
+.contextualMenuItemIcon, .contextualMenuItemTip {
+    display: none;
+    visibility: hidden;
+}
+.contextualMenuItem{
+    color:#777;
+    padding:8px !important;
+    cursor:pointer !important;
+}
+    .contextualMenuItem:hover {
+        background-color: rgba(0, 0, 0, 0.1) !important;
+        color:#000;
+    }
+
+
+.dark-mode .contextualMenu {
+    background-color: #343a40 !important;
+}
+
+.dark-mode .contextualMenuItem {
+    color: #c2c7d0 !important;
+}
+    .dark-mode .contextualMenuItem:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        color: #fff !important;
+    }
+

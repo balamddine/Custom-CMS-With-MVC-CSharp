@@ -61,6 +61,7 @@ namespace Data.Models
                         u.ChildNodes.Add(chld);
                     }
                 }
+                u.ChildNodes = u.ChildNodes.OrderBy(x => x.DisplayOrder).ToList();
                 return u;
             }
             return null;
