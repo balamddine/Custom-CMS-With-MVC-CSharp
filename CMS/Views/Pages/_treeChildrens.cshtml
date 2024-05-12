@@ -16,7 +16,7 @@
         string editcontenttypelink = @Url.Content("~/Pages/_EditContentType/") + item.Id;
         bool isFolder = hschild;
         string onclick = isList ? "openWindow('" + editlink + "')" : "parentClick(this, " + item.Id + ", event)";
-        string Name = item.Name + (isList ? " (" + item.ChildCount + ")" : "");
+      
         <li class="nav-item"  id="@id" onclick="@onclick">
             <a href="#" class="nav-link" data-tooltip="#tooltip_content_@id" id="navlink_@item.Id" data-tree="#@parentid" data-contextmenu
                data-id="@item.Id"
@@ -46,15 +46,19 @@
                         }
                     }
                 }
-                <p>
-                    @Name
-                    @{
-                        if (hschild && !isList)
-                        {
-                            <i class="right fas fa-angle-left"></i>
-                        }
+            <p>
+                @item.Name
+                @{
+                    if (hschild && !isList)
+                    {
+                        <i class="right fas fa-angle-left"></i>
                     }
-                </p>
+                    if (hschild)
+                    {
+                        <span class="badge badge-secondary right">@item.ChildCount</span>
+                    }
+                }
+            </p>
 
             </a>
             @{

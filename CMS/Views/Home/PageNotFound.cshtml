@@ -1,35 +1,38 @@
 ﻿@{
-    ViewBag.Title = "page not found";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Page not found";
 }
 
 <div class="content-wrapper">
-    <div class="content-header">
+
+    <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">404 - page not found</h1>
-                </div>                
-            </div>
-        </div>
-    </div>
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="m-0">PAGE NOT FOUND</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Sorry, the page that you are trying to access could not be found.</p>
-                            <a href="/" class="btn btn-primary">Back to HomePage</a>
-                        </div>
-                    </div>
+                
+                <div class="col-sm-12">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">404 page not found</li>
+                    </ol>
                 </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="error-page">
+            <h2 class="headline text-dark"> 404</h2>
+
+            <div class="error-content">
+                <h3><i class="fas fa-exclamation-triangle text-danger"></i> Oops! Page not found.</h3>
+                <p>
+                    We could not find the page you were looking for.
+                    Meanwhile, you may <a href="/">return to dashboard</a>.
+                </p>
 
             </div>
-
         </div>
-    </div>
+    </section>
 
 </div>
+
+
