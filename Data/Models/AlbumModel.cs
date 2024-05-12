@@ -31,6 +31,7 @@ namespace Data.Models
         public string Description { get; set; }
         public List<AlbumModel> ChildNodes { get; set; }
         public int ChildCount { get; set; }
+        public int AlbumItemsCount { get; set; }
         public static AlbumModel GetFromAlbum(Album model, int LangId)
         {
             AlbumContent child = model.AlbumContents.FirstOrDefault(x => x.LangId == LangId);
@@ -50,6 +51,7 @@ namespace Data.Models
                     Name = model.Name,
                     ParentId = model.ParentId.HasValue ? model.ParentId.Value : -1,
                     ChildCount = model.Albums1 != null ? model.Albums1.Count() : 0,
+                    AlbumItemsCount = model.AlbumsItems != null ? model.AlbumsItems.Count() : 0,
                     Image = !string.IsNullOrEmpty(model.Image) ? Sitesettings.WebsiteUrl + Sitesettings.MediaPath.Replace("~", "") + model.Image : "",
                     VideoFile = !string.IsNullOrEmpty(model.VideoFile) ?  model.VideoFile : ""
                 };
