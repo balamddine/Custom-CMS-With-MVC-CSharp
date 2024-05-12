@@ -115,7 +115,7 @@
         setTimeout(function () {
             highlightTreemenu("#apage" + t);
         },500)
-        
+
 
         $(document).on("click", ".modalLink", function () {
             var passedID = $(this).data('id');
@@ -128,7 +128,7 @@
                     alwaysShowClose: true
                 });
             });
-          
+
             $('.btn[data-filter]').on('click', function () {
                 $('.btn[data-filter]').removeClass('active');
                 $(this).addClass('active');
@@ -136,9 +136,9 @@
 
 
             setTimeout(function () {
-              $.fn.matchHeight._update()
-            $("[data-mh='sameHeightImage']").matchHeight()
-        }, 300)
+                $.fn.matchHeight._update()
+                $("[data-mh='sameHeightImage']").matchHeight()
+            }, 300);
 
         });
     </script>

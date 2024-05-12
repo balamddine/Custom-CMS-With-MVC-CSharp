@@ -83,30 +83,6 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            @*@{
-                                                                WebGrid grid = new WebGrid(rowsPerPage: ViewBag.rowsPerPage, canSort: false);
-                                                                grid.Bind(Model, autoSortAndPage: false, rowCount: ViewBag.rowCount);
-                                                                @grid.GetHtml(tableStyle: "table table-striped", footerStyle: "table-pager",
-                                mode: WebGridPagerModes.All,
-                                firstText: "<< First",
-                                previousText: "< Prev",
-                                nextText: "Next >",
-                                lastText: "Last >>",
-                                columns: grid.Columns(
-                                grid.Column(columnName: "Title", header: "Title"),
-                                grid.Column( header: "Type", format: (item) =>new HtmlString("<span>"+Data.Common.Utilities.FirstCharToUpper(item.ItemType)+"</span>")),
-                                grid.Column(header: "Image", format: (item) => !string.IsNullOrWhiteSpace(item.Image) ? new HtmlString("<img src='" + item.Image + "' width='75' height='75' />") : new HtmlString("-")),
-                                grid.Column(columnName: "Description", header: "Description"),
-
-                                grid.Column(header: "Visiblity", format: (item) => (bool)item.isHidden ? new HtmlString("<a href='" + Url.Action("PublishItems", "Album", new { id = item.id }) + "'  >Show</a>") : new HtmlString("<a href='" + Url.Action("PublishItems", "Album", new { id = item.id }) + "' >Hide</a>")),
-                                grid.Column(header: "Move", format: (item) => new HtmlString("<a class='arrowup btn btn-action editbtn'  href='" + Url.Content("~/Album/MoveUpItem/" + item.Id) + "'><i class='fa fa-arrow-up'></i></a>" + " " +
-                                "<a class='arrowdown btn btn-action dltBtn'  href='" + Url.Content("~/Album/MoveDownItem/" + item.Id) + "'><i class='fa fa-arrow-down'></i></a>")),
-                                grid.Column(header: "", format: (item) => new HtmlString(
-                                "<a class='btn btn-info btn-sm' title='Edit record' href='" + Url.Action("EditAlbumItem", "Album", new { ID = item.ID }) + "'> <i class='fas fa-pencil-alt'>  </i></a>" + " " +
-                                "<a  title='Delete record' class='modalLink btn btn-danger  btn-sm' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>"))
-                                ));
-                                                            }*@
-
                             <div>
                                 <div class="filter-container p-0 row">
                                     @Html.Partial("_ItemListing", Model)
@@ -158,6 +134,8 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            
+            
             $(document).on('click', '[data-toggle="lightbox"]', function (event) {
                 event.preventDefault();
                 $(this).ekkoLightbox({
@@ -168,6 +146,8 @@
             var id = "#apage" +@ViewBag.Albumid;
             setTimeout(function () {
                 highlightTreemenu(id);
+                $.fn.matchHeight._update()
+                $("[data-mh='sameHeightImage']").matchHeight()
             }, 100);
 
             var ddType = $("#ddType");
