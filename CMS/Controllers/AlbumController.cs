@@ -204,20 +204,31 @@ namespace CMS.Controllers
         #endregion
 
         #region Album items
+
+        public PartialViewResult _ItemListing()
+        {
+            return PartialView();
+        }
+
+        public PartialViewResult _CustomPaging()
+        {
+            return PartialView();
+        }
         public ActionResult ItemListing(int page = 1, int albumid = 0, string Type = "", string search = "")
         {
-
             AlbumModel myalbum = new AlbumHelper().GetByid(albumid, LangId);
             ViewBag.AlbumName = myalbum.Title;
             ViewBag.Albumid = myalbum.Id;
 
-            int totalrec = 0; int pagesize = 20;
+            int totalrec = 0; int pagesize = 5;
             var t = new AlbumItemsHelper().Search(LangId, pagesize, page, albumid, ref totalrec, search, Type, true);
             ViewBag.search = search;
             ViewBag.Typeid = Type;
-            ViewBag.rowsPerPage = pagesize;
-            ViewBag.rowCount = totalrec;
+            ViewBag.pageSize = pagesize;
+            ViewBag.totalCount = totalrec;
+            ViewBag.page = page;
             return View(t);
+
 
         }
         public ActionResult PublishItems(int id)
@@ -419,7 +430,7 @@ namespace CMS.Controllers
 
         #endregion
 
-       
+
 
         public PartialViewResult _FetchAlbums(string hfieldid, string ids = "")
         {

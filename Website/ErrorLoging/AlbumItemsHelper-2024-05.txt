@@ -1,0 +1,24 @@
+#------------12-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: SaveChanges
+Message: An error occurred while updating the entries. See the inner exception for details.
+Inner Exception: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AlbumItemsHelper.Create(AlbumItemsModel model, List`1 languages) in C:\CSharpProjects\CustomCMS\Data\Helpers\AlbumItemsHelper.cs:line 137
+ -- Extra Message: --  
+Create
+#------------------------------------------------#
+
+
+#------------12-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: SaveChanges
+Message: An error occurred while updating the entries. See the inner exception for details.
+Inner Exception: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AlbumItemsHelper.Create(AlbumItemsModel model, List`1 languages) in C:\CSharpProjects\CustomCMS\Data\Helpers\AlbumItemsHelper.cs:line 137
+ -- Extra Message: --  
+Create
+#------------------------------------------------#
+
+

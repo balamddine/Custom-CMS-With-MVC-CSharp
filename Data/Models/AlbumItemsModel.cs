@@ -60,7 +60,7 @@ namespace Data.Models
                 mAlbum = model.Album != null ? AlbumModel.GetFromAlbum(model.Album, LangId) : null,
                 MobileImage = !string.IsNullOrEmpty(model.MobileImage) ? Sitesettings.WebsiteUrl + Sitesettings.MediaPath.Replace("~", "") + model.MobileImage : "",
                 Image = !string.IsNullOrEmpty(model.Image) ? Sitesettings.WebsiteUrl + Sitesettings.MediaPath.Replace("~", "") + model.Image : "",
-
+                Id = model.Id,
             };
 
             return u;

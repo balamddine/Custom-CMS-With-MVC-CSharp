@@ -1,0 +1,34 @@
+﻿@model List<Data.Models.AlbumItemsModel>
+@{
+    if (Model.Any())
+    {
+        foreach (Data.Models.AlbumItemsModel item in Model)
+        {
+            string img = !string.IsNullOrWhiteSpace(item.Image) ? item.Image : "";
+
+
+            <div class="filtr-item col-sm-1">
+                @{
+                    if (item.isHidden)
+                    {
+                        <span class="badge badge-danger navbar-badge">Hidden</span>
+                    }
+                }
+
+                <div class="title">@item.Title</div>
+                <a href="@img" title="@item.Title" alt="@item.Title" data-toggle="lightbox" data-title="@item.Title" data-gallery="gallery">
+                    <img src="@img" class="img-fluid mb-1" title="@item.Title" alt="@item.Title" />
+                </a>
+                <div class="actions">
+                    <a class='btn btn-primary btn-xs' title="Edit record" href="@Url.Action("EditAlbumItem", "Album", new { ID = item.Id })"> <i class='fas fa-pencil-alt'>  </i></a>
+                    <a title='Delete record' class='modalLink btn btn-danger btn-xs' onclick="deleteRecord(this)" data-id="@item.Id" data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>
+                </div>
+
+            </div>
+        }
+    }
+    else
+    {
+        <p>No item(s) available.</p>
+    }
+}

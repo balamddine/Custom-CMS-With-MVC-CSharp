@@ -8,7 +8,7 @@
         bool hschild = item.ChildCount > 0;
         string ishidden = item.IsHidden ? "red" : "green";
         string haschild2 = hschild ? "<i class='right fas fa-angle-left'></i>" : "";
-        string editlink = @Url.Content("~/Album/Edit/") + item.Id;
+        string editlink = @Url.Content("~/Album/Index/") + item.Id;
         string addlink = @Url.Content("~/Album/Create/") + item.Id;
         string hideunhideurl = @Url.Content("~/Album/_HideUnhide/") + item.Id;
         string moveupurl = @Url.Content("~/Album/MoveUp/") + item.Id;

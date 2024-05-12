@@ -82,30 +82,49 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="card-body p-0">
-                            @{
-                                WebGrid grid = new WebGrid(rowsPerPage: ViewBag.rowsPerPage, canSort: false);
-                                grid.Bind(Model, autoSortAndPage: false, rowCount: ViewBag.rowCount);
-                                @grid.GetHtml(tableStyle: "table table-striped", footerStyle: "table-pager",
-mode: WebGridPagerModes.All,
-firstText: "<< First",
-previousText: "< Prev",
-nextText: "Next >",
-lastText: "Last >>",
-columns: grid.Columns(
-grid.Column(columnName: "Title", header: "Title"),
-grid.Column( header: "Type", format: (item) =>new HtmlString("<span>"+Data.Common.Utilities.FirstCharToUpper(item.ItemType)+"</span>")),
-grid.Column(header: "Image", format: (item) => !string.IsNullOrWhiteSpace(item.Image) ? new HtmlString("<img src='" + item.Image + "' width='75' height='75' />") : new HtmlString("-")),
-grid.Column(columnName: "Description", header: "Description"),
+                        <div class="card-body">
+                            @*@{
+                                                                WebGrid grid = new WebGrid(rowsPerPage: ViewBag.rowsPerPage, canSort: false);
+                                                                grid.Bind(Model, autoSortAndPage: false, rowCount: ViewBag.rowCount);
+                                                                @grid.GetHtml(tableStyle: "table table-striped", footerStyle: "table-pager",
+                                mode: WebGridPagerModes.All,
+                                firstText: "<< First",
+                                previousText: "< Prev",
+                                nextText: "Next >",
+                                lastText: "Last >>",
+                                columns: grid.Columns(
+                                grid.Column(columnName: "Title", header: "Title"),
+                                grid.Column( header: "Type", format: (item) =>new HtmlString("<span>"+Data.Common.Utilities.FirstCharToUpper(item.ItemType)+"</span>")),
+                                grid.Column(header: "Image", format: (item) => !string.IsNullOrWhiteSpace(item.Image) ? new HtmlString("<img src='" + item.Image + "' width='75' height='75' />") : new HtmlString("-")),
+                                grid.Column(columnName: "Description", header: "Description"),
 
-grid.Column(header: "Visiblity", format: (item) => (bool)item.isHidden ? new HtmlString("<a href='" + Url.Action("PublishItems", "Album", new { id = item.id }) + "'  >Show</a>") : new HtmlString("<a href='" + Url.Action("PublishItems", "Album", new { id = item.id }) + "' >Hide</a>")),
-grid.Column(header: "Move", format: (item) => new HtmlString("<a class='arrowup btn btn-action editbtn'  href='" + Url.Content("~/Album/MoveUpItem/" + item.Id) + "'><i class='fa fa-arrow-up'></i></a>" + " " +
-"<a class='arrowdown btn btn-action dltBtn'  href='" + Url.Content("~/Album/MoveDownItem/" + item.Id) + "'><i class='fa fa-arrow-down'></i></a>")),
-grid.Column(header: "", format: (item) => new HtmlString(
-"<a class='btn btn-info btn-sm' title='Edit record' href='" + Url.Action("EditAlbumItem", "Album", new { ID = item.ID }) + "'> <i class='fas fa-pencil-alt'>  </i></a>" + " " +
-"<a  title='Delete record' class='modalLink btn btn-danger  btn-sm' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>"))
-));
-                            }
+                                grid.Column(header: "Visiblity", format: (item) => (bool)item.isHidden ? new HtmlString("<a href='" + Url.Action("PublishItems", "Album", new { id = item.id }) + "'  >Show</a>") : new HtmlString("<a href='" + Url.Action("PublishItems", "Album", new { id = item.id }) + "' >Hide</a>")),
+                                grid.Column(header: "Move", format: (item) => new HtmlString("<a class='arrowup btn btn-action editbtn'  href='" + Url.Content("~/Album/MoveUpItem/" + item.Id) + "'><i class='fa fa-arrow-up'></i></a>" + " " +
+                                "<a class='arrowdown btn btn-action dltBtn'  href='" + Url.Content("~/Album/MoveDownItem/" + item.Id) + "'><i class='fa fa-arrow-down'></i></a>")),
+                                grid.Column(header: "", format: (item) => new HtmlString(
+                                "<a class='btn btn-info btn-sm' title='Edit record' href='" + Url.Action("EditAlbumItem", "Album", new { ID = item.ID }) + "'> <i class='fas fa-pencil-alt'>  </i></a>" + " " +
+                                "<a  title='Delete record' class='modalLink btn btn-danger  btn-sm' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>"))
+                                ));
+                                                            }*@
+
+                            <div>
+                                <div class="filter-container p-0 row">
+                                    @Html.Partial("_ItemListing", Model)
+                                </div>
+                            </div>
+                            <div>
+                                <ul class="pagination pagination-sm m-0 float-left">
+                                    @Html.Partial("_CustomPaging", new CMS.Models.customPaging
+                               {
+                                   currentPage = ViewBag.page,
+                                   pageSize = ViewBag.pageSize,
+                                   pagesToShow = 10,
+                                   totalCount = ViewBag.totalCount,
+                                   Url = Url.Content("~/Album/ItemListing?albumid=" + ViewBag.Albumid)
+                               })
+                                </ul>
+                            </div>
+
                         </div>
                     </div>
                 </section>
@@ -126,7 +145,7 @@ grid.Column(header: "", format: (item) => new HtmlString(
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a href="@Url.Action("DeleteItem", "Album", new { })" class="btn btn-primary deleteSlider">Delete</a>
+                    <a href="javascript:;" class="btn btn-primary deleteSlider">Delete</a>
                 </div>
             </div>
         </div>
@@ -136,24 +155,30 @@ grid.Column(header: "", format: (item) => new HtmlString(
 
 @section Scripts
 {
+
     <script type="text/javascript">
         $(document).ready(function () {
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
+
             var id = "#apage" +@ViewBag.Albumid;
             setTimeout(function () {
                 highlightTreemenu(id);
             }, 100);
-            
+
             var ddType = $("#ddType");
             if (ddType.data("value") != null && ddType.data("value") != "") {
                 ddType.val(ddType.data("value"));
             }
         });
 
-
-        $(document).on("click", ".modalLink", function () {
-            var passedID = $(this).data('id');
-            $(".modal-footer .deleteSlider").attr("href", "@Url.Content("~/Album/DeleteItem/")" + passedID )
-        });
-
+        function deleteRecord(sender) {
+            var passedID = $(sender).attr('data-id');
+            $(".modal-footer .deleteSlider").attr("href", "@Url.Content("~/Album/DeleteItem/")" + passedID)
+        }
     </script>
 }

@@ -1,0 +1,49 @@
+﻿@model CMS.Models.customPaging
+
+@{
+    int totalCount = Model.totalCount;
+    int maxResultsPerPage = Model.pageSize;
+    int currentPage = Model.currentPage;
+    int totalPages = (int)Math.Ceiling((double)totalCount / maxResultsPerPage);
+    int pagesToShow = Model.pagesToShow;
+    string firstPage = Model.Url + "&page=1";
+    string lastPage = Model.Url + "&page=" + totalPages;
+}
+@{
+    if (totalPages <= 1) { return; }
+
+
+    <li class="page-item"><a class="page-link" href="@firstPage">«</a></li>
+   
+    if (totalPages <= pagesToShow)
+    {
+        for (int page = 1; page <= totalPages; page++)
+        {
+
+            string activeClass = currentPage == page ? "active" : "";
+            string url = Model.Url + "&page=" + page;
+            <li class="page-item @activeClass"><a class="page-link" href="@url">@page</a></li>
+        }
+    }
+    else
+    {
+        int startPage = Math.Max(1, currentPage - (pagesToShow / 2));
+        int endPage = Math.Min(totalPages, startPage + pagesToShow - 1);
+
+        if (endPage - startPage + 1 < pagesToShow)
+        {
+            startPage = endPage - pagesToShow + 1;
+        }
+
+        for (int page = startPage; page <= endPage; page++)
+        {
+            string activeClass = currentPage == page ? "active" : "";
+            string url = Model.Url + "&page=" + page;
+            <li class="page-item @activeClass"><a class="page-link" href="@url">@page</a></li>
+        }
+    }
+    <li class="page-item"><a class="page-link" href="@lastPage">»</a></li>
+
+}
+
+
