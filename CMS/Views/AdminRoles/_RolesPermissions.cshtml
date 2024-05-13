@@ -21,9 +21,10 @@
                             foreach (var rle in item.roles[0].Split(','))
                             {
                                 string id = "chk_" + item.controller + "_" + rle;
+                                string name = item.controller;
                                 <li>
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" id="@id" class="custom-control-input" autocomplete="off" />
+                                        <input type="checkbox" id="@id" name="@name" data-controller="@item.controller" value="@rle" class="custom-control-input" autocomplete="off" />
                                         <label for="@id" class="custom-control-label">@rle</label>
                                     </div>
                                 </li>
