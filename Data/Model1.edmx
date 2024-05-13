@@ -10,7 +10,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CMSUserRoleId" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Pwd" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -20,6 +19,23 @@
           <Property Name="isDeleted" Type="bit" Nullable="false" />
           <Property Name="isDisabled" Type="bit" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AdminGroupRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdminId" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AdminGroups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Roles" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="AlbumContent">
           <Key>
@@ -216,6 +232,30 @@
           <Property Name="ConfirmationDate" Type="datetime" />
           <Property Name="FirstLoginDate" Type="datetime" />
         </EntityType>
+        <Association Name="FK_AdminGroupRoles_Admin">
+          <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
+          <End Role="AdminGroupRoles" Type="Self.AdminGroupRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdminGroupRoles">
+              <PropertyRef Name="AdminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdminGroupRoles_RolesGroups">
+          <End Role="AdminGroups" Type="Self.AdminGroups" Multiplicity="1" />
+          <End Role="AdminGroupRoles" Type="Self.AdminGroupRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdminGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdminGroupRoles">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AlbumContent_Albums">
           <End Role="Albums" Type="Self.Albums" Multiplicity="1" />
           <End Role="AlbumContent" Type="Self.AlbumContent" Multiplicity="*" />
@@ -338,6 +378,8 @@
         </Association>
         <EntityContainer Name="IMDGModelStoreContainer">
           <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdminGroupRoles" EntityType="Self.AdminGroupRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdminGroups" EntityType="Self.AdminGroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlbumContent" EntityType="Self.AlbumContent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Albums" EntityType="Self.Albums" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlbumsItems" EntityType="Self.AlbumsItems" Schema="dbo" store:Type="Tables" />
@@ -354,6 +396,14 @@
           <EntitySet Name="Subscribers" EntityType="Self.Subscribers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAddresses" EntityType="Self.UserAddresses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AdminGroupRoles_Admin" Association="Self.FK_AdminGroupRoles_Admin">
+            <End Role="Admin" EntitySet="Admin" />
+            <End Role="AdminGroupRoles" EntitySet="AdminGroupRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdminGroupRoles_RolesGroups" Association="Self.FK_AdminGroupRoles_RolesGroups">
+            <End Role="AdminGroups" EntitySet="AdminGroups" />
+            <End Role="AdminGroupRoles" EntitySet="AdminGroupRoles" />
+          </AssociationSet>
           <AssociationSet Name="FK_AlbumContent_Albums" Association="Self.FK_AlbumContent_Albums">
             <End Role="Albums" EntitySet="Albums" />
             <End Role="AlbumContent" EntitySet="AlbumContent" />
@@ -457,7 +507,17 @@
             <End Role="AlbumsItem" EntitySet="AlbumsItems" />
           </AssociationSet>
           <EntitySet Name="Admins" EntityType="IMDGModel.Admin" />
-        </EntityContainer>
+          <EntitySet Name="AdminGroupRoles" EntityType="IMDGModel.AdminGroupRole" />
+          <EntitySet Name="AdminGroups" EntityType="IMDGModel.AdminGroup" />
+          <AssociationSet Name="FK_AdminGroupRoles_Admin" Association="IMDGModel.FK_AdminGroupRoles_Admin">
+            <End Role="Admin" EntitySet="Admins" />
+            <End Role="AdminGroupRole" EntitySet="AdminGroupRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdminGroupRoles_RolesGroups" Association="IMDGModel.FK_AdminGroupRoles_RolesGroups">
+            <End Role="AdminGroup" EntitySet="AdminGroups" />
+            <End Role="AdminGroupRole" EntitySet="AdminGroupRoles" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="AlbumContent">
           <Key>
             <PropertyRef Name="Id" />
@@ -798,7 +858,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CMSUserRoleId" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Pwd" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -808,7 +867,52 @@
           <Property Name="isDeleted" Type="Boolean" Nullable="false" />
           <Property Name="isDisabled" Type="Boolean" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AdminGroupRoles" Relationship="IMDGModel.FK_AdminGroupRoles_Admin" FromRole="Admin" ToRole="AdminGroupRole" />
         </EntityType>
+        <EntityType Name="AdminGroupRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdminId" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Admin" Relationship="IMDGModel.FK_AdminGroupRoles_Admin" FromRole="AdminGroupRole" ToRole="Admin" />
+          <NavigationProperty Name="AdminGroup" Relationship="IMDGModel.FK_AdminGroupRoles_RolesGroups" FromRole="AdminGroupRole" ToRole="AdminGroup" />
+        </EntityType>
+        <EntityType Name="AdminGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Roles" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AdminGroupRoles" Relationship="IMDGModel.FK_AdminGroupRoles_RolesGroups" FromRole="AdminGroup" ToRole="AdminGroupRole" />
+        </EntityType>
+        <Association Name="FK_AdminGroupRoles_Admin">
+          <End Type="IMDGModel.Admin" Role="Admin" Multiplicity="1" />
+          <End Type="IMDGModel.AdminGroupRole" Role="AdminGroupRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdminGroupRole">
+              <PropertyRef Name="AdminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdminGroupRoles_RolesGroups">
+          <End Type="IMDGModel.AdminGroup" Role="AdminGroup" Multiplicity="1" />
+          <End Type="IMDGModel.AdminGroupRole" Role="AdminGroupRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdminGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdminGroupRole">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1038,12 +1142,30 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Pwd" ColumnName="Pwd" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="CMSUserRoleId" ColumnName="CMSUserRoleId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="AdminGroupRoles">
+            <EntityTypeMapping TypeName="IMDGModel.AdminGroupRole">
+              <MappingFragment StoreEntitySet="AdminGroupRoles">
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdminGroups">
+            <EntityTypeMapping TypeName="IMDGModel.AdminGroup">
+              <MappingFragment StoreEntitySet="AdminGroups">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Roles" ColumnName="Roles" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

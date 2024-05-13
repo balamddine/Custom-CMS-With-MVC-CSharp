@@ -12,24 +12,18 @@ namespace Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Admin
+    public partial class AdminGroup
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Admin()
+        public AdminGroup()
         {
             this.AdminGroupRoles = new HashSet<AdminGroupRole>();
         }
     
         public int Id { get; set; }
-        public string UserName { get; set; }
-        public string Pwd { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Theme { get; set; }
-        public bool isDeleted { get; set; }
-        public bool isDisabled { get; set; }
-        public System.DateTime CreateDate { get; set; }
+        public string GroupName { get; set; }
+        public string Roles { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdminGroupRole> AdminGroupRoles { get; set; }

@@ -21,6 +21,7 @@ namespace CMS.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        [Display(Name = "Username")]
         public string UserName { get; set; }
         public DateTime CreateDate { get; set; }
         public bool isDeleted { get; set; }

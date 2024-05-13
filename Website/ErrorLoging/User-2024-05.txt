@@ -38,3 +38,25 @@ Get by UserName
 #------------------------------------------------#
 
 
+#------------13-05-2024 12:00:00 AM------------#
+Source: System.Core
+Method: First
+Message: Sequence contains no elements
+StackTrace:    at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Data.Helpers.AdminHelper.GetCMSUserByUsernameAndPassword(String Email, String Pwd) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 77
+ -- Extra Message: --  
+Get by UserName
+#------------------------------------------------#
+
+
+#------------13-05-2024 12:00:00 AM------------#
+Source: System.Core
+Method: First
+Message: Sequence contains no elements
+StackTrace:    at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Data.Helpers.AdminHelper.GetCMSUserByUsernameAndPassword(String Email, String Pwd) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 77
+ -- Extra Message: --  
+Get by UserName
+#------------------------------------------------#
+
+

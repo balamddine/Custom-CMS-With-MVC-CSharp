@@ -1,0 +1,117 @@
+﻿@model CMS.Models.CMSUserEditModel
+
+@{
+    ViewBag.Title = "Edit Admin";
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Edit user</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="@Url.Content("~/Home")">Home</a></li>
+                            <li class="breadcrumb-item"><a href="@Url.Content("~/Admin")">Users</a></li>
+                            <li class="breadcrumb-item active">Edit users</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.ValidationSummary(true, "Error updating Admin, Check your info!", new { @class = "text-danger" });
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="card mb-3">
+                                                <div class="card-header">
+                                                    <i class="fa"></i><b>Admin Details</b>
+                                                </div>
+                                                <div class="card-body">
+                                                    @Html.HiddenFor(m => m.ID)
+                                                    @Html.HiddenFor(m => m.CreateDate)
+                                                    @Html.HiddenFor(m => m.isDeleted)
+                                                    @Html.HiddenFor(m => m.UserName)
+                                                    @*@Html.HiddenFor(m => m.Password)*@
+                                                    <div class="row mb-2">
+                                                        <div class="col-md-4">
+                                                            <b>@Html.LabelFor(m => m.UserName, new { @class = "form-control" })</b>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <input type="text" value="@Model.UserName" disabled readonly class="form-control " />
+                                                            @Html.ValidationMessageFor(u => u.UserName, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-2">
+                                                        <div class="col-md-4">
+                                                            <b>@Html.LabelFor(m => m.FirstName, new { @class = "form-control" })</b>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control " })
+                                                            @Html.ValidationMessageFor(u => u.FirstName, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-md-4">
+                                                            <b>@Html.LabelFor(m => m.LastName, new { @class = "form-control" })</b>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control " })
+                                                            @Html.ValidationMessageFor(u => u.LastName, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-md-4">
+                                                            <b>@Html.LabelFor(m => m.Email, new { @class = "form-control" })</b>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control " })
+                                                            @Html.ValidationMessageFor(u => u.Email, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-md-4">
+                                                            <b>@Html.LabelFor(m => m.isDisabled, new { @class = "form-control" })</b>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.CheckBoxFor(m => m.isDisabled, "true")
+                                                            @Html.ValidationMessageFor(u => u.isDisabled, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input class="btn btn-primary" type="submit" value="Save" />
+                                @Html.ActionLink("Cancel", "Index", new { }, new { @class = "btn btn-secondary" })
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@section Scripts {
+    <script type="text/javascript">
+    highlightmenu("#ausers");
+    </script>
+    }
+
+
+
+
+
+

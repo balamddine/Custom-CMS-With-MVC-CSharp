@@ -22,7 +22,74 @@ namespace CMS.Controllers
             new AdminHelper().Delete(id);
             return RedirectToAction("Index");
         }
-        #region "Edit CMS User"
+
+        #region "Create"
+        public ActionResult Create()
+        {
+            //if (Request.Cookies["Admin"] == null || Request.Cookies["Admin"].Value.ToString() == "")
+            //    return RedirectToAction("Login", "Account", new { returnUrl = "/Account/Register" });
+            ViewBag.CMSUserID = 0;
+            ViewBag.CMSUserName = "";
+            if (Request.Cookies[Sitesettings.AdminCookie] != null || Request.Cookies[Sitesettings.AdminCookie].Value.ToString() != "")
+            {
+                AdminHelper helper = new AdminHelper();
+                AdminModel item = helper.GetById(Convert.ToInt32(Request.Cookies[Sitesettings.AdminCookie].Value));
+                ViewBag.CMSUserID = item.ID;
+                ViewBag.CMSUserName = item.UserName;
+            }
+            CMS.Models.UserRegisterModel model = new CMS.Models.UserRegisterModel();
+
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CMS.Models.UserRegisterModel model, FormCollection obj)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            AdminHelper helper = new AdminHelper();
+            if (helper.UserExists(model.UserName))
+            {
+                ModelState.AddModelError("", "Username already exists.");
+            }
+            else
+            {
+                DateTime CurrDate = DateTime.UtcNow;
+                string pass = Utilities.EncryptPassword(model.Password);
+                AdminModel user = new AdminModel
+                {
+                    Email = model.Email,
+                    CreateDate = CurrDate,
+                    FirstName = model.FirstName,
+                    isDeleted = false,
+                    LastName = model.LastName,
+                    Pwd = pass,
+                    UserName = model.UserName,
+                    isDisabled = false
+                };
+
+                int CMSUserID = Convert.ToInt32(obj["CMSUserID"].ToString());
+                string CMSUserName = obj["CMSUserName"].ToString();
+                int UserID = helper.Create(user);
+                if (UserID > 0)
+                {
+                    new LogsHelper().Create(CMSUserID, "Create user", "User '" + CMSUserName + "' Created a new user with username: '" + model.UserName + "'");
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                    ModelState.AddModelError("", "Creating CMSUser failed. Please check your info.");
+
+            }
+
+            var errors = ModelState.Select(x => x.Value.Errors)
+                       .Where(y => y.Count > 0)
+                       .ToList();
+
+            return View(model);
+        }
+        #endregion
+
+        #region "Edit"
         public ActionResult Edit(int ID)
         {
 
@@ -85,6 +152,8 @@ namespace CMS.Controllers
             return View(model);
         }
         #endregion
+
+
         #region "Change Pass"
         public ActionResult ChangePassword(int ID)
         {

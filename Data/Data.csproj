@@ -84,6 +84,12 @@
     <Compile Include="Admin.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="AdminGroup.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdminGroupRole.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Album.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -98,6 +104,7 @@
     <Compile Include="Common\PagesService.cs" />
     <Compile Include="Common\SiteSettings.cs" />
     <Compile Include="Common\Utilities.cs" />
+    <Compile Include="Helpers\AdminRolesHelper.cs" />
     <Compile Include="Helpers\AdminHelper.cs" />
     <Compile Include="Helpers\AlbumHelper.cs" />
     <Compile Include="Helpers\AlbumItemsHelper.cs" />
@@ -110,6 +117,8 @@
     <Compile Include="Helpers\PagesContentHelper.cs" />
     <Compile Include="Helpers\PagesGalleryHelper.cs" />
     <Compile Include="Helpers\PageTemplateHelper.cs" />
+    <Compile Include="Models\AdminGroupModel.cs" />
+    <Compile Include="Models\AdminGroupRoleModel.cs" />
     <Compile Include="Models\AlbumItemsModel.cs" />
     <Compile Include="Models\AlbumModel.cs" />
     <Compile Include="Models\LanguageModel.cs" />

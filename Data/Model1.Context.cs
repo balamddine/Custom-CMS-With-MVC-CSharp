@@ -42,5 +42,7 @@ namespace Data
         public virtual DbSet<Page> Pages { get; set; }
         public virtual DbSet<Album> Albums { get; set; }
         public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<AdminGroupRole> AdminGroupRoles { get; set; }
+        public virtual DbSet<AdminGroup> AdminGroups { get; set; }
     }
 }

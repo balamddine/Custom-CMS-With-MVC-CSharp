@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Data.Models;
 using Data.Helpers;
 using Data.Common;
+using static Data.Common.Utilities;
 
 namespace CMS.Controllers
 {
@@ -32,8 +33,9 @@ namespace CMS.Controllers
                 return View(model);
             }
             AdminHelper helper = new AdminHelper();
-            AdminModel item = helper.GetCMSUserByUsername(model.Username);
-            //string pass = Helpers.Common.Utilities.EncryptPassword(model.Password);
+            string pass = Utilities.EncryptPassword(model.Password);
+            AdminModel item = helper.GetCMSUserByUsernameAndPassword(model.Username,pass);
+
             if (item != null && item.ID > 0)
             {
                 if (item.isDisabled)
@@ -70,7 +72,7 @@ namespace CMS.Controllers
         {
             HttpCookie mycookie = new HttpCookie(Sitesettings.AdminCookie);
             mycookie.Value = (item.ID).ToString();
-            mycookie.Expires = DateTime.Now.AddMinutes(60);
+            mycookie.Expires = DateTime.Now.AddDays(7);
             Response.Cookies.Add(mycookie);
         }
 
@@ -95,70 +97,6 @@ namespace CMS.Controllers
         }
         #endregion
 
-        #region "Register"
-        public ActionResult Register()
-        {
-            //if (Request.Cookies["Admin"] == null || Request.Cookies["Admin"].Value.ToString() == "")
-            //    return RedirectToAction("Login", "Account", new { returnUrl = "/Account/Register" });
-            ViewBag.CMSUserID = 0;
-            ViewBag.CMSUserName = "";
-            if (Request.Cookies[Sitesettings.AdminCookie] != null || Request.Cookies[Sitesettings.AdminCookie].Value.ToString() != "")
-            {
-                AdminHelper helper = new AdminHelper();
-                AdminModel item = helper.GetById(Convert.ToInt32(Request.Cookies[Sitesettings.AdminCookie].Value));
-                ViewBag.CMSUserID = item.ID;
-                ViewBag.CMSUserName = item.UserName;
-            }
-            CMS.Models.UserRegisterModel model = new CMS.Models.UserRegisterModel();
-
-            return View(model);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(CMS.Models.UserRegisterModel model,FormCollection obj)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
-            AdminHelper helper = new AdminHelper();
-            if (helper.UserExists(model.UserName))
-            {
-                ModelState.AddModelError("", "Username already exists.");
-            }
-            else
-            {
-                DateTime CurrDate = DateTime.UtcNow;
-                string pass = Utilities.EncryptPassword(model.Password);
-                AdminModel user = new AdminModel
-                {
-                    Email = model.Email,
-                    CreateDate = CurrDate,
-                    FirstName = model.FirstName,
-                    isDeleted = false,
-                    LastName = model.LastName,
-                    Pwd = pass,
-                    UserName = model.UserName,
-                    CMSUserRoleId = 1,
-                    isDisabled = false
-                };
-                int CMSUserID = Convert.ToInt32(obj["CMSUserID"].ToString());
-                string CMSUserName = obj["CMSUserName"].ToString();
-                int UserID = helper.Create(user);
-                if (UserID > 0)
-                {
-                    new LogsHelper().Create(CMSUserID, "Create user", "User '" + CMSUserName + "' Created a new user with username: '" + model.UserName + "'");
-                    return RedirectToAction("Index", "Admin");
-                }
-                else
-                    ModelState.AddModelError("", "Creating CMSUser failed. Please check your info.");
-
-            }
-
-            var errors = ModelState.Select(x => x.Value.Errors)
-                       .Where(y => y.Count > 0)
-                       .ToList();
-
-            return View(model);
-        }
-        #endregion
+      
     }
 }

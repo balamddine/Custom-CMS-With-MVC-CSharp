@@ -30,15 +30,13 @@ namespace Data.Models
         public DateTime CreateDate { get; set; }
         public bool isDeleted { get; set; }
         public bool isDisabled { get; set; }
-        public int CMSUserRoleId { get; set; }
-
+        public List<AdminGroupRoleModel> AdminGroupRoles { get; set; }
         public static AdminModel GetFromCMSUser(Admin model)
         {
             AdminModel b = new AdminModel
             {
 
                 ID = model.Id,
-                CMSUserRoleId = model.CMSUserRoleId,
                 CreateDate = model.CreateDate,
                 FirstName = model.FirstName,
                 isDeleted = model.isDeleted,
@@ -46,10 +44,17 @@ namespace Data.Models
                 LastName = model.LastName,
                 Pwd = model.Pwd,
                 UserName = model.UserName,
+                AdminGroupRoles = new List<AdminGroupRoleModel>(),
                 Email = model.Email,
                 Theme = !string.IsNullOrWhiteSpace(model.Theme)? model.Theme:"light",
             };
-
+            if(model.AdminGroupRoles!=null && model.AdminGroupRoles.Count > 0)
+            {
+                foreach (AdminGroupRole item in model.AdminGroupRoles)
+                {
+                    b.AdminGroupRoles.Add(AdminGroupRoleModel.GetFromModel(item));
+                }
+            }
             return b;
         }
     }

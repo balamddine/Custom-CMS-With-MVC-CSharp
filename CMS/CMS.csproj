@@ -136,6 +136,7 @@
     <Compile Include="App_Start\FriendlyUrlCreatorModule.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminRolesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\PagesGalleryController.cs" />
     <Compile Include="Controllers\PageTemplateController.cs" />
+    <Compile Include="Extensions\CustomAuthorization.cs" />
     <Compile Include="Extensions\HtmlPrefixScopeExtensions.cs" />
     <Compile Include="Extensions\OpenXmlExcel.cs" />
     <Compile Include="Extensions\WebGridExtensions.cs" />
@@ -949,7 +951,6 @@
     <Content Include="vendor\jquery\jquery.min.map" />
     <Content Include="vendor\jquery\jquery.slim.min.map" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\_Logout.cshtml" />
     <Content Include="Views\Admin\ChangePassword.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
@@ -1004,6 +1005,10 @@
     <Content Include="vendor\ekko-lightbox\ekko-lightbox.js.map" />
     <Content Include="vendor\ekko-lightbox\ekko-lightbox.min.js.map" />
     <Content Include="Views\Album\_CustomPaging.cshtml" />
+    <Content Include="Views\AdminRoles\ChangePassword.cshtml" />
+    <Content Include="Views\AdminRoles\Edit.cshtml" />
+    <Content Include="Views\AdminRoles\Index.cshtml" />
+    <Content Include="Views\Admin\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

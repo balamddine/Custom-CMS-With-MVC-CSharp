@@ -31,7 +31,11 @@
         <AssociationConnector Association="IMDGModel.FK_AlbumContent_Albums" />
         <AssociationConnector Association="IMDGModel.FK_Albums_Albums" />
         <AssociationConnector Association="IMDGModel.FK_AlbumsItems_Albums" />
-        <EntityTypeShape EntityType="IMDGModel.Admin" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="IMDGModel.Admin" Width="1.5" PointX="14.375" PointY="9.75" />
+        <EntityTypeShape EntityType="IMDGModel.AdminGroupRole" Width="1.5" PointX="16.625" PointY="0.875" />
+        <EntityTypeShape EntityType="IMDGModel.AdminGroup" Width="1.5" PointX="14.375" PointY="0.875" />
+        <AssociationConnector Association="IMDGModel.FK_AdminGroupRoles_Admin" />
+        <AssociationConnector Association="IMDGModel.FK_AdminGroupRoles_RolesGroups" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

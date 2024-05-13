@@ -220,7 +220,7 @@ namespace CMS.Controllers
             ViewBag.AlbumName = myalbum.Title;
             ViewBag.Albumid = myalbum.Id;
 
-            int totalrec = 0; int pagesize = 5;
+            int totalrec = 0; int pagesize = 20;
             var t = new AlbumItemsHelper().Search(LangId, pagesize, page, albumid, ref totalrec, search, Type, true);
             ViewBag.search = search;
             ViewBag.Typeid = Type;

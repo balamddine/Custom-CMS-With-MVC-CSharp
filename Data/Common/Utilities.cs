@@ -559,5 +559,12 @@ namespace Data.Common
             Items = 6,
             GalleryItem = 7
         }
+
+        public enum AdminRoles
+        {
+            Full = 1,
+            CanEdit = 2,
+            CanAdd = 3,            
+        }
     }
 }

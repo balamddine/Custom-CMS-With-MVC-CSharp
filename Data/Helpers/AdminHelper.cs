@@ -66,6 +66,23 @@ namespace Data.Helpers
             }
             return null;
         }
+
+        public AdminModel GetCMSUserByUsernameAndPassword(string Email,string Pwd)
+        {
+            try
+            {
+                using (IMDGEntities ctx = new IMDGEntities())
+                {
+                    if (ctx.Admins.Any(x => x.UserName == Email))
+                        return AdminModel.GetFromCMSUser(ctx.Admins.First(x => x.UserName == Email && x.Pwd == Pwd));
+                }
+            }
+            catch (Exception ex)
+            {
+                Utilities.LogError(ex, "User", "Get by UserName");
+            }
+            return null;
+        }
         public AdminModel GetCMSUserByUsername(string Email)
         {
             try
@@ -99,7 +116,7 @@ namespace Data.Helpers
                         isDeleted = model.isDeleted,
                         isDisabled = model.isDisabled,
                         CreateDate = model.CreateDate,
-                        CMSUserRoleId = model.CMSUserRoleId,
+                       
                         Email = model.Email,
                         Theme = "light"
                     };

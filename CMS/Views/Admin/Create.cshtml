@@ -1,0 +1,175 @@
+﻿@model CMS.Models.UserRegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="content-wrapper fixerrormsg">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Add new user</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Content("~/Home")">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Content("~/Admin")">Users</a></li>
+                        <li class="breadcrumb-item active">Add new user</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            <input type="hidden" name="CMSUserID" value="@ViewBag.CMSUserID" />
+            <input type="hidden" name="CMSUserName" value="@ViewBag.CMSUserName" />
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "Error creating user, Check your info!", new { @class = "text-danger" });
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Content Details</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        @Html.LabelFor(m => m.UserName, new { @class = "" })
+                                        <div class="form-input">
+                                            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(u => u.UserName, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        @Html.LabelFor(m => m.Email, new { @class = "" })
+                                        <div class="form-input">
+                                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(u => u.Email, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        @Html.LabelFor(m => m.FirstName, new { @class = "" })
+                                        <div class="form-input">
+                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(u => u.FirstName, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        @Html.LabelFor(m => m.LastName, new { @class = "" })
+                                        <div class="form-input">
+                                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(u => u.LastName, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        @Html.LabelFor(m => m.Password, new { @class = "" })
+                                        <div class="form-input">
+                                            @Html.PasswordFor(model => model.Password, new { @class = "form-control ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(u => u.Password, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "" })
+                                        <div class="form-input">
+                                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(u => u.ConfirmPassword, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <input class="btn btn-primary" type="submit" value="Save" />
+                    @Html.ActionLink("Cancel", "Index", "Admin", new { }, new { @class = "btn btn-secondary" })
+                </div>
+            </div>
+        }
+
+
+
+    </section>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        highlightmenu("#ausers");
+
+        $(".checkbox input[type='checkbox']").change(function () {
+            var parent = $(this).closest('.cbxholder');
+            var value = parent.find(".actionstr").val();
+            if (this.checked) {
+                if (value != "") {
+                    value = value + "," + this.value;
+                }
+                else {
+                    value = this.value;
+                }
+                parent.find(".actionstr").val(value);
+            }
+            else {
+                value = value.replace("," + this.value, "");
+                parent.find(".actionstr").val(value);
+            }
+        });
+    </script>
+}
+
+@*<div class="row mb-2 hidden">
+        <div class="col-md-4">
+            <b>Permissions</b>
+        </div>
+    </div> <div class="row mb-2 hidden">
+
+        @for (int i = 0; i < Model.permissions.Count; i++)
+        {
+            <div class="col-md-4">
+
+                <label>@Model.permissions[i].ModuleName</label>
+                @Html.HiddenFor(model => Model.permissions[i].ModuleID)
+                @Html.HiddenFor(model => Model.permissions[i].ModuleName)
+            </div>
+
+            <div class="col-md-8 cbxholder">
+                @foreach (var subitem in Model.permissions[i].actions)
+                {
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"
+                                   name="@Model.permissions[i].actions"
+                                   value="@subitem.ID" /> @subitem.Name
+                            </label>
+                        </div>
+                    }
+                @Html.HiddenFor(model => Model.permissions[i].actionString, new { @class = "actionstr" })
+            </div>
+        }
+
+
+    </div>*@

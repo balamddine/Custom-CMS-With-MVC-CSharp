@@ -1,20 +1,21 @@
 ﻿
-@model List<Data.Models.AdminModel>
+@model List<Data.Models.AdminGroupModel>
 @{
 
-    ViewBag.Title = "Admin";
+    ViewBag.Title = "Admin Groups";
 
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Users</h1>
+                        <h1 class="m-0 text-dark">Admin Groups</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="@Url.Content("~/Home")">Home</a></li>
-                            <li class="breadcrumb-item active">Users</li>
+                            <li class="breadcrumb-item"><a href="@Url.Content("~/Admin/Index")">Administrators</a></li>
+                            <li class="breadcrumb-item active">Admin Groups</li>
                         </ol>
                     </div>
                 </div>
@@ -24,24 +25,20 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        @*<div class="card-header">
-                                <h5 class="m-0">Featured</h5>
-                            </div>*@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <div id="dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
                                     <div class="row">
                                         <div class="col-sm-12 mb-3 alignright">
-                                            @Html.ActionLink("Create new", "Create", "Admin", new { }, new { @class = "btn btn-primary" })
-                                            &nbsp;
-                                            @Html.ActionLink("Admin groups", "Index", "AdminRoles", new { }, new { @class = "btn btn-info" })
+                                            @Html.ActionLink("Back", "Index", "Admin", new { }, new { @class = "btn btn-secondary" })
+                                            @Html.ActionLink("Create New Group", "Register", "AdminRoles", new { }, new { @class = "btn btn-primary" })
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-sm-12">
                                             @{
-                                                WebGrid grid = new WebGrid(@Model, rowsPerPage: 10, canSort: false);
+                                                WebGrid grid = new WebGrid(@Model, rowsPerPage: 20, canSort: false);
 
                                                 @grid.GetHtml(tableStyle: "table",
                                                      mode: WebGridPagerModes.All,
@@ -50,21 +47,17 @@
                                                      nextText: "Next >",
                                                      lastText: "Last >>",
                                                      columns: grid.Columns(
-                                                          grid.Column("UserName", "UserName"),
-                                                        grid.Column("Email", "Email"),
-                                                        grid.Column("FirstName", "First Name"),
-                                                        grid.Column("LastName", "Last Name"),
+                                                          grid.Column("GroupName", "Group Name"),
+                                                            grid.Column(header: "Users", format: (item) => new HtmlString("<a title='Users' href='javascript:;' onclick='getUsers(this)' data-id='" + item.Id + "' class='badge badge-info'>" + item.UsersCount + "</span>")),
+                                                        grid.Column(header: "Create Date", format: (item) => new HtmlString(item.CreatedDate.ToString("dd/MM/yyyy"))),
                          grid.Column(header: "Actions", format: (item) =>
                          new HtmlString(
-                           "<a title='Edit' href='" + Url.Action("Edit", "Admin", new { id = item.id }) + "' class='btn btn-info btn-md'><i class='fa fa-edit' aria-hidden='true'></i></a>" + " " +
-                           "<a title='Change password' href='" + Url.Action("ChangePassword", "Admin", new { id = item.id }) + "' class='btn btn-warning btn-md'><i class='fa fa-key' aria-hidden='true'></i></a>" + " " +
+                           "<a title='Edit' href='" + Url.Action("Edit", "AdminRoles", new { id = item.id }) + "' class='btn btn-info btn-md'><i class='fa fa-edit' aria-hidden='true'></i></a>" + " " +
                          "<a  title='Delete record' class='modalLink btn btn-danger btn-md' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>"
 
 
-                         )
-                         )
-                         )
-                         )
+                         ))
+                         ))
 
                                             }
                                         </div>
@@ -92,7 +85,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a href="@Url.Action("Delete", "Admin", new { })" class="btn btn-primary deleteSlider">Delete</a>
+                    <a href="@Url.Action("Delete", "AdminRoles", new { })" class="btn btn-primary deleteSlider">Delete</a>
                 </div>
             </div>
         </div>
@@ -106,7 +99,7 @@
 
         $(document).on("click", ".modalLink", function () {
             var passedID = $(this).data('id');
-            $(".modal-footer .deleteSlider").attr("href", "@Url.Content("~/Admin/Delete/")" + passedID)
+            $(".modal-footer .deleteSlider").attr("href", "@Url.Content("~/AdminRoles/Delete/")" + passedID)
         });
     </script>
 }

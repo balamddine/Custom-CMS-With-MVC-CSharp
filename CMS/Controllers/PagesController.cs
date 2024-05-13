@@ -1,4 +1,5 @@
 ﻿using CMS.Controllers;
+using CMS.Extensions;
 using CMS.Models;
 using Data;
 using Data.Common;
@@ -23,6 +24,7 @@ namespace CMS.Controllers
         // GET: Pages
 
         #region Index
+        [CustomAuthorization((int)Utilities.AdminRoles.Full)]
         public ActionResult Index(int id)
         {
             ViewBag.pagemodify = 0;

@@ -224,7 +224,25 @@
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="Pwd" ColumnName="Pwd" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="CMSUserRoleId" ColumnName="CMSUserRoleId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdminGroupRoles">
+      <EntityTypeMapping TypeName="IMDGModel.AdminGroupRole">
+        <MappingFragment StoreEntitySet="AdminGroupRoles">
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+          <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdminGroups">
+      <EntityTypeMapping TypeName="IMDGModel.AdminGroup">
+        <MappingFragment StoreEntitySet="AdminGroups">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Roles" ColumnName="Roles" />
+          <ScalarProperty Name="GroupName" ColumnName="GroupName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

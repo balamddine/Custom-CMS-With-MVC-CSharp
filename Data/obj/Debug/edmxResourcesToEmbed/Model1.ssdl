@@ -5,7 +5,6 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CMSUserRoleId" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Pwd" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -15,6 +14,23 @@
     <Property Name="isDeleted" Type="bit" Nullable="false" />
     <Property Name="isDisabled" Type="bit" Nullable="false" />
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdminGroupRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AdminId" Type="int" Nullable="false" />
+    <Property Name="GroupId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdminGroups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GroupName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Roles" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
   <EntityType Name="AlbumContent">
     <Key>
@@ -211,6 +227,30 @@
     <Property Name="ConfirmationDate" Type="datetime" />
     <Property Name="FirstLoginDate" Type="datetime" />
   </EntityType>
+  <Association Name="FK_AdminGroupRoles_Admin">
+    <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
+    <End Role="AdminGroupRoles" Type="Self.AdminGroupRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Admin">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AdminGroupRoles">
+        <PropertyRef Name="AdminId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AdminGroupRoles_RolesGroups">
+    <End Role="AdminGroups" Type="Self.AdminGroups" Multiplicity="1" />
+    <End Role="AdminGroupRoles" Type="Self.AdminGroupRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AdminGroups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AdminGroupRoles">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_AlbumContent_Albums">
     <End Role="Albums" Type="Self.Albums" Multiplicity="1" />
     <End Role="AlbumContent" Type="Self.AlbumContent" Multiplicity="*" />
@@ -333,6 +373,8 @@
   </Association>
   <EntityContainer Name="IMDGModelStoreContainer">
     <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AdminGroupRoles" EntityType="Self.AdminGroupRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AdminGroups" EntityType="Self.AdminGroups" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AlbumContent" EntityType="Self.AlbumContent" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Albums" EntityType="Self.Albums" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AlbumsItems" EntityType="Self.AlbumsItems" Schema="dbo" store:Type="Tables" />
@@ -349,6 +391,14 @@
     <EntitySet Name="Subscribers" EntityType="Self.Subscribers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserAddresses" EntityType="Self.UserAddresses" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_AdminGroupRoles_Admin" Association="Self.FK_AdminGroupRoles_Admin">
+      <End Role="Admin" EntitySet="Admin" />
+      <End Role="AdminGroupRoles" EntitySet="AdminGroupRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AdminGroupRoles_RolesGroups" Association="Self.FK_AdminGroupRoles_RolesGroups">
+      <End Role="AdminGroups" EntitySet="AdminGroups" />
+      <End Role="AdminGroupRoles" EntitySet="AdminGroupRoles" />
+    </AssociationSet>
     <AssociationSet Name="FK_AlbumContent_Albums" Association="Self.FK_AlbumContent_Albums">
       <End Role="Albums" EntitySet="Albums" />
       <End Role="AlbumContent" EntitySet="AlbumContent" />
