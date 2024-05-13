@@ -230,3 +230,71 @@ function switchTheme(currentTheme,sender) {
         $(".main-sidebar").addClass('sidebar-light-primary').removeClass('sidebar-dark-primary');
     }
 }
+
+function getUserGroups(sender) {
+    var id = $(sender).data('id');
+    var url = $(sender).data("url");
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: 'json',
+        data: { id: id},
+        success: function (response) {
+            try {
+                let dte = JSON.parse(response.data);
+                if (dte && dte.length > 0) {
+                    dte.map(x => {
+                        $("#ulGroups").append("<li>" + x.GroupName + "</li>")
+                    })
+                }
+            }
+            catch (ex) {
+                console.log("getUserGroups >>" + ex);
+            }
+            
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
+
+}
+
+function getUsersByGroup(sender) {
+    var id = $(sender).data('id');
+    var url = $(sender).data("url");
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: 'json',
+        data: { id: id },
+        success: function (response) {
+            try {
+                let dte = JSON.parse(response.data);
+                if (dte && dte.length > 0) {
+                    dte.map(x => {
+                        let name = x.FirstName + " " + x.LastName;
+                        $("#ulUsers").append("<li>" + name + "</li>")
+                    })
+                }
+            }
+            catch (ex) {
+                console.log("getGroupsUsers >>" + ex);
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
+
+}
+
+function checkAllRoles(sender) {
+    const checkBoxes = document.querySelectorAll(".roles input[type='checkbox']");
+    if (checkBoxes.length > 0) {
+        checkBoxes.forEach(checkbox => {
+            checkbox.checked = $(sender).is(":checked");
+        });
+    }
+}

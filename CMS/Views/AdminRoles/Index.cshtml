@@ -31,7 +31,7 @@
                                     <div class="row">
                                         <div class="col-sm-12 mb-3 alignright">
                                             @Html.ActionLink("Back", "Index", "Admin", new { }, new { @class = "btn btn-secondary" })
-                                            @Html.ActionLink("Create New Group", "Register", "AdminRoles", new { }, new { @class = "btn btn-primary" })
+                                            @Html.ActionLink("Create New Group", "Create", "AdminRoles", new { }, new { @class = "btn btn-primary" })
                                         </div>
                                     </div>
 
@@ -48,15 +48,14 @@
                                                      lastText: "Last >>",
                                                      columns: grid.Columns(
                                                           grid.Column("GroupName", "Group Name"),
-                                                            grid.Column(header: "Users", format: (item) => new HtmlString("<a title='Users' href='javascript:;' onclick='getUsers(this)' data-id='" + item.Id + "' class='badge badge-info'>" + item.UsersCount + "</span>")),
+                                                            grid.Column(header: "Users", format: (item) => new HtmlString("<a data-target='#UsersModal' data-toggle='modal' title='Users' href='javascript:;' onclick='getUsersByGroup(this)' data-id='" + item.Id + "' data-url='" + Url.Content("~/AdminRoles/_GetUsersByGroup") + "' class='badge badge-info'>" + item.UsersCount + "</span>")),
                                                         grid.Column(header: "Create Date", format: (item) => new HtmlString(item.CreatedDate.ToString("dd/MM/yyyy"))),
                          grid.Column(header: "Actions", format: (item) =>
+                         item.Id != 1 ?
                          new HtmlString(
                            "<a title='Edit' href='" + Url.Action("Edit", "AdminRoles", new { id = item.id }) + "' class='btn btn-info btn-md'><i class='fa fa-edit' aria-hidden='true'></i></a>" + " " +
                          "<a  title='Delete record' class='modalLink btn btn-danger btn-md' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>"
-
-
-                         ))
+                        ) : new HtmlString(""))
                          ))
 
                                             }
@@ -87,6 +86,24 @@
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a href="@Url.Action("Delete", "AdminRoles", new { })" class="btn btn-primary deleteSlider">Delete</a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="UsersModal" tabindex="-1" role="dialog" aria-labelledby="UsersModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="UsersModalLabel">Users</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul id="ulUsers" class="ulfix ulFlex">
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>

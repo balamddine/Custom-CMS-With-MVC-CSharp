@@ -11,6 +11,8 @@ namespace Data.Models
     public class AdminGroupModel
     {
         public int Id { get; set; }
+        [Required]
+        [DisplayName("Group name")] 
         public string GroupName { get; set; }
         public string Roles { get; set; }
         public int UsersCount { get; set; }
@@ -24,7 +26,7 @@ namespace Data.Models
                 Id = model.Id,
                 GroupName = model.GroupName,
                 Roles = model.Roles,
-                UsersCount = model.AdminGroupRoles != null && model.AdminGroupRoles.Count > 0? model.AdminGroupRoles.Select(x => x.AdminId).Count():0,
+                UsersCount = model.AdminGroupRoles != null && model.AdminGroupRoles.Count > 0? model.AdminGroupRoles.Select(x => x.AdminId).Distinct().Count():0,
                
                 CreatedDate = model.CreatedDate
             };

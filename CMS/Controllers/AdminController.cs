@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Data.Models;
 using Data.Helpers;
 using Data.Common;
+using Newtonsoft.Json;
 
 namespace CMS.Controllers
 {
@@ -198,6 +199,15 @@ namespace CMS.Controllers
         }
         #endregion
 
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult _getUsersGroups(int id)
+        {
+            List<AdminGroupModel> adminGroupModels = new AdminRolesHelper().GetAllUsersGroups(id);
+            string data = JsonConvert.SerializeObject(adminGroupModels);
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        }
+                
 
     }
 }

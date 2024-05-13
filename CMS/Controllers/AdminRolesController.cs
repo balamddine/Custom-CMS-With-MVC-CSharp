@@ -7,19 +7,28 @@ using System.Web.Mvc;
 using Data.Models;
 using Data.Helpers;
 using Data.Common;
+using Newtonsoft.Json;
+using System.Configuration;
 
 namespace CMS.Controllers
 {
-    public class AdminRolesController: BaseController
+    public class AdminRolesController : BaseController
     {
-        public ActionResult Index(int page = 1,  string search = "")
+        public ActionResult Index(int page = 1, string search = "")
         {
             int totalrec = 0; int pagesize = 20;
-            List<AdminGroupModel> L =  new AdminRolesHelper().GetAllGroups(pagesize, page, ref totalrec, search);
+            List<AdminGroupModel> L = new AdminRolesHelper().GetAllGroups(pagesize, page, ref totalrec, search);
             ViewBag.search = search;
             ViewBag.pageSize = pagesize;
             ViewBag.totalCount = totalrec;
             ViewBag.page = page;
+
+            
+
+
+
+
+
             return View(L);
         }
 
@@ -28,6 +37,79 @@ namespace CMS.Controllers
             new AdminRolesHelper().DeleteGroup(id);
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult _GetUsersByGroup(int id)
+        {
+            List<AdminModel> admins = new AdminRolesHelper().GetAllUsersByGroup(id);
+            string data = JsonConvert.SerializeObject(admins);
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        public PartialViewResult _RolesPermissions()
+        {
+            List<RolesPermissionsCls> cls = getRolesJson();            
+            return PartialView(cls);
+        }
+
+        #region "Create"
+        public ActionResult Create()
+        {
+
+            AdminGroupModel mdle = new AdminGroupModel();           
+            return View(mdle);
+        }
+
+        private List<RolesPermissionsCls> getRolesJson()
+        {
+            string rolesFile = Server.MapPath(Sitesettings.RolesJsonFile);
+            string rolesDoc = Data.Common.Utilities.ReadFile(rolesFile);
+            List<RolesPermissionsCls> cls = JsonConvert.DeserializeObject<List<RolesPermissionsCls>>(rolesDoc);
+            return cls;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(AdminGroupModel model, FormCollection obj)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            AdminRolesHelper helper = new AdminRolesHelper();
+            if (helper.GroupExists(model.GroupName))
+            {
+                ModelState.AddModelError("", "Users group already exists.");
+            }
+            else
+            {
+                DateTime CurrDate = DateTime.UtcNow;
+
+                AdminGroupModel group = new AdminGroupModel
+                {
+                    GroupName = model.GroupName,
+                    CreatedDate = CurrDate,                    
+                };
+
+               
+                int UserID = helper.CreateGroup(group);
+                if (UserID > 0)
+                {
+                    new LogsHelper().Create(ViewBag.CMSUserID, "Admin Roles Page", "User '" + ViewBag.CMSUserName + "' created a users group: '" + model.GroupName + "'");
+                    return RedirectToAction("Index", "AdminRoles");
+                }
+                else
+                    ModelState.AddModelError("", "Creating users group failed. Please check your info.");
+
+            }
+
+            var errors = ModelState.Select(x => x.Value.Errors)
+                       .Where(y => y.Count > 0)
+                       .ToList();
+
+            return View(model);
+        }
+        #endregion
+
+
         //#region "Edit CMS User"
         //public ActionResult Edit(int ID)
         //{

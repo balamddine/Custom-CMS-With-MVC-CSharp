@@ -159,6 +159,7 @@
     <Compile Include="Models\AdminEditModel.cs" />
     <Compile Include="Models\customPaging.cs" />
     <Compile Include="Models\NotificationModel.cs" />
+    <Compile Include="Models\RolesPermissionsCls.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\UserRegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -195,6 +196,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="App_Data\Roles.json" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -1009,6 +1011,8 @@
     <Content Include="Views\AdminRoles\Edit.cshtml" />
     <Content Include="Views\AdminRoles\Index.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
+    <Content Include="Views\AdminRoles\Create.cshtml" />
+    <Content Include="Views\AdminRoles\_RolesPermissions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

@@ -31,6 +31,7 @@ namespace Data.Models
         public bool isDeleted { get; set; }
         public bool isDisabled { get; set; }
         public List<AdminGroupRoleModel> AdminGroupRoles { get; set; }
+        public int GroupsCount { get;set; }
         public static AdminModel GetFromCMSUser(Admin model)
         {
             AdminModel b = new AdminModel
@@ -44,12 +45,14 @@ namespace Data.Models
                 LastName = model.LastName,
                 Pwd = model.Pwd,
                 UserName = model.UserName,
+                GroupsCount = 0,
                 AdminGroupRoles = new List<AdminGroupRoleModel>(),
                 Email = model.Email,
                 Theme = !string.IsNullOrWhiteSpace(model.Theme)? model.Theme:"light",
             };
             if(model.AdminGroupRoles!=null && model.AdminGroupRoles.Count > 0)
             {
+                b.GroupsCount = model.AdminGroupRoles.Select(x=>x.GroupId).Distinct().Count();
                 foreach (AdminGroupRole item in model.AdminGroupRoles)
                 {
                     b.AdminGroupRoles.Add(AdminGroupRoleModel.GetFromModel(item));

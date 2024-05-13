@@ -51,6 +51,7 @@
                                                      lastText: "Last >>",
                                                      columns: grid.Columns(
                                                           grid.Column("UserName", "UserName"),
+                                                           grid.Column(header: "Groups", format: (item) => new HtmlString("<a data-target='#GroupsModal' data-url='"+Url.Content("~/Admin/_getUsersGroups")+"' data-toggle='modal' href='javascript:;' title='Groups' onclick='getUserGroups(this)' data-id='" + item.Id + "' class='badge badge-info'>" + item.GroupsCount + "</span>")),
                                                         grid.Column("Email", "Email"),
                                                         grid.Column("FirstName", "First Name"),
                                                         grid.Column("LastName", "Last Name"),
@@ -97,6 +98,28 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="GroupsModal" tabindex="-1" role="dialog" aria-labelledby="GroupsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="GroupsModalLabel">Groups</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul id="ulGroups" class="ulfix ulFlex">
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
 }
 
 @section Scripts
@@ -105,9 +128,11 @@
         highlightmenu("#ausers");
 
         $(document).on("click", ".modalLink", function () {
-            var passedID = $(this).data('id');
+            var passedID = $(this).attr('data-id');
             $(".modal-footer .deleteSlider").attr("href", "@Url.Content("~/Admin/Delete/")" + passedID)
         });
+
+
     </script>
 }
 

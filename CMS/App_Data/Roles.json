@@ -1,0 +1,42 @@
+[
+  {
+    "controller": "Admin settings",
+    "roles": [ "View,Edit,Create,Delete" ]
+  },
+  {
+    "controller": "Admin Role",
+    "roles": [ "View,Edit,Create,Delete" ]
+  },
+  {
+    "controller": "Website content",
+    "roles": [ "View,Edit,Create,Delete" ]
+  },
+  {
+    "controller": "Pages template",
+    "roles": [ "View,Edit,Create,Delete" ]
+  },
+  {
+    "controller": "Pages content type",
+    "roles": [ "View,Edit,Create,Delete" ]
+  },
+  {
+    "controller": "Pages content type fields",
+    "roles": [ "View,Edit,Create,Delete" ]
+  },
+  {
+    "controller": "Gallery",
+    "roles": [ "View,Edit,Create,Delete" ]
+  },
+  {
+    "controller": "Gallery album items",
+    "roles": [ "View,Edit,Create,Delete" ]
+  },
+  {
+    "controller": "Forms",
+    "roles": [ "View,Edit,Create,Delete" ]
+  },
+  {
+    "controller": "Extras",
+    "roles": [ "View,Edit,Create,Delete" ]
+  }
+]

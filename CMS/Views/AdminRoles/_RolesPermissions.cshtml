@@ -1,0 +1,40 @@
+﻿@model List<CMS.Models.RolesPermissionsCls>
+
+@{
+    <div class="roles col-md-12">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" id="chkAll" class="custom-control-input" autocomplete="off" onchange="checkAllRoles(this)" />
+            <label for="chkAll" class="custom-control-label">Full access</label>
+        </div>
+    </div>
+
+    foreach (CMS.Models.RolesPermissionsCls item in Model)
+    {
+        <div class="roles col-md-2">
+            <label class="text-dark">@item.controller</label>
+
+            @{
+                if (item.roles != null && item.roles.Count > 0)
+                {
+                    <ul class="ulfix">
+                        @{
+                            foreach (var rle in item.roles[0].Split(','))
+                            {
+                                string id = "chk_" + item.controller + "_" + rle;
+                                <li>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" id="@id" class="custom-control-input" autocomplete="off" />
+                                        <label for="@id" class="custom-control-label">@rle</label>
+                                    </div>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                }
+
+            }
+
+        </div>
+    }
+}

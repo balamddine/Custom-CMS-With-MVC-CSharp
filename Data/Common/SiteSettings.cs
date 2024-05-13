@@ -34,6 +34,7 @@ namespace Data.Common
         public static string AllowedFileContentType = ConfigurationManager.AppSettings["AllowedFileContentType"] != null ? ConfigurationManager.AppSettings["AllowedFileContentType"].ToString() : "";
         public static int DefaultLangId = ConfigurationManager.AppSettings["DefaultLangId"] != null ? Convert.ToInt32(ConfigurationManager.AppSettings["DefaultLangId"].ToString() ): 0;
         public static string ShareImage = ConfigurationManager.AppSettings["ShareImage"] != null ? ConfigurationManager.AppSettings["ShareImage"].ToString() : "";
+        public static string RolesJsonFile = ConfigurationManager.AppSettings["RolesJsonFile"] != null ? ConfigurationManager.AppSettings["RolesJsonFile"].ToString() : "";
         
     }
 
