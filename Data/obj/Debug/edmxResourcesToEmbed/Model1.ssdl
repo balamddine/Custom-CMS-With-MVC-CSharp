@@ -29,7 +29,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="GroupName" Type="nvarchar" MaxLength="50" />
-    <Property Name="Roles" Type="nvarchar" MaxLength="200" />
+    <Property Name="Roles" Type="nvarchar" MaxLength="500" />
     <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
   <EntityType Name="AlbumContent">

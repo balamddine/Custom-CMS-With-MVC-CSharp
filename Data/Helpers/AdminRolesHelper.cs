@@ -135,6 +135,7 @@ namespace Data.Helpers
                     AdminGroup t = new AdminGroup
                     {
                         GroupName = item.GroupName,
+                        Roles = item.Roles,
                         CreatedDate = item.CreatedDate
                     };
                     cnx.AdminGroups.Add(t);
@@ -147,6 +148,22 @@ namespace Data.Helpers
                 Utilities.LogError(ex, "AdminRolesHelper", "CreateGroup");
             }
             return ReturnedID;
+        }
+
+        public AdminGroupModel GetGroupById(int id)
+        {
+            try
+            {
+                using (IMDGEntities cnx = new IMDGEntities())
+                {                     
+                    return AdminGroupModel.GetFromModel(cnx.AdminGroups.FirstOrDefault(x => x.Id==id));                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Utilities.LogError(ex, "AdminRolesHelper", "AdminGroupModel");
+            }
+            return null;
         }
     }
 

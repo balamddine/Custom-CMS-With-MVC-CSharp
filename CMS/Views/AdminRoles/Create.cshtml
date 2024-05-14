@@ -83,24 +83,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        highlightmenu("#ausers");
-
-        $(".checkbox input[type='checkbox']").change(function () {
-            var parent = $(this).closest('.cbxholder');
-            var value = parent.find(".actionstr").val();
-            if (this.checked) {
-                if (value != "") {
-                    value = value + "," + this.value;
-                }
-                else {
-                    value = this.value;
-                }
-                parent.find(".actionstr").val(value);
-            }
-            else {
-                value = value.replace("," + this.value, "");
-                parent.find(".actionstr").val(value);
-            }
-        });
+        highlightmenu("#ausers");        
     </script>
 }

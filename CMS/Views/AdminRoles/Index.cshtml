@@ -48,7 +48,8 @@
                                                      lastText: "Last >>",
                                                      columns: grid.Columns(
                                                           grid.Column("GroupName", "Group Name"),
-                                                            grid.Column(header: "Users", format: (item) => new HtmlString("<a data-target='#UsersModal' data-toggle='modal' title='Users' href='javascript:;' onclick='getUsersByGroup(this)' data-id='" + item.Id + "' data-url='" + Url.Content("~/AdminRoles/_GetUsersByGroup") + "' class='badge badge-info'>" + item.UsersCount + "</span>")),
+                                                          grid.Column(header: "Users", format: (item) => new HtmlString("<a data-target='#UsersModal' data-toggle='modal' title='Users' href='javascript:;' onclick='getUsersByGroup(this)' data-id='" + item.Id + "' data-url='" + Url.Content("~/AdminRoles/_GetUsersByGroup") + "' class='badge badge-info'>" + item.UsersCount + "</a>")),
+                                                          grid.Column(header: "Roles", format: (item) => new HtmlString("<a data-target='#RolesModal' data-toggle='modal' title='Roles' href='javascript:;' onclick='getRoles(this)' data-roles='" + item.Roles + "' class='badge badge-warning'>Roles</a>")),
                                                         grid.Column(header: "Create Date", format: (item) => new HtmlString(item.CreatedDate.ToString("dd/MM/yyyy"))),
                          grid.Column(header: "Actions", format: (item) =>
                          item.Id != 1 ?
@@ -102,6 +103,23 @@
                 <div class="modal-body">
                     <ul id="ulUsers" class="ulfix ulFlex">
                     </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="RolesModal" tabindex="-1" role="dialog" aria-labelledby="RolesModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="RolesModalLabel">Roles</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="ulRoles" class="row">
+                    </div>
                 </div>
 
             </div>

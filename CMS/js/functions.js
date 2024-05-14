@@ -13,12 +13,12 @@ function highlightmenu(id) {
         $(id).addClass("active");
     }
 }
-function highlightTreemenu(id) {    
+function highlightTreemenu(id) {
     var elem = $(id);
     if (elem !== null && elem.length > 0) {
         $(elem).parents().find(".nav-item").not(".menu-open").addClass("menu-open");
         $(elem).parents().find(".nav-treeview").show();
-        $($(id +" :first-child")[0]).addClass("active");
+        $($(id + " :first-child")[0]).addClass("active");
     }
 }
 var ck = document.querySelectorAll('.ck');
@@ -101,7 +101,7 @@ function Inittreesearch() {
     var options = {
         minLength: 3
     };
-  $("[data-widget='sidebar-search']").SidebarSearch(options);
+    $("[data-widget='sidebar-search']").SidebarSearch(options);
 }
 function closefancybox() {
     parent.jQuery.fancybox.close();
@@ -133,7 +133,7 @@ function fetchGallery(sender) {
 function removeGalleryContent(sender) {
     var galid = $(sender).data("value");
     var pgid = $("#pgid").val();
-    var url = $(sender).data("url");   
+    var url = $(sender).data("url");
     $.ajax({
         url: url,
         type: "POST",
@@ -151,7 +151,7 @@ function removeGalleryContent(sender) {
 /*************************END Gallery Item**********************************************/
 
 /*************************Page Items**********************************************/
- 
+
 function fetchPageItems(sender) {
     var hiddenid = $(sender).data("hiddenid");
     var url = $(sender).data("url");
@@ -202,27 +202,27 @@ function toggleAdminTheme(sender) {
         dataType: 'json',
         data: { currentTheme: currentTheme },
         success: function (response) {
-            switchTheme(currentTheme,sender)
+            switchTheme(currentTheme, sender)
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
         }
     });
 }
-function switchTheme(currentTheme,sender) {
+function switchTheme(currentTheme, sender) {
     var imgSrc = $(".brand-image").attr("src");
     if (currentTheme == "light") {
-        
+
         $(sender).attr("data-theme", "dark")
-        
+
         $(sender).find("i").removeClass("fa-moon").addClass("fa-sun")
         $("body").addClass("dark-mode");
-        $(".brand-image").attr("src", imgSrc.replace("logo.png","logo-dark.png"));
+        $(".brand-image").attr("src", imgSrc.replace("logo.png", "logo-dark.png"));
         $(".main-header").removeClass('navbar-light').addClass('navbar-dark');
         $(".main-sidebar").removeClass('sidebar-light-primary').addClass('sidebar-dark-primary');
     }
     else {
-        $(sender).attr("data-theme", "light")        
+        $(sender).attr("data-theme", "light")
         $(sender).find("i").removeClass("fa-sun").addClass("fa-moon")
         $(".brand-image").attr("src", imgSrc.replace("logo-dark.png", "logo.png"));
         $("body").removeClass("dark-mode");
@@ -238,7 +238,7 @@ function getUserGroups(sender) {
         url: url,
         type: "POST",
         dataType: 'json',
-        data: { id: id},
+        data: { id: id },
         success: function (response) {
             try {
                 let dte = JSON.parse(response.data);
@@ -251,7 +251,7 @@ function getUserGroups(sender) {
             catch (ex) {
                 console.log("getUserGroups >>" + ex);
             }
-            
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
@@ -290,11 +290,49 @@ function getUsersByGroup(sender) {
 
 }
 
+function getRoles(sender) {
+    let roles = $(sender).data("roles").split('|');
+    let html = "";
+    roles.map(role => {
+        let arr = role.split(',')
+        let controller = arr[0];
+        html += "<div class='col-md-3'>";
+        html += "<div class='roles'>";
+        html += "<h6 class='text text-bold'>" + controller +"</h6>";
+        html += "<ul class='ulfix'>"
+        for (var i = 1; i < arr.length; i++) {
+            html += "<li class='text-dark'>" + arr[i] + "</li>";
+        }
+        html += "</ul>"
+        html += "</div>"
+        html += "</div>"
+    });
+    $("#ulRoles").html(html);
+}
+
 function checkAllRoles(sender) {
     const checkBoxes = document.querySelectorAll(".roles input[type='checkbox']");
+    let isChecked = sender.checked;
     if (checkBoxes.length > 0) {
         checkBoxes.forEach(checkbox => {
-            checkbox.checked = $(sender).is(":checked");
+            checkbox.checked = isChecked;
         });
     }
+}
+function roleChange(sender) {
+    let val = $(sender).val();
+    let isChecked = sender.checked;
+    const siblings = getSiblingsCheckboxesExcludingSender(sender, 'roles');   
+    if (val == "View") {
+        if (siblings.length > 0) {
+            siblings.forEach(checkbox => {                
+                checkbox.disabled = !isChecked;
+            });
+        }
+    }
+}
+function getSiblingsCheckboxesExcludingSender(element, className) {
+    let parentElement = element.closest('.' + className);
+    let siblings = parentElement ? parentElement.querySelectorAll("input[type='checkbox']:not([id='" + element.id + "'])") : [];
+    return siblings;
 }

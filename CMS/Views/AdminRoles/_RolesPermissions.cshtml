@@ -1,6 +1,9 @@
 ﻿@model List<CMS.Models.RolesPermissionsCls>
-
 @{
+    Data.Models.AdminGroupModel mdle = ViewBag.AdminRoles as Data.Models.AdminGroupModel;
+}
+@{
+
     <div class="roles col-md-12">
         <div class="custom-control custom-checkbox">
             <input type="checkbox" id="chkAll" class="custom-control-input" autocomplete="off" onchange="checkAllRoles(this)" />
@@ -21,10 +24,11 @@
                             foreach (var rle in item.roles[0].Split(','))
                             {
                                 string id = "chk_" + item.controller + "_" + rle;
-                                string name = item.controller;
+                                string name = "role_" + item.controller;
+                                string ischecked = rle.ToLower() == "view" ? "checked" : "";
                                 <li>
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" id="@id" name="@name" data-controller="@item.controller" value="@rle" class="custom-control-input" autocomplete="off" />
+                                        <input type="checkbox" @ischecked id="@id" onchange="roleChange(this)" name="@name" data-controller="@item.controller" value="@rle" class="custom-control-input" autocomplete="off" />
                                         <label for="@id" class="custom-control-label">@rle</label>
                                     </div>
                                 </li>

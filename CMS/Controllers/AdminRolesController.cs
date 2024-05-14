@@ -9,6 +9,7 @@ using Data.Helpers;
 using Data.Common;
 using Newtonsoft.Json;
 using System.Configuration;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace CMS.Controllers
 {
@@ -23,7 +24,7 @@ namespace CMS.Controllers
             ViewBag.totalCount = totalrec;
             ViewBag.page = page;
 
-            
+
 
 
 
@@ -46,9 +47,10 @@ namespace CMS.Controllers
             return Json(new { data = data }, JsonRequestBehavior.AllowGet);
         }
 
-        public PartialViewResult _RolesPermissions()
+        public PartialViewResult _RolesPermissions(AdminGroupModel mdle = null)
         {
-            List<RolesPermissionsCls> cls = getRolesJson();            
+            List<RolesPermissionsCls> cls = getRolesJson();
+            ViewBag.AdminRoles = mdle;
             return PartialView(cls);
         }
 
@@ -56,24 +58,17 @@ namespace CMS.Controllers
         public ActionResult Create()
         {
 
-            AdminGroupModel mdle = new AdminGroupModel();           
+            AdminGroupModel mdle = new AdminGroupModel();
             return View(mdle);
         }
 
-        private List<RolesPermissionsCls> getRolesJson()
-        {
-            string rolesFile = Server.MapPath(Sitesettings.RolesJsonFile);
-            string rolesDoc = Data.Common.Utilities.ReadFile(rolesFile);
-            List<RolesPermissionsCls> cls = JsonConvert.DeserializeObject<List<RolesPermissionsCls>>(rolesDoc);
-            return cls;
-        }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(AdminGroupModel model, FormCollection obj)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+           
             AdminRolesHelper helper = new AdminRolesHelper();
             if (helper.GroupExists(model.GroupName))
             {
@@ -86,12 +81,20 @@ namespace CMS.Controllers
                 AdminGroupModel group = new AdminGroupModel
                 {
                     GroupName = model.GroupName,
-                    CreatedDate = CurrDate,                    
+                    CreatedDate = CurrDate,
                 };
+                List<string> filteredKeys = obj.AllKeys.Where(x => x.Contains("role_")).ToList();
+                List<string> Roles = new List<string>();
+                foreach (string key in filteredKeys)
+                {
+                    string controller = key.Replace("role_", "");
+                    string roles = !string.IsNullOrWhiteSpace(obj[key]) ? obj[key] : "";
+                    Roles.Add(controller + "," + roles);
+                }
+                group.Roles = string.Join("|", Roles.ToArray());
 
-               
-                int UserID = helper.CreateGroup(group);
-                if (UserID > 0)
+                int groupId = helper.CreateGroup(group);
+                if (groupId > 0)
                 {
                     new LogsHelper().Create(ViewBag.CMSUserID, "Admin Roles Page", "User '" + ViewBag.CMSUserName + "' created a users group: '" + model.GroupName + "'");
                     return RedirectToAction("Index", "AdminRoles");
@@ -108,6 +111,23 @@ namespace CMS.Controllers
             return View(model);
         }
         #endregion
+
+        #region "Edit"
+        public ActionResult Edit(int ID)
+        {
+
+            AdminGroupModel mdle = new AdminRolesHelper().GetGroupById(ID);
+            return View(mdle);
+        }
+        #endregion
+
+        private List<RolesPermissionsCls> getRolesJson()
+        {
+            string rolesFile = Server.MapPath(Sitesettings.RolesJsonFile);
+            string rolesDoc = Data.Common.Utilities.ReadFile(rolesFile);
+            List<RolesPermissionsCls> cls = JsonConvert.DeserializeObject<List<RolesPermissionsCls>>(rolesDoc);
+            return cls;
+        }
 
 
         //#region "Edit CMS User"

@@ -59,11 +59,11 @@
     </AssociationSet>
     <EntitySet Name="Admins" EntityType="IMDGModel.Admin" />
     <EntitySet Name="AdminGroupRoles" EntityType="IMDGModel.AdminGroupRole" />
-    <EntitySet Name="AdminGroups" EntityType="IMDGModel.AdminGroup" />
     <AssociationSet Name="FK_AdminGroupRoles_Admin" Association="IMDGModel.FK_AdminGroupRoles_Admin">
       <End Role="Admin" EntitySet="Admins" />
       <End Role="AdminGroupRole" EntitySet="AdminGroupRoles" />
     </AssociationSet>
+    <EntitySet Name="AdminGroups" EntityType="IMDGModel.AdminGroup" />
     <AssociationSet Name="FK_AdminGroupRoles_RolesGroups" Association="IMDGModel.FK_AdminGroupRoles_RolesGroups">
       <End Role="AdminGroup" EntitySet="AdminGroups" />
       <End Role="AdminGroupRole" EntitySet="AdminGroupRoles" />
@@ -430,16 +430,6 @@
     <NavigationProperty Name="Admin" Relationship="IMDGModel.FK_AdminGroupRoles_Admin" FromRole="AdminGroupRole" ToRole="Admin" />
     <NavigationProperty Name="AdminGroup" Relationship="IMDGModel.FK_AdminGroupRoles_RolesGroups" FromRole="AdminGroupRole" ToRole="AdminGroup" />
   </EntityType>
-  <EntityType Name="AdminGroup">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Roles" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="AdminGroupRoles" Relationship="IMDGModel.FK_AdminGroupRoles_RolesGroups" FromRole="AdminGroup" ToRole="AdminGroupRole" />
-  </EntityType>
   <Association Name="FK_AdminGroupRoles_Admin">
     <End Type="IMDGModel.Admin" Role="Admin" Multiplicity="1" />
     <End Type="IMDGModel.AdminGroupRole" Role="AdminGroupRole" Multiplicity="*" />
@@ -452,6 +442,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="AdminGroup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Roles" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AdminGroupRoles" Relationship="IMDGModel.FK_AdminGroupRoles_RolesGroups" FromRole="AdminGroup" ToRole="AdminGroupRole" />
+  </EntityType>
   <Association Name="FK_AdminGroupRoles_RolesGroups">
     <End Type="IMDGModel.AdminGroup" Role="AdminGroup" Multiplicity="1" />
     <End Type="IMDGModel.AdminGroupRole" Role="AdminGroupRole" Multiplicity="*" />

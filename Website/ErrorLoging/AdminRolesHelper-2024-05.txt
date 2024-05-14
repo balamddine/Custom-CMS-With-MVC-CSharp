@@ -1,0 +1,55 @@
+#------------14-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: SaveChanges
+Message: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AdminRolesHelper.CreateGroup(AdminGroupModel item) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminRolesHelper.cs:line 142
+ -- Extra Message: --  
+CreateGroup
+#------------------------------------------------#
+
+
+#------------14-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: SaveChanges
+Message: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AdminRolesHelper.CreateGroup(AdminGroupModel item) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminRolesHelper.cs:line 142
+ -- Extra Message: --  
+CreateGroup
+#------------------------------------------------#
+
+
+#------------14-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: SaveChanges
+Message: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AdminRolesHelper.CreateGroup(AdminGroupModel item) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminRolesHelper.cs:line 142
+ -- Extra Message: --  
+CreateGroup
+#------------------------------------------------#
+
+
+#------------14-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: SaveChanges
+Message: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AdminRolesHelper.CreateGroup(AdminGroupModel item) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminRolesHelper.cs:line 142
+ -- Extra Message: --  
+CreateGroup
+#------------------------------------------------#
+
+
+#------------14-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: SaveChanges
+Message: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AdminRolesHelper.CreateGroup(AdminGroupModel item) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminRolesHelper.cs:line 142
+ -- Extra Message: --  
+CreateGroup
+#------------------------------------------------#
+
+
