@@ -59,7 +59,7 @@
                          new HtmlString(
                            "<a title='Edit' href='" + Url.Action("Edit", "Admin", new { id = item.id }) + "' class='btn btn-info btn-md'><i class='fa fa-edit' aria-hidden='true'></i></a>" + " " +
                            "<a title='Change password' href='" + Url.Action("ChangePassword", "Admin", new { id = item.id }) + "' class='btn btn-warning btn-md'><i class='fa fa-key' aria-hidden='true'></i></a>" + " " +
-                         "<a  title='Delete record' class='modalLink btn btn-danger btn-md' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>"
+                         (item.Id!=1?"<a  title='Delete record' class='modalLink btn btn-danger btn-md' data-id='" + item.Id + "' data-target='#deleteRow' data-toggle='modal' href='javascript:;'><i class='fa fa-trash ' aria-hidden='true'></i></a>":"")
 
 
                          )

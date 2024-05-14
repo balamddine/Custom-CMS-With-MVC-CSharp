@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Create Group";
 }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        highlightmenu("#ausers");
+    </script>
+}
 
 <div class="content-wrapper fixerrormsg">
     <div class="content-header">
@@ -23,6 +29,13 @@
     </div>
 
     <section class="content">
+        @{
+            if (Model.Id == 1)
+            {
+                <h3 class="card-title">Admin group cannot be edited</h3>
+                return;
+            }
+        }
 
         @using (Html.BeginForm("Edit", "AdminRoles", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
@@ -59,7 +72,7 @@
                                     <div class="col-12">
                                         @Html.LabelFor(m => m.Roles, new { @class = "" })
                                         <div class="Roles row">
-                                            @Html.Action("_RolesPermissions", "AdminRoles", new { isEdit = true })
+                                            @Html.Action("_RolesPermissions", "AdminRoles", Model)
                                         </div>
                                     </div>
                                 </div>
@@ -80,9 +93,3 @@
 
     </section>
 </div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-        highlightmenu("#ausers");        
-    </script>
-}

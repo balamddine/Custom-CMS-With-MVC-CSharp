@@ -62,37 +62,29 @@ namespace CMS.Controllers
             return View(mdle);
         }
 
-        
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(AdminGroupModel model, FormCollection obj)
         {
-           
+
             AdminRolesHelper helper = new AdminRolesHelper();
-            if (helper.GroupExists(model.GroupName))
+            if (helper.GroupExists(model))
             {
-                ModelState.AddModelError("", "Users group already exists.");
+                ModelState.AddModelError("", "Group name already exists.");
             }
             else
             {
-                DateTime CurrDate = DateTime.UtcNow;
-
+                
                 AdminGroupModel group = new AdminGroupModel
                 {
                     GroupName = model.GroupName,
-                    CreatedDate = CurrDate,
+                    CreatedDate = DateTime.UtcNow,
                 };
-                List<string> filteredKeys = obj.AllKeys.Where(x => x.Contains("role_")).ToList();
-                List<string> Roles = new List<string>();
-                foreach (string key in filteredKeys)
-                {
-                    string controller = key.Replace("role_", "");
-                    string roles = !string.IsNullOrWhiteSpace(obj[key]) ? obj[key] : "";
-                    Roles.Add(controller + "," + roles);
-                }
-                group.Roles = string.Join("|", Roles.ToArray());
-
+                List<string> Roles = getSelectedRoles(obj);
+                group.Roles = Roles.Any() ? string.Join("|", Roles.ToArray()) : "";
+                
                 int groupId = helper.CreateGroup(group);
                 if (groupId > 0)
                 {
@@ -119,6 +111,54 @@ namespace CMS.Controllers
             AdminGroupModel mdle = new AdminRolesHelper().GetGroupById(ID);
             return View(mdle);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(AdminGroupModel group, FormCollection obj)
+        {
+
+            AdminRolesHelper helper = new AdminRolesHelper();
+            if (helper.GroupExists(group))
+            {
+                ModelState.AddModelError("", "Group already exists.");
+            }
+            else
+            {
+                List<string> Roles = getSelectedRoles(obj);
+
+                group.Roles = Roles.Any() ? string.Join("|", Roles.ToArray()) : "";
+
+                bool updated = helper.EditGroup(group);
+                if (updated)
+                {
+                    new LogsHelper().Create(ViewBag.CMSUserID, "Admin Roles Page", "User '" + ViewBag.CMSUserName + "' updated a users group: '" + group.GroupName + "'");
+                    return RedirectToAction("Index", "AdminRoles");
+                }
+                else
+                    ModelState.AddModelError("", "Updating users group failed. Please check your info.");
+
+            }
+
+            var errors = ModelState.Select(x => x.Value.Errors)
+                       .Where(y => y.Count > 0)
+                       .ToList();
+
+            return View(group);
+        }
+
+        private List<string> getSelectedRoles(FormCollection obj)
+        {
+            List<string> filteredKeys = obj.AllKeys.Where(x => x.Contains("role_")).ToList();
+            List<string> Roles = new List<string>();
+            foreach (string key in filteredKeys)
+            {
+                string controller = key.Replace("role_", "");
+                string roles = !string.IsNullOrWhiteSpace(obj[key]) ? obj[key] : "";
+                Roles.Add(controller + "," + roles);
+            }
+            return Roles;
+        }
+
         #endregion
 
         private List<RolesPermissionsCls> getRolesJson()

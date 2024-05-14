@@ -1,6 +1,8 @@
 ﻿@model List<CMS.Models.RolesPermissionsCls>
 @{
     Data.Models.AdminGroupModel mdle = ViewBag.AdminRoles as Data.Models.AdminGroupModel;
+    List<string> EditRoles = mdle != null && !string.IsNullOrWhiteSpace(mdle.Roles) ? mdle.Roles.Split('|').ToList() : null;
+    
 }
 @{
 
@@ -26,6 +28,20 @@
                                 string id = "chk_" + item.controller + "_" + rle;
                                 string name = "role_" + item.controller;
                                 string ischecked = rle.ToLower() == "view" ? "checked" : "";
+                                if (EditRoles!=null)
+                                {
+                                    string fndControl = EditRoles.FirstOrDefault(x => x.Contains(item.controller));
+                                    bool fndRole = !string.IsNullOrWhiteSpace(fndControl) && fndControl.Contains(rle);
+                                    if (fndRole)
+                                    {
+                                        ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        ischecked = "";
+                                    }
+                                }
+
                                 <li>
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" @ischecked id="@id" onchange="roleChange(this)" name="@name" data-controller="@item.controller" value="@rle" class="custom-control-input" autocomplete="off" />

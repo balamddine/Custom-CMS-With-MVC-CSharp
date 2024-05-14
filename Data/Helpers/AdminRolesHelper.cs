@@ -106,13 +106,13 @@ namespace Data.Helpers
             }
         }
 
-        public bool GroupExists(string groupName)
+        public bool GroupExists(AdminGroupModel item)
         {
             try
             {
                 using (IMDGEntities cnx = new IMDGEntities())
                 {
-                    if (cnx.AdminGroups.Any(x => x.GroupName.Trim().ToLower() == groupName.Trim().ToLower()))
+                    if (cnx.AdminGroups.Any(x =>x.Id!=item.Id &&  x.GroupName.Trim().ToLower() == item.GroupName.Trim().ToLower()))
                     {
                         return true;
                     }
@@ -164,6 +164,30 @@ namespace Data.Helpers
                 Utilities.LogError(ex, "AdminRolesHelper", "AdminGroupModel");
             }
             return null;
+        }
+
+        public bool EditGroup(AdminGroupModel model)
+        {
+            try
+            {
+
+                using (IMDGEntities cnx = new IMDGEntities())
+                {
+                    if (cnx.AdminGroups.Any(x => x.Id == model.Id))
+                    {
+                        AdminGroup t = cnx.AdminGroups.First(x => x.Id == model.Id);
+                        t.GroupName = model.GroupName;
+                        t.Roles = model.Roles;                        
+                        cnx.SaveChanges();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Utilities.LogError(ex);
+            }
+            return false;
         }
     }
 
