@@ -1,4 +1,5 @@
 ﻿using CMS.Controllers;
+using CMS.Extensions;
 using Data;
 using Data.Helpers;
 using Data.Models;
@@ -14,12 +15,14 @@ namespace CMS.Controllers
     public class PageTemplateController : BaseController
     {
         // GET: PageContentTypeFields
+        [CustomAuthorization("PagesTemplate", "Edit")]
         public ActionResult Index()
         {
 
             return View(new PageTemplateHelper().GetAll());
         }
 
+        [CustomAuthorization("PagesTemplate", "Delete")]
         public ActionResult Delete(int id)
         {
             var ctr = new PageTemplateHelper();
@@ -29,14 +32,17 @@ namespace CMS.Controllers
 
             return RedirectToAction("Index");
         }
-        
+
         #region Create
+
+        [CustomAuthorization("PagesTemplate", "Create")]
         public ActionResult Create()
         {
             ViewBag.ContentTypedd = new PageContentTypeHelper().GetAll();
             return View();
         }
 
+        [CustomAuthorization("PagesTemplate", "Create")]
         [HttpPost]
         public ActionResult Create(PageTemplateModel model, FormCollection obj)
         {
@@ -73,12 +79,16 @@ namespace CMS.Controllers
         #endregion
 
         #region Edit
+
+        [CustomAuthorization("PagesTemplate", "Edit")]
         public ActionResult Edit(int id)
         {
             ViewBag.ContentTypedd = new PageContentTypeHelper().GetAll();
             var elem = new PageTemplateHelper().GetById(id);
             return View(elem);
         }
+
+        [CustomAuthorization("PagesTemplate", "Edit")]
         [HttpPost]
         public ActionResult Edit(PageTemplateModel model)
         {

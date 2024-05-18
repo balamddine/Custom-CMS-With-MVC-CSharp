@@ -1,4 +1,5 @@
 ﻿using CMS.Controllers;
+using CMS.Extensions;
 using Data.Helpers;
 using Data.Models;
 using System;
@@ -12,21 +13,28 @@ namespace CMS.Controllers
     public class PageContentTypeController : BaseController
     {
         // GET: PageContentType
+        [CustomAuthorization("PagesContentType", "View")]
         public ActionResult Index()
         {
             return View(new PageContentTypeHelper().GetAll());
         }
+
+        [CustomAuthorization("PagesContentType", "Delete")]
         public ActionResult Delete(int id)
         {
             new PageContentTypeHelper().Delete(id);
             return RedirectToAction("Index");
         }
+
         #region Create
+
+        [CustomAuthorization("PagesContentType", "Create")]
         public ActionResult Create()
         {
             return View();
         }
 
+        [CustomAuthorization("PagesContentType", "Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(PageContentTypeModel model)
@@ -64,11 +72,16 @@ namespace CMS.Controllers
 
 
         #endregion
+
         #region Edit
+
+        [CustomAuthorization("PagesContentType", "Edit")]
         public ActionResult Edit(int id)
         {
             return View(new PageContentTypeHelper().GetById(id));
         }
+
+        [CustomAuthorization("PagesContentType", "Edit")]
         [HttpPost]
         public ActionResult Edit(PageContentTypeModel model)
         {

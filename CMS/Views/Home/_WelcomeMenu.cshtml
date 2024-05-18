@@ -1,15 +1,16 @@
-﻿ @if (Request.Cookies[System.Configuration.ConfigurationManager.AppSettings["AdminCookie"]] != null)
-        {
-            var myadmin = new Data.Helpers.AdminHelper().GetById(int.Parse(Request.Cookies[System.Configuration.ConfigurationManager.AppSettings["AdminCookie"]].Value.ToString()));
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
-                    <img src="~/css/images/adminicon.png" class="img-circle elevation-2" alt="User Image">
-                </div>
-                <div class="info">
-                    <a href="javascript:;" class="d-block">
-                        Welcome <b>@myadmin.UserName</b>
-                    </a>
-                </div>
-                <a href="@Url.Action("LogOff", "Account")" class="logout" title="Sign out"><i class="fas fa-lock" aria-hidden="true"></i></a>
-            </div>
-        }
+﻿@using Newtonsoft.Json;
+@if (Request.Cookies[System.Configuration.ConfigurationManager.AppSettings["AdminCookie"]] != null)
+{
+    var myadmin = JsonConvert.DeserializeObject<Data.Models.AdminModel>(Request.Cookies[Data.Common.Sitesettings.AdminCookie].Value);    
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+            <img src="~/css/images/adminicon.png" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+            <a href="javascript:;" class="d-block">
+                Welcome <b>@myadmin.UserName</b>
+            </a>
+        </div>
+        <a href="@Url.Action("LogOff", "Account")" class="logout" title="Sign out"><i class="fas fa-lock" aria-hidden="true"></i></a>
+    </div>
+}

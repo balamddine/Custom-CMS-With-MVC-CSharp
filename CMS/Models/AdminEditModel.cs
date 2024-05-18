@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -28,5 +29,8 @@ namespace CMS.Models
 
         [Display(Name = "Disable")]
         public bool isDisabled { get; set; }
+
+        [Display(Name = "Permission group")]
+        public List<AdminGroupRoleModel> AdminGroupRoles { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CMS.Controllers;
+using CMS.Extensions;
 using Data;
 using Data.Helpers;
 using Data.Models;
@@ -13,6 +14,8 @@ namespace CMS.Controllers
     public class PageContentTypeFieldsController : BaseController
     {
         // GET: PageContentTypeFields
+
+        [CustomAuthorization("PagesContentTypeFields", "View")]
         public ActionResult Index(int id)
         {
             ViewBag.Parentid = id;
@@ -21,6 +24,7 @@ namespace CMS.Controllers
             return View(t);
         }
 
+        [CustomAuthorization("PagesContentTypeFields", "Delete")]
         public ActionResult Delete(int id)
         {
             var ctr = new PageContentTypeFieldHelper();
@@ -32,6 +36,8 @@ namespace CMS.Controllers
         }
 
         #region Create
+
+        [CustomAuthorization("PagesContentTypeFields", "Create")]
         public ActionResult Create(int id)
         {
             ViewBag.FieldsType = new PageContentTypeFieldHelper().GetAllFieldsType().Where(x=>x.Id!=7);
@@ -39,6 +45,8 @@ namespace CMS.Controllers
             ViewBag.ParentName = new PageContentTypeHelper().GetById(id).Name;
             return View();
         }
+
+        [CustomAuthorization("PagesContentTypeFields", "Create")]
 
         [HttpPost]
         public JsonResult Create(string ParentID, string Name, string TypeId, string TypeName)
@@ -75,6 +83,8 @@ namespace CMS.Controllers
         #endregion
 
         #region Edit
+
+        [CustomAuthorization("PagesContentTypeFields", "Edit")]
         public ActionResult Edit(int id)
         {
             var elem = new PageContentTypeFieldHelper().GetById(id);
@@ -84,6 +94,8 @@ namespace CMS.Controllers
             ViewBag.FieldsType = new PageContentTypeFieldHelper().GetAllFieldsType().Where(x => x.Id != 7);
             return View(elem);
         }
+
+        [CustomAuthorization("PagesContentTypeFields", "Edit")]
         [HttpPost]
         public ActionResult Edit(string id, string ParentID, string Name, string TypeId, string TypeName)
         {

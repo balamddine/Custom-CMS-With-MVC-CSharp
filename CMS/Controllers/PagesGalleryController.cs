@@ -1,4 +1,5 @@
-﻿using Data.Helpers;
+﻿using CMS.Extensions;
+using Data.Helpers;
 using Data.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace CMS.Controllers
     public class PagesGalleryController : BaseController
     {
         // GET: PageContentTypeFields
+
+        [CustomAuthorization("WebsiteContent", "Edit")]
         public ActionResult Index(int id)
         {
             PageModel myprop = new PageHelper().GetById(id, LangId);
@@ -18,6 +21,8 @@ namespace CMS.Controllers
             ViewBag.PageId = myprop.Id;
             return View(new PagesGalleryHelper().GetAll(LangId,id));
         }
+
+        [CustomAuthorization("WebsiteContent", "Edit")]
         public ActionResult MoveUp(int ID)
         {
 
@@ -34,6 +39,8 @@ namespace CMS.Controllers
             }
             return RedirectToAction("Index", "PagesGallery", new { id = curr.PageId });
         }
+
+        [CustomAuthorization("WebsiteContent", "Edit")]
         public ActionResult MoveDown(int ID)
         {
             PagesGalleryHelper helper = new PagesGalleryHelper();
@@ -49,6 +56,8 @@ namespace CMS.Controllers
             }
             return RedirectToAction("Index", "PagesGallery", new { id = curr.PageId });
         }
+
+        [CustomAuthorization("WebsiteContent", "Edit")]
         public ActionResult Delete(int id)
         {
             var ctr = new PagesGalleryHelper();
@@ -60,6 +69,8 @@ namespace CMS.Controllers
         }
 
         #region Create
+
+        [CustomAuthorization("WebsiteContent", "Edit")]
         public ActionResult Create(int id)
         {
             PagesGalleryModel pm = new PagesGalleryModel { PageId = id };
@@ -69,6 +80,8 @@ namespace CMS.Controllers
             return View(pm);
         }
 
+
+        [CustomAuthorization("WebsiteContent", "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]

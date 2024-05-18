@@ -1,4 +1,5 @@
 ﻿using CMS.Controllers;
+using CMS.Extensions;
 using Data.Helpers;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace CMS.Controllers
     public class LogsController : BaseController
     {
         // GET: Logs
+        [CustomAuthorization("Logs","View")]
         public ActionResult Index(int page=1)
         {            
             int totalrec = 0; int pagesize = 10;

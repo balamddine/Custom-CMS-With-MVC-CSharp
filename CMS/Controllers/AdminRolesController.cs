@@ -10,12 +10,15 @@ using Data.Common;
 using Newtonsoft.Json;
 using System.Configuration;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using OfficeOpenXml;
+using CMS.Extensions;
 
 namespace CMS.Controllers
 {
     public class AdminRolesController : BaseController
     {
-        public ActionResult Index(int page = 1, string search = "")
+        [CustomAuthorization("AdminRole", "View")]
+        public ActionResult Index(int page = 1, string search = "",string deleteError="")
         {
             int totalrec = 0; int pagesize = 20;
             List<AdminGroupModel> L = new AdminRolesHelper().GetAllGroups(pagesize, page, ref totalrec, search);
@@ -23,20 +26,16 @@ namespace CMS.Controllers
             ViewBag.pageSize = pagesize;
             ViewBag.totalCount = totalrec;
             ViewBag.page = page;
-
-
-
-
-
-
-
+            ViewBag.deleteError = deleteError;
             return View(L);
         }
-
+        [CustomAuthorization("AdminRole", "Delete")]
         public ActionResult Delete(int id)
         {
-            new AdminRolesHelper().DeleteGroup(id);
-            return RedirectToAction("Index");
+
+            bool isDeleted = new AdminRolesHelper().DeleteGroup(id);
+            
+            return RedirectToAction("Index", new { deleteError = !isDeleted ?"Group already contains users.":"" });
         }
         [HttpPost]
         [ValidateInput(false)]
@@ -47,6 +46,19 @@ namespace CMS.Controllers
             return Json(new { data = data }, JsonRequestBehavior.AllowGet);
         }
 
+        public PartialViewResult _CurrentUserRolesPartial(string controller="")
+        {
+            List<AdminGroupRoleModel> l = ViewBag.UserGroupRoles as List<AdminGroupRoleModel>;
+            List<string> roles =new List<string>();
+            if (!string.IsNullOrWhiteSpace(controller))
+            {
+                roles = l.Where(z=>z.AdminGroup.Roles.Contains(controller)).Select(x=>x.AdminGroup.Roles).ToList();
+                
+            }
+            return PartialView(roles);
+        }
+
+
         public PartialViewResult _RolesPermissions(AdminGroupModel mdle = null)
         {
             List<RolesPermissionsCls> cls = getRolesJson();
@@ -55,6 +67,7 @@ namespace CMS.Controllers
         }
 
         #region "Create"
+        [CustomAuthorization("AdminRole", "Create")]
         public ActionResult Create()
         {
 
@@ -63,7 +76,7 @@ namespace CMS.Controllers
         }
 
 
-
+        [CustomAuthorization("AdminRole", "Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(AdminGroupModel model, FormCollection obj)
@@ -76,7 +89,7 @@ namespace CMS.Controllers
             }
             else
             {
-                
+
                 AdminGroupModel group = new AdminGroupModel
                 {
                     GroupName = model.GroupName,
@@ -84,7 +97,7 @@ namespace CMS.Controllers
                 };
                 List<string> Roles = getSelectedRoles(obj);
                 group.Roles = Roles.Any() ? string.Join("|", Roles.ToArray()) : "";
-                
+
                 int groupId = helper.CreateGroup(group);
                 if (groupId > 0)
                 {
@@ -105,6 +118,7 @@ namespace CMS.Controllers
         #endregion
 
         #region "Edit"
+        [CustomAuthorization("AdminRole", "Edit")]
         public ActionResult Edit(int ID)
         {
 
@@ -112,6 +126,7 @@ namespace CMS.Controllers
             return View(mdle);
         }
 
+        [CustomAuthorization("AdminRole", "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(AdminGroupModel group, FormCollection obj)
@@ -161,6 +176,8 @@ namespace CMS.Controllers
 
         #endregion
 
+
+
         private List<RolesPermissionsCls> getRolesJson()
         {
             string rolesFile = Server.MapPath(Sitesettings.RolesJsonFile);
@@ -169,70 +186,6 @@ namespace CMS.Controllers
             return cls;
         }
 
-
-        //#region "Edit CMS User"
-        //public ActionResult Edit(int ID)
-        //{
-
-        //   AdminModel model = new AdminHelper().GetById(ID);
-        //    CMSUserEditModel editmodel = new CMSUserEditModel
-        //    {
-        //        CreateDate = model.CreateDate,
-        //        ID = model.ID,
-        //        isDeleted = model.isDeleted,
-        //        FirstName = model.FirstName,
-        //        UserName = model.UserName,
-        //        LastName = model.LastName,
-        //        isDisabled = model.isDisabled,
-        //        Email = model.Email                
-        //    };           
-        //    return View(editmodel);
-        //}
-        //[HttpPost]
-        //public ActionResult Edit(CMSUserEditModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return View(model);
-        //    AdminHelper helper = new AdminHelper();
-        //    AdminModel item = helper.GetCMSUserByUsername(model.UserName);
-        //    if (item != null && item.ID > 0 && item.ID != model.ID)
-        //    {
-        //        ModelState.AddModelError("", "This Username already exists.");
-        //    }
-        //    else
-        //    {
-        //        //DateTime CurrDate = DateTime.Now;
-        //        //string pass = Common.Utility.EncryptPassword(model.Password);
-        //        AdminModel user = new AdminModel
-        //        {
-        //            Email = model.Email,
-        //            CreateDate = model.CreateDate,
-        //            FirstName = model.FirstName,
-        //            isDeleted = false,
-        //            LastName = model.LastName,
-        //            ID = model.ID,
-        //            UserName = model.UserName,
-        //            isDisabled = model.isDisabled
-        //            // Password = pass
-
-        //        };
-        //        if (helper.update(user))
-        //        {
-        //            new LogsHelper().Create(ViewBag.CMSUserID, "Edit user", "User '" + ViewBag.CMSUserName + "' Edit the information of: '" + item.UserName+"'");
-        //            return RedirectToAction("Index");
-        //        }
-        //        else
-        //            ModelState.AddModelError("", "Creating CMSUser failed. Please check your info.");
-
-        //    }
-
-        //    var errors = ModelState.Select(x => x.Value.Errors)
-        //               .Where(y => y.Count > 0)
-        //               .ToList();
-
-        //    return View(model);
-        //}
-        //#endregion
 
 
     }

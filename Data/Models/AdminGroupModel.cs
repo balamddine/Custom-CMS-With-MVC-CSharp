@@ -26,7 +26,7 @@ namespace Data.Models
                 Id = model.Id,
                 GroupName = model.GroupName,
                 Roles = model.Roles,
-                UsersCount = model.AdminGroupRoles != null && model.AdminGroupRoles.Count > 0? model.AdminGroupRoles.Select(x => x.AdminId).Distinct().Count():0,
+                UsersCount = model.AdminGroupRoles != null && model.AdminGroupRoles.Count > 0? model.AdminGroupRoles.Where(x=>!x.Admin.isDeleted).Select(x => x.AdminId).Distinct().Count():0,
                
                 CreatedDate = model.CreatedDate
             };

@@ -1,6 +1,6 @@
 ﻿@model CMS.Models.UserRegisterModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Add new user";
 }
 
 <div class="content-wrapper fixerrormsg">
@@ -23,7 +23,7 @@
 
     <section class="content">
 
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("Create", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             <input type="hidden" name="CMSUserID" value="@ViewBag.CMSUserID" />
             <input type="hidden" name="CMSUserName" value="@ViewBag.CMSUserName" />
@@ -53,6 +53,34 @@
                                         </div>
                                     </div>
                                     <div class="col-6">
+
+                                        <b>
+                                            @Html.LabelFor(m => m.AdminGroupRoles, new { @class = "" })
+                                            <span style="font-size:12px;font-weight:400">
+                                                (Users with no groups will get full acccess)
+                                            </span>
+                                        </b>
+
+                                        <div class="form-input">
+                                            <select id="ddRoles" name="AdminGroupRoles" class="form-control select2" multiple data-placeholder="Select...">
+                                                @{
+                                                    foreach (var item in Model.AdminGroupRoles)
+                                                    {
+                                                        string selected = item.Id == 1 ? "selected" : "";
+                                                        <option value="@item.Id" @selected>@item.GroupName</option>
+                                                    }
+                                                }
+                                            </select>
+                                            @Html.ValidationMessageFor(u => u.AdminGroupRoles, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
                                         @Html.LabelFor(m => m.Email, new { @class = "" })
                                         <div class="form-input">
                                             @Html.TextBoxFor(model => model.Email, new { @class = "form-control ", autocomplete = "off" })
@@ -60,7 +88,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="form-group">
                                 <div class="row">
@@ -120,56 +147,6 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         highlightmenu("#ausers");
-
-        $(".checkbox input[type='checkbox']").change(function () {
-            var parent = $(this).closest('.cbxholder');
-            var value = parent.find(".actionstr").val();
-            if (this.checked) {
-                if (value != "") {
-                    value = value + "," + this.value;
-                }
-                else {
-                    value = this.value;
-                }
-                parent.find(".actionstr").val(value);
-            }
-            else {
-                value = value.replace("," + this.value, "");
-                parent.find(".actionstr").val(value);
-            }
-        });
     </script>
 }
 
-@*<div class="row mb-2 hidden">
-        <div class="col-md-4">
-            <b>Permissions</b>
-        </div>
-    </div> <div class="row mb-2 hidden">
-
-        @for (int i = 0; i < Model.permissions.Count; i++)
-        {
-            <div class="col-md-4">
-
-                <label>@Model.permissions[i].ModuleName</label>
-                @Html.HiddenFor(model => Model.permissions[i].ModuleID)
-                @Html.HiddenFor(model => Model.permissions[i].ModuleName)
-            </div>
-
-            <div class="col-md-8 cbxholder">
-                @foreach (var subitem in Model.permissions[i].actions)
-                {
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox"
-                                   name="@Model.permissions[i].actions"
-                                   value="@subitem.ID" /> @subitem.Name
-                            </label>
-                        </div>
-                    }
-                @Html.HiddenFor(model => Model.permissions[i].actionString, new { @class = "actionstr" })
-            </div>
-        }
-
-
-    </div>*@

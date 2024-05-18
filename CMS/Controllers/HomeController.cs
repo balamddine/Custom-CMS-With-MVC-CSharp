@@ -9,6 +9,7 @@ using Data.Common;
 using System.Collections;
 using System.Configuration;
 using Data;
+using Newtonsoft.Json;
 
 namespace CMS.Controllers
 {
@@ -32,6 +33,17 @@ namespace CMS.Controllers
             Response.StatusDescription = "Page not found";
             return View();
         }
+
+        public ActionResult UnAuthorized()
+        {
+            Response.TrySkipIisCustomErrors = true;
+            //Set status code And message; you could also use the HttpStatusCode enum System.Net.HttpStatusCode.NotFound
+            Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+            Response.StatusDescription = "Unauthorized";
+            return View();
+        }
+
+        
 
         public ActionResult ClearCache()
         {
@@ -97,9 +109,7 @@ namespace CMS.Controllers
             //model.ContactCount = ContactRequests;
             //model.NewsltterCount = NewsletterRequests;
             //model.VacancyCount = CareerRequests;
-            int adminId = int.Parse(Request.Cookies[System.Configuration.ConfigurationManager.AppSettings["AdminCookie"]].Value.ToString());
-            AdminModel myadmin = new Data.Helpers.AdminHelper().GetById(adminId);
-
+            AdminModel myadmin = JsonConvert.DeserializeObject<AdminModel>(Request.Cookies[Sitesettings.AdminCookie].Value);          
             return PartialView(myadmin);
         }
         
@@ -150,10 +160,8 @@ namespace CMS.Controllers
         #region Theme Selector
         [HttpPost]
         public JsonResult _switchTheme(string currentTheme)
-        {
-            int adminId = int.Parse(Request.Cookies[System.Configuration.ConfigurationManager.AppSettings["AdminCookie"]].Value.ToString());
-            AdminHelper helper = new AdminHelper();
-            AdminModel myadmin = helper.GetById(adminId);
+        {            
+            AdminModel myadmin = JsonConvert.DeserializeObject<AdminModel>(Request.Cookies[Sitesettings.AdminCookie].Value);
             if (currentTheme == "light")
             {
                 myadmin.Theme = "dark";
@@ -162,7 +170,7 @@ namespace CMS.Controllers
             {
                 myadmin.Theme = "light";
             }
-            helper.update(myadmin);
+            new AdminHelper().updateTheme(myadmin);
             return Json(new { success = "true" }, JsonRequestBehavior.AllowGet);
         }
          

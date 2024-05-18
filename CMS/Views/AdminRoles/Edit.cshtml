@@ -2,12 +2,7 @@
 @{
     ViewBag.Title = "Create Group";
 }
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-        highlightmenu("#ausers");
-    </script>
-}
+
 
 <div class="content-wrapper fixerrormsg">
     <div class="content-header">
@@ -93,3 +88,10 @@
 
     </section>
 </div>
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        highlightmenu("#ausersroles");
+    </script>
+}

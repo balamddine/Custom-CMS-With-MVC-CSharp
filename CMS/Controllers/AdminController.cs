@@ -8,16 +8,21 @@ using Data.Models;
 using Data.Helpers;
 using Data.Common;
 using Newtonsoft.Json;
+using Data;
+using System.Data.Entity.Migrations.Model;
+using CMS.Extensions;
 
 namespace CMS.Controllers
 {
     public class AdminController : BaseController
     {
         ///GET: CMSUser
+        [CustomAuthorization("AdminSettings", "View")]
         public ActionResult Index()
         {
             return View(new AdminHelper().GetCMSUser());
         }
+        [CustomAuthorization("AdminSettings", "Delete")]
         public ActionResult Delete(int id)
         {
             new AdminHelper().Delete(id);
@@ -25,29 +30,28 @@ namespace CMS.Controllers
         }
 
         #region "Create"
+        [CustomAuthorization("AdminSettings", "Create")]
         public ActionResult Create()
         {
-            //if (Request.Cookies["Admin"] == null || Request.Cookies["Admin"].Value.ToString() == "")
-            //    return RedirectToAction("Login", "Account", new { returnUrl = "/Account/Register" });
             ViewBag.CMSUserID = 0;
             ViewBag.CMSUserName = "";
             if (Request.Cookies[Sitesettings.AdminCookie] != null || Request.Cookies[Sitesettings.AdminCookie].Value.ToString() != "")
-            {
-                AdminHelper helper = new AdminHelper();
-                AdminModel item = helper.GetById(Convert.ToInt32(Request.Cookies[Sitesettings.AdminCookie].Value));
+            {                
+                AdminModel item = JsonConvert.DeserializeObject<AdminModel>(Request.Cookies[Sitesettings.AdminCookie].Value);
                 ViewBag.CMSUserID = item.ID;
                 ViewBag.CMSUserName = item.UserName;
             }
-            CMS.Models.UserRegisterModel model = new CMS.Models.UserRegisterModel();
 
+            CMS.Models.UserRegisterModel model = new CMS.Models.UserRegisterModel();
+            int totalrec = 0;
+            model.AdminGroupRoles = new AdminRolesHelper().GetAllGroups(1000, 1, ref totalrec, "");
             return View(model);
         }
+        [CustomAuthorization("AdminSettings", "Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CMS.Models.UserRegisterModel model, FormCollection obj)
         {
-            if (!ModelState.IsValid)
-                return View(model);
             AdminHelper helper = new AdminHelper();
             if (helper.UserExists(model.UserName))
             {
@@ -57,6 +61,17 @@ namespace CMS.Controllers
             {
                 DateTime CurrDate = DateTime.UtcNow;
                 string pass = Utilities.EncryptPassword(model.Password);
+
+                string selectedRoles = obj["AdminGroupRoles"];
+                List<AdminGroupRoleModel> roles = new List<AdminGroupRoleModel>();
+                foreach (var item in selectedRoles.Split(','))
+                {
+                    roles.Add(new AdminGroupRoleModel
+                    {
+                        AdminId = 0,
+                        GroupId = Convert.ToInt32(item)
+                    });
+                }
                 AdminModel user = new AdminModel
                 {
                     Email = model.Email,
@@ -71,7 +86,7 @@ namespace CMS.Controllers
 
                 int CMSUserID = Convert.ToInt32(obj["CMSUserID"].ToString());
                 string CMSUserName = obj["CMSUserName"].ToString();
-                int UserID = helper.Create(user);
+                int UserID = helper.Create(user, roles);
                 if (UserID > 0)
                 {
                     new LogsHelper().Create(CMSUserID, "Create user", "User '" + CMSUserName + "' Created a new user with username: '" + model.UserName + "'");
@@ -85,16 +100,19 @@ namespace CMS.Controllers
             var errors = ModelState.Select(x => x.Value.Errors)
                        .Where(y => y.Count > 0)
                        .ToList();
-
+            int totalrec = 0;
+            model.AdminGroupRoles = new AdminRolesHelper().GetAllGroups(1000, 1, ref totalrec, "");
             return View(model);
         }
         #endregion
 
         #region "Edit"
+        [CustomAuthorization("AdminSettings", "Edit")]
         public ActionResult Edit(int ID)
         {
-
-           AdminModel model = new AdminHelper().GetById(ID);
+            int totalrec = 0;
+            ViewBag.AdminGroupRoles = new AdminRolesHelper().GetAllGroups(1000, 1, ref totalrec, "");
+            AdminModel model = new AdminHelper().GetById(ID);
             CMSUserEditModel editmodel = new CMSUserEditModel
             {
                 CreateDate = model.CreateDate,
@@ -104,15 +122,17 @@ namespace CMS.Controllers
                 UserName = model.UserName,
                 LastName = model.LastName,
                 isDisabled = model.isDisabled,
-                Email = model.Email                
-            };           
+                Email = model.Email,
+                AdminGroupRoles = model.AdminGroupRoles
+            };
             return View(editmodel);
         }
+
+        [CustomAuthorization("AdminSettings", "Edit")]
         [HttpPost]
-        public ActionResult Edit(CMSUserEditModel model)
+        public ActionResult Edit(CMSUserEditModel model, FormCollection obj)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+
             AdminHelper helper = new AdminHelper();
             AdminModel item = helper.GetCMSUserByUsername(model.UserName);
             if (item != null && item.ID > 0 && item.ID != model.ID)
@@ -121,8 +141,18 @@ namespace CMS.Controllers
             }
             else
             {
-                //DateTime CurrDate = DateTime.Now;
-                //string pass = Common.Utility.EncryptPassword(model.Password);
+               
+                string selectedRoles = !string.IsNullOrWhiteSpace(obj["AdminGroupRoles"]) ? obj["AdminGroupRoles"].ToString() : "";
+                List<AdminGroupRoleModel> roles = new List<AdminGroupRoleModel>();
+                foreach (string role in selectedRoles.Split(','))
+                {
+                    roles.Add(new AdminGroupRoleModel
+                    {
+                        AdminId = item.ID,
+                        GroupId = Convert.ToInt32(role)
+                    });
+                }
+
                 AdminModel user = new AdminModel
                 {
                     Email = model.Email,
@@ -132,13 +162,19 @@ namespace CMS.Controllers
                     LastName = model.LastName,
                     ID = model.ID,
                     UserName = model.UserName,
-                    isDisabled = model.isDisabled
+                    isDisabled = model.isDisabled,
+                    AdminGroupRoles = item.AdminGroupRoles
                     // Password = pass
 
                 };
-                if (helper.update(user))
+                if (item.ID == 1) // not admin
                 {
-                    new LogsHelper().Create(ViewBag.CMSUserID, "Edit user", "User '" + ViewBag.CMSUserName + "' Edit the information of: '" + item.UserName+"'");
+                    roles = new List<AdminGroupRoleModel>();
+                }
+                bool IsUpdated = helper.update(user, roles);
+                if (IsUpdated)
+                {
+                    new LogsHelper().Create(ViewBag.CMSUserID, "Edit user", "User '" + ViewBag.CMSUserName + "' Edit the information of: '" + item.UserName + "'");
                     return RedirectToAction("Index");
                 }
                 else
@@ -149,7 +185,8 @@ namespace CMS.Controllers
             var errors = ModelState.Select(x => x.Value.Errors)
                        .Where(y => y.Count > 0)
                        .ToList();
-
+            int totalrec = 0;
+            ViewBag.AdminGroupRoles = new AdminRolesHelper().GetAllGroups(1000, 1, ref totalrec, "");
             return View(model);
         }
         #endregion
@@ -191,7 +228,7 @@ namespace CMS.Controllers
                     ModelState.AddModelError("", "Your current password is incorrect.");
 
             }
-           
+
             var errors = ModelState.Select(x => x.Value.Errors)
                        .Where(y => y.Count > 0)
                        .ToList();
@@ -207,7 +244,7 @@ namespace CMS.Controllers
             string data = JsonConvert.SerializeObject(adminGroupModels);
             return Json(new { data = data }, JsonRequestBehavior.AllowGet);
         }
-                
+
 
     }
 }

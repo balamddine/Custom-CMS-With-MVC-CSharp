@@ -53,3 +53,62 @@ CreateGroup
 #------------------------------------------------#
 
 
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: PrepareToSaveChanges
+Message: The operation failed: The relationship could not be changed because one or more of the foreign-key properties is non-nullable. When a change is made to a relationship, the related foreign-key property is set to a null value. If the foreign-key does not support null values, a new relationship must be defined, the foreign-key property must be assigned another non-null value, or the unrelated object must be deleted.
+StackTrace:    at System.Data.Entity.Core.Objects.ObjectContext.PrepareToSaveChanges(SaveOptions options)
+   at System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AdminRolesHelper.DeleteGroup(Int32 id) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminRolesHelper.cs:line 63
+ -- Extra Message: --  
+DeleteGroup
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: PrepareToSaveChanges
+Message: The operation failed: The relationship could not be changed because one or more of the foreign-key properties is non-nullable. When a change is made to a relationship, the related foreign-key property is set to a null value. If the foreign-key does not support null values, a new relationship must be defined, the foreign-key property must be assigned another non-null value, or the unrelated object must be deleted.
+StackTrace:    at System.Data.Entity.Core.Objects.ObjectContext.PrepareToSaveChanges(SaveOptions options)
+   at System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AdminRolesHelper.DeleteGroup(Int32 id) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminRolesHelper.cs:line 63
+ -- Extra Message: --  
+DeleteGroup
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: System.Core
+Method: MoveNext
+Message: Collection was modified; enumeration operation may not execute.
+StackTrace:    at System.Collections.Generic.HashSet`1.Enumerator.MoveNext()
+   at Data.Helpers.AdminRolesHelper.DeleteGroup(Int32 id) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminRolesHelper.cs:line 62
+ -- Extra Message: --  
+DeleteGroup
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: System.Core
+Method: MoveNext
+Message: Collection was modified; enumeration operation may not execute.
+StackTrace:    at System.Collections.Generic.HashSet`1.Enumerator.MoveNext()
+   at Data.Helpers.AdminRolesHelper.DeleteGroup(Int32 id) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminRolesHelper.cs:line 62
+ -- Extra Message: --  
+DeleteGroup
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: System.Core
+Method: MoveNext
+Message: Collection was modified; enumeration operation may not execute.
+StackTrace:    at System.Collections.Generic.HashSet`1.Enumerator.MoveNext()
+   at Data.Helpers.AdminRolesHelper.DeleteGroup(Int32 id) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminRolesHelper.cs:line 62
+ -- Extra Message: --  
+DeleteGroup
+#------------------------------------------------#
+
+

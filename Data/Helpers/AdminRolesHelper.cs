@@ -24,7 +24,7 @@ namespace Data.Helpers
                     {
                         query = query.Where(x => x.GroupName.ToLower().Contains(keyword));
                     }
-                    
+
 
                     totalrec = query.Count();
                     var L = query.ToList().OrderByDescending(x => x.CreatedDate).ToList().Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
@@ -42,8 +42,8 @@ namespace Data.Helpers
             }
 
         }
- 
-        public void DeleteGroup(int id)
+
+        public bool DeleteGroup(int id)
         {
             try
             {
@@ -52,15 +52,27 @@ namespace Data.Helpers
                     if (cnx.AdminGroups.Any(x => x.Id == id))
                     {
                         var c = cnx.AdminGroups.First(x => x.Id == id);
+                        if (c != null)
+                        {
+                            if (c.AdminGroupRoles != null && c.AdminGroupRoles.Count(x => !x.Admin.isDeleted) > 0)
+                            {
+                                return false;
+                            }
+                        }
+
+                        cnx.AdminGroupRoles.RemoveRange(c.AdminGroupRoles);
                         cnx.AdminGroups.Remove(c);
                         cnx.SaveChanges();
+                        return true;
                     }
                 }
             }
             catch (Exception ex)
             {
                 Utilities.LogError(ex, "AdminRolesHelper", "DeleteGroup");
+                return false;
             }
+            return false;
         }
 
         public List<AdminGroupModel> GetAllUsersGroups(int userId)
@@ -70,7 +82,7 @@ namespace Data.Helpers
                 using (IMDGEntities cnx = new IMDGEntities())
                 {
                     IQueryable<AdminGroupRole> query = cnx.AdminGroupRoles.Where(x => x.AdminId == userId);
-                    
+
                     List<AdminGroupModel> c = new List<AdminGroupModel>();
                     foreach (var item in query)
                         c.Add(AdminGroupModel.GetFromModel(item.AdminGroup));
@@ -91,7 +103,7 @@ namespace Data.Helpers
             {
                 using (IMDGEntities cnx = new IMDGEntities())
                 {
-                    IQueryable<AdminGroupRole> query = cnx.AdminGroupRoles.Where(x => x.GroupId==GroupId);
+                    IQueryable<AdminGroupRole> query = cnx.AdminGroupRoles.Where(x => x.GroupId == GroupId && !x.Admin.isDeleted);
                     List<AdminModel> c = new List<AdminModel>();
                     foreach (var item in query)
                         c.Add(AdminModel.GetFromCMSUser(item.Admin));
@@ -112,7 +124,7 @@ namespace Data.Helpers
             {
                 using (IMDGEntities cnx = new IMDGEntities())
                 {
-                    if (cnx.AdminGroups.Any(x =>x.Id!=item.Id &&  x.GroupName.Trim().ToLower() == item.GroupName.Trim().ToLower()))
+                    if (cnx.AdminGroups.Any(x => x.Id != item.Id && x.GroupName.Trim().ToLower() == item.GroupName.Trim().ToLower()))
                     {
                         return true;
                     }
@@ -155,8 +167,8 @@ namespace Data.Helpers
             try
             {
                 using (IMDGEntities cnx = new IMDGEntities())
-                {                     
-                    return AdminGroupModel.GetFromModel(cnx.AdminGroups.FirstOrDefault(x => x.Id==id));                    
+                {
+                    return AdminGroupModel.GetFromModel(cnx.AdminGroups.FirstOrDefault(x => x.Id == id));
                 }
             }
             catch (Exception ex)
@@ -177,7 +189,7 @@ namespace Data.Helpers
                     {
                         AdminGroup t = cnx.AdminGroups.First(x => x.Id == model.Id);
                         t.GroupName = model.GroupName;
-                        t.Roles = model.Roles;                        
+                        t.Roles = model.Roles;
                         cnx.SaveChanges();
                         return true;
                     }

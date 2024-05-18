@@ -55,7 +55,30 @@
                                             </div>
 
                                         </div>
+                                        <div class="col-6">
 
+                                            <b>@Html.LabelFor(m => m.AdminGroupRoles, new { @class = "" })
+                                                <span style="font-size:12px;font-weight:400">
+                                                    (Users with no groups will get full acccess)
+                                                </span>
+                                            </b>
+
+                                            <div class="form-input">
+                                                @{ 
+                                                    string disabled = Model.ID == 1 ? "disabled" : "";
+                                                }
+                                                <select id="ddRoles" @disabled name="AdminGroupRoles" class="form-control select2" multiple data-placeholder="Select...">
+                                                    @{
+                                                        foreach (Data.Models.AdminGroupModel item in ViewBag.AdminGroupRoles)
+                                                        {
+                                                            string selected = Model.AdminGroupRoles.FirstOrDefault(x=>x.GroupId==item.Id)!=null ? "selected" : "";
+                                                            <option value="@item.Id" @selected>@item.GroupName</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                @Html.ValidationMessageFor(u => u.AdminGroupRoles, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>

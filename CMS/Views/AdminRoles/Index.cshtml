@@ -38,6 +38,14 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             @{
+                                                if (!string.IsNullOrWhiteSpace(ViewBag.deleteError))
+                                                {
+                                                    <label class="text-danger">@ViewBag.deleteError</label>
+                                                }
+                                            }
+
+
+                                            @{
                                                 WebGrid grid = new WebGrid(@Model, rowsPerPage: 20, canSort: false);
 
                                                 @grid.GetHtml(tableStyle: "table",
@@ -130,7 +138,7 @@
 @section Scripts
 {
     <script type="text/javascript">
-        highlightmenu("#ausers");
+        highlightmenu("#ausersroles");
 
         $(document).on("click", ".modalLink", function () {
             var passedID = $(this).data('id');

@@ -60,3 +60,177 @@ Get by UserName
 #------------------------------------------------#
 
 
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: SaveChanges
+Message: An error occurred while updating the entries. See the inner exception for details.
+Inner Exception: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AdminHelper.Create(AdminModel model, List`1 adminGroupRoles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 136
+ -- Extra Message: --  
+Create
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: SaveChanges
+Message: An error occurred while updating the entries. See the inner exception for details.
+Inner Exception: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AdminHelper.Create(AdminModel model, List`1 adminGroupRoles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 136
+ -- Extra Message: --  
+Create
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: SaveChanges
+Message: An error occurred while updating the entries. See the inner exception for details.
+Inner Exception: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AdminHelper.Create(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 136
+ -- Extra Message: --  
+Create
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: SaveChanges
+Message: An error occurred while updating the entries. See the inner exception for details.
+Inner Exception: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at Data.Helpers.AdminHelper.Create(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 136
+ -- Extra Message: --  
+Create
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: Data
+Method: ConverttoAdminRoles
+Message: Object reference not set to an instance of an object.
+StackTrace:    at Data.Helpers.AdminHelper.ConverttoAdminRoles(List`1 adminGroupRoles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 191
+   at Data.Helpers.AdminHelper.update(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 165
+ -- Extra Message: --  
+Update
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: Data
+Method: ConverttoAdminRoles
+Message: Object reference not set to an instance of an object.
+StackTrace:    at Data.Helpers.AdminHelper.ConverttoAdminRoles(List`1 adminGroupRoles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 191
+   at Data.Helpers.AdminHelper.update(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 165
+ -- Extra Message: --  
+Update
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: DeleteObject
+Message: The object cannot be deleted because it was not found in the ObjectStateManager.
+StackTrace:    at System.Data.Entity.Core.Objects.ObjectContext.DeleteObject(Object entity, EntitySet expectedEntitySet)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.RemoveRange(IEnumerable entities)
+   at System.Data.Entity.DbSet`1.RemoveRange(IEnumerable`1 entities)
+   at Data.Helpers.AdminHelper.update(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 165
+ -- Extra Message: --  
+Update
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: DeleteObject
+Message: The object cannot be deleted because it was not found in the ObjectStateManager.
+StackTrace:    at System.Data.Entity.Core.Objects.ObjectContext.DeleteObject(Object entity, EntitySet expectedEntitySet)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.RemoveRange(IEnumerable entities)
+   at System.Data.Entity.DbSet`1.RemoveRange(IEnumerable`1 entities)
+   at Data.Helpers.AdminHelper.update(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 165
+ -- Extra Message: --  
+Update
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: DeleteObject
+Message: The object cannot be deleted because it was not found in the ObjectStateManager.
+StackTrace:    at System.Data.Entity.Core.Objects.ObjectContext.DeleteObject(Object entity, EntitySet expectedEntitySet)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.RemoveRange(IEnumerable entities)
+   at System.Data.Entity.DbSet`1.RemoveRange(IEnumerable`1 entities)
+   at Data.Helpers.AdminHelper.update(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 165
+ -- Extra Message: --  
+Update
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: DeleteObject
+Message: The object cannot be deleted because it was not found in the ObjectStateManager.
+StackTrace:    at System.Data.Entity.Core.Objects.ObjectContext.DeleteObject(Object entity, EntitySet expectedEntitySet)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.RemoveRange(IEnumerable entities)
+   at System.Data.Entity.DbSet`1.RemoveRange(IEnumerable`1 entities)
+   at Data.Helpers.AdminHelper.update(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 165
+ -- Extra Message: --  
+Update
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: DeleteObject
+Message: The object cannot be deleted because it was not found in the ObjectStateManager.
+StackTrace:    at System.Data.Entity.Core.Objects.ObjectContext.DeleteObject(Object entity, EntitySet expectedEntitySet)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.RemoveRange(IEnumerable entities)
+   at System.Data.Entity.DbSet`1.RemoveRange(IEnumerable`1 entities)
+   at Data.Helpers.AdminHelper.update(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 166
+ -- Extra Message: --  
+Update
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: DeleteObject
+Message: The object cannot be deleted because it was not found in the ObjectStateManager.
+StackTrace:    at System.Data.Entity.Core.Objects.ObjectContext.DeleteObject(Object entity, EntitySet expectedEntitySet)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.RemoveRange(IEnumerable entities)
+   at System.Data.Entity.DbSet`1.RemoveRange(IEnumerable`1 entities)
+   at Data.Helpers.AdminHelper.update(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 166
+ -- Extra Message: --  
+Update
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: DeleteObject
+Message: The object cannot be deleted because it was not found in the ObjectStateManager.
+StackTrace:    at System.Data.Entity.Core.Objects.ObjectContext.DeleteObject(Object entity, EntitySet expectedEntitySet)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.RemoveRange(IEnumerable entities)
+   at System.Data.Entity.DbSet`1.RemoveRange(IEnumerable`1 entities)
+   at Data.Helpers.AdminHelper.update(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 166
+ -- Extra Message: --  
+Update
+#------------------------------------------------#
+
+
+#------------18-05-2024 12:00:00 AM------------#
+Source: EntityFramework
+Method: DeleteObject
+Message: The object cannot be deleted because it was not found in the ObjectStateManager.
+StackTrace:    at System.Data.Entity.Core.Objects.ObjectContext.DeleteObject(Object entity, EntitySet expectedEntitySet)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.RemoveRange(IEnumerable entities)
+   at System.Data.Entity.DbSet`1.RemoveRange(IEnumerable`1 entities)
+   at Data.Helpers.AdminHelper.update(AdminModel model, List`1 Roles) in C:\CSharpProjects\CustomCMS\Data\Helpers\AdminHelper.cs:line 167
+ -- Extra Message: --  
+Update
+#------------------------------------------------#
+
+

@@ -39,22 +39,10 @@ namespace CMS.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-       //public  List<permissionitem> permissions { get; set; }
-       // public List<permissionitem> permissionrequest { get; set; }
+        [Display(Name = "Permission group")]
+        public List<AdminGroupModel> AdminGroupRoles { get; set; }
+
+     
     }
 
-    //public class permissionitem
-    //{
-    //    public string ModuleName { get; set; }
-    //    public int ModuleID { get; set; }
-    //    public List<ActionModel> actions { get; set; }
-    //    public string actionString { get; set; }
-    //    public List<int> selectedItems { get; set; }
-    //}
-    //public class permissionitemrequest
-    //{
-    //    public string ModuleName { get; set; }
-    //    public int ModuleID { get; set; }
-    //    public List<ActionModel> actions { get; set; }
-    //}
 }

@@ -8,6 +8,7 @@ using Data.Models;
 using Data.Helpers;
 using Data.Common;
 using static Data.Common.Utilities;
+using Newtonsoft.Json;
 
 namespace CMS.Controllers
 {
@@ -71,7 +72,7 @@ namespace CMS.Controllers
         private void AddAdminCookie(AdminModel item)
         {
             HttpCookie mycookie = new HttpCookie(Sitesettings.AdminCookie);
-            mycookie.Value = (item.ID).ToString();
+            mycookie.Value = JsonConvert.SerializeObject(item);
             mycookie.Expires = DateTime.Now.AddDays(7);
             Response.Cookies.Add(mycookie);
         }

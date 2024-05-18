@@ -2,6 +2,7 @@
 using Data.Common;
 using Data.Helpers;
 using Data.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,19 +26,21 @@ namespace CMS.Controllers
             }
             else
             {
-                ViewBag.CMSUserID = Convert.ToInt32(Request.Cookies[Sitesettings.AdminCookie].Value);
-
+                AdminModel item = JsonConvert.DeserializeObject<AdminModel>(Request.Cookies[Sitesettings.AdminCookie].Value);
+                ViewBag.CMSUserID = item.ID;
+                ViewBag.CurrentUser = item;
             }
 
 
             // if (!context.IsChildAction)
             //  {
-            if (ViewBag.CMSUserID != null && ViewBag.CMSUserID > 0)
+            if (ViewBag.CurrentUser != null && ViewBag.CMSUserID > 0)
             {
-                AdminHelper helper = new AdminHelper();
-                AdminModel item = helper.GetById(ViewBag.CMSUserID);
+               
+                AdminModel item = ViewBag.CurrentUser as AdminModel;
                 ViewBag.CMSUserName = item != null ? item.UserName : "";
                 ViewBag.theme = item != null ? item.Theme : "light";
+                ViewBag.UserGroupRoles = item != null ? item.AdminGroupRoles : new List<AdminGroupRoleModel>();
                 ViewBag.bodyThemeClass = item != null ? (item.Theme == "dark" ? "dark-mode" : "") : "";
             }
             else

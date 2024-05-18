@@ -24,7 +24,7 @@ namespace CMS.Controllers
         // GET: Pages
 
         #region Index
-        [CustomAuthorization((int)Utilities.AdminRoles.Full)]
+        [CustomAuthorization("WebsiteContent", "View")]
         public ActionResult Index(int id)
         {
             ViewBag.pagemodify = 0;
@@ -56,6 +56,8 @@ namespace CMS.Controllers
             PageModel model = new PageHelper().GetById(id, LangId);
             return View(model);
         }
+
+        [CustomAuthorization("WebsiteContent", "Edit")]
         [HttpPost]
         public ActionResult _EditContentType(FormCollection obj)
         {
@@ -67,6 +69,8 @@ namespace CMS.Controllers
             }
             return RedirectToAction("Index","Pages", new { id = pageid });
         }
+
+        [CustomAuthorization("WebsiteContent", "Edit")]
         public ActionResult _HideUnhide(int id)
         {
             PageHelper pghelper = new PageHelper();
@@ -87,6 +91,7 @@ namespace CMS.Controllers
             return RedirectToAction("Index", "Pages", new { id = id });
         }
 
+        [CustomAuthorization("WebsiteContent", "Edit")]
         public ActionResult MoveUp(int ID)
         {
 
@@ -103,6 +108,8 @@ namespace CMS.Controllers
             }
             return RedirectToAction("Index", "Pages", new { id = curr.ParentId });
         }
+
+        [CustomAuthorization("WebsiteContent", "Edit")]
         public ActionResult MoveDown(int ID)
         {
             PageHelper helper = new PageHelper();
@@ -119,12 +126,16 @@ namespace CMS.Controllers
             return RedirectToAction("Index", "Pages", new { id = curr.ParentId });
         }
 
+
+        [CustomAuthorization("WebsiteContent", "View")]
         public ActionResult PhotoGallery(int id)
         {
             PageModel mde = new PageHelper().GetById(id, LangId);
 
             return View();
         }
+
+        [CustomAuthorization("WebsiteContent", "Delete")]
         public ActionResult Delete(int id)
         {
             PageModel mde = new PageHelper().GetById(id, LangId);
@@ -297,6 +308,8 @@ namespace CMS.Controllers
         #endregion
 
         #region Create
+
+        [CustomAuthorization("WebsiteContent", "Create")]
         public ActionResult Create()
         {
 
@@ -313,6 +326,9 @@ namespace CMS.Controllers
             return View(mde);
         }
 
+
+
+        [CustomAuthorization("WebsiteContent", "Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
@@ -363,6 +379,8 @@ namespace CMS.Controllers
         #endregion
 
         #region Edit
+
+        [CustomAuthorization("WebsiteContent", "Edit")]
         public ActionResult Edit(int id)
         {
 
@@ -413,7 +431,7 @@ namespace CMS.Controllers
         }
 
 
-
+        [CustomAuthorization("WebsiteContent", "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]

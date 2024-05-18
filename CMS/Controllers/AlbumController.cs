@@ -12,12 +12,14 @@ using CMS.Models;
 using System.Text;
 using Data;
 using DocumentFormat.OpenXml.Bibliography;
+using CMS.Extensions;
 
 namespace CMS.Controllers
 {
     public class AlbumController : BaseController
     {
         #region "Index"        
+        [CustomAuthorization("Gallery", "View")]
         public ActionResult Index(int id)
         {
             ViewBag.pagemodify = 0;
@@ -29,11 +31,15 @@ namespace CMS.Controllers
             }
             return View(pg);
         }
+
+        [CustomAuthorization("Gallery", "Edit")]
         public ActionResult Publish(int id)
         {
             new AlbumHelper().ChangeVisibility(id);
             return RedirectToAction("Index", "Album", new { id = id });
         }
+
+        [CustomAuthorization("Gallery", "Edit")]
         public ActionResult MoveUp(int ID)
         {
 
@@ -50,6 +56,8 @@ namespace CMS.Controllers
             }
             return RedirectToAction("Index", "Album", new { id = curr.Id });
         }
+
+        [CustomAuthorization("Gallery", "Edit")]
         public ActionResult MoveDown(int ID)
         {
             AlbumHelper helper = new AlbumHelper();
@@ -65,6 +73,8 @@ namespace CMS.Controllers
             }
             return RedirectToAction("Index", "Album", new { id = curr.Id });
         }
+
+        [CustomAuthorization("Gallery", "Delete")]
         public ActionResult Delete(int id)
         {
 
@@ -109,11 +119,15 @@ namespace CMS.Controllers
         #endregion
 
         #region "Create"
+
+        [CustomAuthorization("Gallery", "Create")]
         public ActionResult Create(int id)
         {
             AlbumModel mymodel = new AlbumModel { ParentId = id };
             return View(mymodel);
         }
+
+        [CustomAuthorization("Gallery", "Create")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Create(AlbumModel model, FormCollection obj)
@@ -166,11 +180,15 @@ namespace CMS.Controllers
         #endregion
 
         #region "Edit"
+
+        [CustomAuthorization("Gallery", "Edit")]
         public ActionResult Edit(int ID)
         {
             var t = new AlbumHelper().GetByid(ID, LangId);
             return View(t);
         }
+
+        [CustomAuthorization("Gallery", "Edit")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Edit(AlbumModel model)
@@ -214,6 +232,8 @@ namespace CMS.Controllers
         {
             return PartialView();
         }
+
+        [CustomAuthorization("Gallery", "View")]
         public ActionResult ItemListing(int page = 1, int albumid = 0, string Type = "", string search = "")
         {
             AlbumModel myalbum = new AlbumHelper().GetByid(albumid, LangId);
@@ -231,6 +251,8 @@ namespace CMS.Controllers
 
 
         }
+
+        [CustomAuthorization("Gallery", "Edit")]
         public ActionResult PublishItems(int id)
         {
             AlbumItemsHelper helper = new AlbumItemsHelper();
@@ -238,6 +260,8 @@ namespace CMS.Controllers
             helper.ChangeVisibility(id);
             return RedirectToAction("ItemListing", "Album", new { albumid = curr.AlbumId });
         }
+
+        [CustomAuthorization("Gallery", "Edit")]
         public ActionResult MoveUpItem(int ID)
         {
 
@@ -254,6 +278,8 @@ namespace CMS.Controllers
             }
             return RedirectToAction("ItemListing", "Album", new { albumid = curr.AlbumId });
         }
+
+        [CustomAuthorization("Gallery", "Edit")]
         public ActionResult MoveDownItem(int ID)
         {
             AlbumItemsHelper helper = new AlbumItemsHelper();
@@ -269,6 +295,8 @@ namespace CMS.Controllers
             }
             return RedirectToAction("ItemListing", "Album", new { albumid = curr.AlbumId });
         }
+
+        [CustomAuthorization("Gallery", "Delete")]
         public ActionResult DeleteItem(int id)
         {
             var ctr = new AlbumItemsHelper();
@@ -279,7 +307,7 @@ namespace CMS.Controllers
             return RedirectToAction("ItemListing", "Album", new { albumid = propId });
         }
 
-
+        [CustomAuthorization("Gallery", "Create")]
         public ActionResult CreateAlbumItem(int albumid = 0)
         {
             AlbumModel myalbum = new AlbumHelper().GetByid(albumid, LangId);
@@ -287,6 +315,8 @@ namespace CMS.Controllers
             ViewBag.albumid = myalbum != null && myalbum.Id > 0 ? myalbum.Id : 0;
             return View();
         }
+
+        [CustomAuthorization("Gallery", "Create")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult CreateAlbumItem(AlbumItemsModel model, FormCollection obj)
@@ -353,7 +383,7 @@ namespace CMS.Controllers
 
         }
 
-
+        [CustomAuthorization("Gallery", "Edit")]
         public ActionResult EditAlbumItem(int id)
         {
             AlbumItemsModel mymodel = new AlbumItemsHelper().GetByid(id, LangId);
@@ -363,6 +393,8 @@ namespace CMS.Controllers
 
             return View(mymodel);
         }
+
+        [CustomAuthorization("Gallery", "Edit")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult EditAlbumItem(AlbumItemsModel model, FormCollection obj)
@@ -449,14 +481,5 @@ namespace CMS.Controllers
         }
 
 
-
-
     }
-
-
-
-
-
-
-
 }

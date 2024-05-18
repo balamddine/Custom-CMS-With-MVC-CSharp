@@ -1,10 +1,12 @@
 ﻿using Data.Common;
 using Data.Models;
+using OfficeOpenXml.Drawing.Chart;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Security;
 
 namespace Data.Helpers
 {
@@ -67,7 +69,7 @@ namespace Data.Helpers
             return null;
         }
 
-        public AdminModel GetCMSUserByUsernameAndPassword(string Email,string Pwd)
+        public AdminModel GetCMSUserByUsernameAndPassword(string Email, string Pwd)
         {
             try
             {
@@ -100,7 +102,7 @@ namespace Data.Helpers
             return null;
         }
 
-        public int Create(AdminModel model)
+        public int Create(AdminModel model, List<AdminGroupRoleModel> Roles)
         {
             int ReturnedID = 0;
             try
@@ -116,13 +118,34 @@ namespace Data.Helpers
                         isDeleted = model.isDeleted,
                         isDisabled = model.isDisabled,
                         CreateDate = model.CreateDate,
-                       
+
                         Email = model.Email,
                         Theme = "light"
                     };
+
                     cnx.Admins.Add(t);
                     cnx.SaveChanges();
                     ReturnedID = t.Id;
+                    if(Roles != null && Roles.Count > 0)
+                    {
+                        foreach (var item in Roles)
+                        {
+                            cnx.AdminGroupRoles.Add(new AdminGroupRole
+                            {
+                                AdminId = ReturnedID,
+                                GroupId = item.GroupId,
+                            });
+                        }
+                    }
+                    else
+                    {
+                        cnx.AdminGroupRoles.Add(new AdminGroupRole
+                        {
+                            AdminId = ReturnedID,
+                            GroupId = 1,
+                        });
+                    }
+                    cnx.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -131,11 +154,11 @@ namespace Data.Helpers
             }
             return ReturnedID;
         }
-        public bool update(AdminModel model)
+        public bool update(AdminModel model, List<AdminGroupRoleModel> Roles)
         {
             try
             {
-
+                List<AdminGroupRole> l = ConverttoAdminRoles(model.AdminGroupRoles);
                 using (IMDGEntities cnx = new IMDGEntities())
                 {
                     if (cnx.Admins.Any(x => x.Id == model.ID))
@@ -149,7 +172,36 @@ namespace Data.Helpers
                         t.Email = model.Email;
                         t.isDisabled = model.isDisabled;
                         t.Theme = model.Theme;
+                        t.AdminGroupRoles = l;
+                       
+                        
+                        cnx.AdminGroupRoles.RemoveRange(t.AdminGroupRoles);
                         cnx.SaveChanges();
+                        if (model.ID != 1)
+                        {
+                            if (Roles != null && Roles.Count > 0)
+                            {
+                                foreach (var item in Roles)
+                                {
+                                    cnx.AdminGroupRoles.Add(new AdminGroupRole
+                                    {
+                                        AdminId = model.ID,
+                                        GroupId = item.GroupId,
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                cnx.AdminGroupRoles.Add(new AdminGroupRole
+                                {
+                                    AdminId = model.ID,
+                                    GroupId = 1,
+                                });
+                            }
+
+
+                            cnx.SaveChanges();
+                        }
                         return true;
                     }
                 }
@@ -160,6 +212,22 @@ namespace Data.Helpers
             }
             return false;
         }
+
+        private List<AdminGroupRole> ConverttoAdminRoles(List<AdminGroupRoleModel> adminGroupRoles)
+        {
+            List<AdminGroupRole> l = new List<AdminGroupRole>();
+            foreach (var item in adminGroupRoles)
+            {
+                l.Add(new AdminGroupRole
+                {
+                    Id = item.Id,
+                    AdminId = item.AdminId,
+                    GroupId = item.GroupId,
+                });
+            }
+            return l;
+        }
+
         public bool updatePass(int ID, string Pass)
         {
             try
@@ -202,6 +270,29 @@ namespace Data.Helpers
             }
         }
 
+        public bool updateTheme(AdminModel model)
+        {
+            try
+            {
+
+                using (IMDGEntities cnx = new IMDGEntities())
+                {
+                    if (cnx.Admins.Any(x => x.Id == model.ID))
+                    {
+                        Admin t = cnx.Admins.First(x => x.Id == model.ID);
+
+                        t.Theme = model.Theme;
+                        cnx.SaveChanges();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Utilities.LogError(ex, "User", "updateTheme");
+            }
+            return false;
+        }
     }
 
 }
