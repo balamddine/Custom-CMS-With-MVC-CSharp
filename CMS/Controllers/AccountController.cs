@@ -49,7 +49,7 @@ namespace CMS.Controllers
                 else
                 {
                     Session[Sitesettings.CMSAdminSessionName] = item;
-                    AddAdminCookie(item);
+                    Helpers.Helpers.AddAdminCookie(item);
 
                     if (returnUrl != "")
                         return RedirectToLocal(returnUrl);
@@ -69,13 +69,7 @@ namespace CMS.Controllers
             return View(model);
         }
 
-        private void AddAdminCookie(AdminModel item)
-        {
-            HttpCookie mycookie = new HttpCookie(Sitesettings.AdminCookie);
-            mycookie.Value = JsonConvert.SerializeObject(item);
-            mycookie.Expires = DateTime.Now.AddDays(7);
-            Response.Cookies.Add(mycookie);
-        }
+       
 
         private ActionResult RedirectToLocal(string returnUrl)
         {

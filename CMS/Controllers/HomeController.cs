@@ -171,6 +171,7 @@ namespace CMS.Controllers
                 myadmin.Theme = "light";
             }
             new AdminHelper().updateTheme(myadmin);
+            Helpers.Helpers.AddAdminCookie(myadmin);
             return Json(new { success = "true" }, JsonRequestBehavior.AllowGet);
         }
          

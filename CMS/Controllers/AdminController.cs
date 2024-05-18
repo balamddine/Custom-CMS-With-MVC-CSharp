@@ -81,7 +81,8 @@ namespace CMS.Controllers
                     LastName = model.LastName,
                     Pwd = pass,
                     UserName = model.UserName,
-                    isDisabled = false
+                    isDisabled = false,
+                    Theme = "light"
                 };
 
                 int CMSUserID = Convert.ToInt32(obj["CMSUserID"].ToString());

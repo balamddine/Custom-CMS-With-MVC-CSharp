@@ -118,9 +118,8 @@ namespace Data.Helpers
                         isDeleted = model.isDeleted,
                         isDisabled = model.isDisabled,
                         CreateDate = model.CreateDate,
-
                         Email = model.Email,
-                        Theme = "light"
+                        Theme = model.Theme
                     };
 
                     cnx.Admins.Add(t);
@@ -171,7 +170,6 @@ namespace Data.Helpers
                         t.isDeleted = model.isDeleted;
                         t.Email = model.Email;
                         t.isDisabled = model.isDisabled;
-                        t.Theme = model.Theme;
                         t.AdminGroupRoles = l;
                        
                         
