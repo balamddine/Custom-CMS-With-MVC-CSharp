@@ -110,6 +110,15 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="PageLayout">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PageId" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="400" />
+  </EntityType>
   <EntityType Name="Pages">
     <Key>
       <PropertyRef Name="Id" />
@@ -323,6 +332,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PageLayout_Pages">
+    <End Role="Pages" Type="Self.Pages" Multiplicity="1" />
+    <End Role="PageLayout" Type="Self.PageLayout" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pages">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PageLayout">
+        <PropertyRef Name="PageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Pages_Pages">
     <End Role="Pages" Type="Self.Pages" Multiplicity="0..1" />
     <End Role="Pages1" Type="Self.Pages" Multiplicity="*" />
@@ -382,6 +403,7 @@
     <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PageContentTypeFields" EntityType="Self.PageContentTypeFields" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PageContentTypesIds" EntityType="Self.PageContentTypesIds" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PageLayout" EntityType="Self.PageLayout" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PagesContents" EntityType="Self.PagesContents" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PagesContentTypes" EntityType="Self.PagesContentTypes" Schema="dbo" store:Type="Tables" />
@@ -422,6 +444,10 @@
     <AssociationSet Name="FK_PageContentTypeFields_PagesContentTypes" Association="Self.FK_PageContentTypeFields_PagesContentTypes">
       <End Role="PagesContentTypes" EntitySet="PagesContentTypes" />
       <End Role="PageContentTypeFields" EntitySet="PageContentTypeFields" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PageLayout_Pages" Association="Self.FK_PageLayout_Pages">
+      <End Role="Pages" EntitySet="Pages" />
+      <End Role="PageLayout" EntitySet="PageLayout" />
     </AssociationSet>
     <AssociationSet Name="FK_Pages_Pages" Association="Self.FK_Pages_Pages">
       <End Role="Pages" EntitySet="Pages" />

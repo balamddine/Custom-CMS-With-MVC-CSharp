@@ -181,23 +181,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Pages">
-      <EntityTypeMapping TypeName="IMDGModel.Page">
-        <MappingFragment StoreEntitySet="Pages">
-          <ScalarProperty Name="isList" ColumnName="isList" />
-          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
-          <ScalarProperty Name="isHidden" ColumnName="isHidden" />
-          <ScalarProperty Name="MenuOrder" ColumnName="MenuOrder" />
-          <ScalarProperty Name="PageTemplateID" ColumnName="PageTemplateID" />
-          <ScalarProperty Name="PageContentID" ColumnName="PageContentID" />
-          <ScalarProperty Name="FriendlyUrl" ColumnName="FriendlyUrl" />
-          <ScalarProperty Name="Link" ColumnName="Link" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Albums">
       <EntityTypeMapping TypeName="IMDGModel.Album">
         <MappingFragment StoreEntitySet="Albums">
@@ -243,6 +226,33 @@
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="Roles" ColumnName="Roles" />
           <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PageLayouts">
+      <EntityTypeMapping TypeName="IMDGModel.PageLayout">
+        <MappingFragment StoreEntitySet="PageLayout">
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="PageId" ColumnName="PageId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pages">
+      <EntityTypeMapping TypeName="IMDGModel.Page">
+        <MappingFragment StoreEntitySet="Pages">
+          <ScalarProperty Name="isList" ColumnName="isList" />
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="isHidden" ColumnName="isHidden" />
+          <ScalarProperty Name="MenuOrder" ColumnName="MenuOrder" />
+          <ScalarProperty Name="PageTemplateID" ColumnName="PageTemplateID" />
+          <ScalarProperty Name="PageContentID" ColumnName="PageContentID" />
+          <ScalarProperty Name="FriendlyUrl" ColumnName="FriendlyUrl" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

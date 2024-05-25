@@ -1,0 +1,226 @@
+﻿@model Data.Models.PageModel
+@{
+    Layout = "~/Views/Shared/_PagesLayout.cshtml";
+    ViewBag.Title = "Page layout";
+}
+<script>
+     $(document).ready(function () {
+         var id = @Model.Id;
+         highlightTreemenu("#apage" + id);
+     })
+</script>
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Create <b>@{ @Model.Name}</b> layout </h1>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    @{
+                        if (Model.Id!=Data.Common.Sitesettings.RootPageId && !ViewBag.RootHaveTemplate)
+                        {
+                            <p class="text-black">You should create a root template first </p>
+                            return;
+                        }
+                    }
+                    <a title='Add blocks' data-id="#container1" class='modalLink plusign btn btn-info' data-target='#addBlock' data-toggle='modal' onclick="initModal(this)" href='javascript:;'><i class='fa fa-plus' aria-hidden='true'></i> Add blocks</a>
+                </div>
+                <div class="card-body containerplus " id="container1">
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="addBlock" tabindex="-1" role="dialog" aria-labelledby="addBlockLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <input type="hidden" id="blockHidden" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addBlockLabel">Add block</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Row count *</label>
+                                <div class="form-input">
+                                    <input type="number" id="rowCount" class="form-control " autocomplete="off" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Box count *</label>
+                                <div class="form-input">
+                                    <input type="number" id="boxCount" class="form-control " autocomplete="off" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Box width *</label>
+                                <div class="form-input">
+                                    <input type="number" id="boxWidth" class="form-control " autocomplete="off" value="12" max="12" min="1" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a href="javascript:;" class="btn btn-primary deleteSlider" data-dismiss="modal" onclick="addBlocks(event)">Add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="modal fade" id="BboxInfoModal" tabindex="-1" role="dialog" aria-labelledby="BboxInfoModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <input type="hidden" id="blockItemHidden" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="BboxInfoModal">Box info</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Box title *</label>
+                                <div class="form-input">
+                                    <input type="text" id="boxTitle" class="form-control " autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Box height *</label>
+                                <div class="input-group input-group-lg">
+                                    <input type="number" min="1" max="100" value="50" id="boxHeight"  class="form-control">
+                                    <div class="input-group-prepend">
+                                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            px
+                                        </button>
+                                        <ul class="dropdown-menu">                                           
+                                            <li class="dropdown-item"><a href="#">px</a></li>
+                                            <li class="dropdown-item"><a href="#">%</a></li>                                       
+                                            <li class="dropdown-item"><a href="#">vh</a></li>
+                                        </ul>
+                                    </div>
+
+
+                                </div>                         
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a href="javascript:;" class="btn btn-primary deleteSlider" data-dismiss="modal" onclick="addBoxInfo(event)">Add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+       
+        initModal = (sender) => {
+            document.getElementById("blockHidden").value = $(sender).data("id");
+        }
+        addBlocks = (e) => {
+            let rowCount = document.getElementById("rowCount").value;
+            let boxCount = document.getElementById("boxCount").value;
+            let boxWidth = document.getElementById("boxWidth").value;
+            let parent = document.getElementById("blockHidden").value;
+            if (rowCount == "") {
+                alert("Row count required")
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+            if (boxCount == "") {
+                alert("Box count required")
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+            if (boxWidth == "") {
+                alert("Box width required")
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+            rowCount = parseInt(rowCount)
+            boxCount = parseInt(boxCount)
+            boxWidth = parseInt(boxWidth)
+            for (var i = 0; i < rowCount; i++) {
+                var html = "<div class='row mb-2'>";
+                for (var j = 0; j < boxCount; j++) {
+                        
+                    const id = "box-" + uuidv4();
+                    html += "<div class='col-" + boxWidth + " boxplus' id='" + id + "' data-id='#" + id + "' data-target='#BboxInfoModal' data-toggle='modal' onclick='initBoxInfoModal(this)' >Click to add box info...</div>"
+                }
+                html += "</div>"
+                $(parent).append(html);
+            }
+        }
+        initBoxInfoModal = (sender) => {
+            document.getElementById("blockItemHidden").value = $(sender).data("id");
+        }
+        addBoxInfo = (e) => {
+            let title = document.getElementById("boxTitle").value;
+            let boxHeight = $("#boxHeight");
+            let boxHeightSelected = boxHeight.parent().find(".btn").text().trim();
+            let parent = document.getElementById("blockItemHidden").value;
+            if (title == "") {
+                alert("Title is required")
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+            $(parent).html("<span class='boxtitle badge badge-warning' style='display:none'>" + title + "</span>");
+            $(parent).css("height", boxHeight.val() + boxHeightSelected)
+
+        }
+    </script>
+
+
+
+}

@@ -763,7 +763,6 @@ namespace CMS.Controllers
             }
             return valid;
         }
-        #endregion
 
         [HttpPost]
         public JsonResult _removeAlbumContent(string pgid, string galid)
@@ -795,6 +794,9 @@ namespace CMS.Controllers
             }
             return Json(new { success = false }, JsonRequestBehavior.AllowGet);
         }
+        #endregion
+
+
 
     }
 }

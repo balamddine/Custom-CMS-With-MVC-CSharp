@@ -135,6 +135,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\FriendlyUrlCreatorModule.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\PagesLayoutController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminRolesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -1080,6 +1081,7 @@
     <Content Include="Views\AdminRoles\_RolesPermissions.cshtml" />
     <Content Include="Views\AdminRoles\Edit.cshtml" />
     <Content Include="Views\Home\UnAuthorized.cshtml" />
+    <Content Include="Views\PagesLayout\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

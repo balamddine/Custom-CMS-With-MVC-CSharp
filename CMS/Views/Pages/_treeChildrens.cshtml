@@ -6,7 +6,7 @@
         string parentid = "apage" + item.ParentId;
         bool hschild = item.ChildCount > 0;
         string ishidden = item.isHidden ? "red" : "green";
-        bool isList = item.isList;        
+        bool isList = item.isList;
         string editlink = @Url.Content("~/Pages/Index/") + item.Id;
         string addlink = @Url.Content("~/Pages/SelectTemplate/") + item.Id;
         string hideunhideurl = @Url.Content("~/Pages/_HideUnhide/") + item.Id;
@@ -14,10 +14,11 @@
         string moveupurl = @Url.Content("~/Pages/MoveUp/") + item.Id;
         string movedownurl = @Url.Content("~/Pages/MoveDown/") + item.Id;
         string editcontenttypelink = @Url.Content("~/Pages/_EditContentType/") + item.Id;
+        string pageLayoutLink = @Url.Content("~/PagesLayout/Index/") + item.Id;
         bool isFolder = hschild;
         string onclick = isList ? "openWindow('" + editlink + "')" : "parentClick(this, " + item.Id + ", event)";
-      
-        <li class="nav-item"  id="@id" onclick="@onclick">
+
+        <li class="nav-item"  id="@id" onclick="@onclick" draggable="true">
             <a href="#" class="nav-link" data-tooltip="#tooltip_content_@id" id="navlink_@item.Id" data-tree="#@parentid" data-contextmenu
                data-id="@item.Id"
                data-tpid="@item.PageTemplateID"
@@ -28,7 +29,10 @@
                data-hideunhideurl="@hideunhideurl"
                data-photogalleryurl="@photogalleryurl"
                data-moveupurl="@moveupurl"
-               data-movedownurl="@movedownurl">
+               data-movedownurl="@movedownurl"
+               data-pagelayoutlink="@pageLayoutLink"
+               
+               >
                 @{
                     if (isList)
                     {

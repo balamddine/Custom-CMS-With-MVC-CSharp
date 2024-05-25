@@ -144,6 +144,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminModel.cs" />
+    <Compile Include="Models\PageLayoutModel.cs" />
     <Compile Include="Models\LogsModel.cs" />
     <Compile Include="Models\NewsletterSubscriptionModel.cs" />
     <Compile Include="Models\PageContentTypeFieldModel.cs" />
@@ -159,6 +160,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="PageContentTypesId.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PageLayout.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="PagesContent.cs">

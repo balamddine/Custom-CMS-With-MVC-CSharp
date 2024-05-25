@@ -40,6 +40,7 @@ namespace Data.Models
         public string Name { get; set; }
         public int Id { get; set; }
         public string menuHTML { get; set; }
+        public PageLayoutModel mPageLayout { get; set; }
 
         public static PageModel GetFromPage(Page item, int langid)
         {
@@ -59,7 +60,7 @@ namespace Data.Models
                 ChildCount = item.Pages1 != null ? item.Pages1.Count() : 0,
                 menuHTML = "",
                 Link = Sitesettings.WebsiteUrl + item.Link,
-
+                mPageLayout = item.PageLayouts != null && item.PageLayouts.Count > 0 ? PageLayoutModel.GetFromModel(item.PageLayouts.ToList()[0]) : null,
                 Contents = GetContents(item.Id, langid)
             };
             if(item.Pages1!=null &&  item.Pages1.Count() > 0)

@@ -1,6 +1,16 @@
 ﻿$(document).ready(function () {
     //Initialize Select2 Elements
     $('.select2').select2()
+
+
+    $('.input-group-prepend .dropdown-item').click(function (event) {
+        event.preventDefault(); // Prevent default link behavior
+        var selectedText = $(this).find("a").text(); // Get the text of the clicked item
+        var button = $(this).closest('.input-group-prepend').find('.btn'); // Find the button within the closest parent with class 'input-group-prepend'
+        button.html(selectedText); // Set the button text
+        button.dropdown('toggle'); // Close the dropdown
+    });
+   
 })
 function openWindow(url) {
     window.open(url, "_self");

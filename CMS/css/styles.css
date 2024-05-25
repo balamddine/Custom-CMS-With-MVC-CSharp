@@ -246,7 +246,6 @@
     flex-direction: column;
     flex-wrap: wrap;
     max-height: 200px;
-
 }
 
     .ulFlex li {
@@ -258,15 +257,51 @@
         white-space: nowrap;
         text-overflow: ellipsis;
     }
-.roles{
-    margin-bottom:8px;
+
+.roles {
+    margin-bottom: 8px;
 }
 
 #RolesModal .modal-dialog {
     max-width: 70vw;
     width: 70vw;
 }
+
 .roles .text, .roles label.text-dark {
     border-bottom: 1px solid;
     padding-bottom: 4px;
 }
+
+
+.containerplus {
+    height: 77vh;
+}
+
+
+
+    .containerplus .boxplus {
+        height: 50px;
+        background-color: #f8f9fa;
+        padding: 4px;
+        margin: 0px;
+        border: 2px dashed transparent;
+        transition: border 0.3s ease;
+        cursor: pointer;
+        color: var(--dark);
+        position: relative;
+
+    }
+
+        .containerplus .boxplus:hover {
+            border: 2px dashed var(--warning);
+        }
+
+            .containerplus .boxplus:hover .boxtitle {
+                display: block !important;
+            }
+
+        .containerplus .boxplus .boxtitle {
+            position: absolute;
+            top: -10px;
+            right: 2px;
+        }
