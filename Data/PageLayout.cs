@@ -16,6 +16,7 @@ namespace Data
     {
         public int Id { get; set; }
         public int PageId { get; set; }
+        public string PageHtml { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }
     

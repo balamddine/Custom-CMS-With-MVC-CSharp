@@ -43,7 +43,7 @@ namespace Data
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<AdminGroupRole> AdminGroupRoles { get; set; }
         public virtual DbSet<AdminGroup> AdminGroups { get; set; }
-        public virtual DbSet<PageLayout> PageLayouts { get; set; }
         public virtual DbSet<Page> Pages { get; set; }
+        public virtual DbSet<PageLayout> PageLayouts { get; set; }
     }
 }

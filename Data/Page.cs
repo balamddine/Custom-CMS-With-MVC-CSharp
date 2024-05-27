@@ -17,10 +17,10 @@ namespace Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Page()
         {
-            this.PageLayouts = new HashSet<PageLayout>();
             this.Pages1 = new HashSet<Page>();
             this.PagesContents = new HashSet<PagesContent>();
             this.PagesGalleries = new HashSet<PagesGallery>();
+            this.PageLayouts = new HashSet<PageLayout>();
         }
     
         public int Id { get; set; }
@@ -36,13 +36,13 @@ namespace Data
         public bool isList { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PageLayout> PageLayouts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Page> Pages1 { get; set; }
         public virtual Page Page1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PagesContent> PagesContents { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PagesGallery> PagesGalleries { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PageLayout> PageLayouts { get; set; }
     }
 }

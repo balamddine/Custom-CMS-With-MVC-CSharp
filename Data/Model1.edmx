@@ -121,6 +121,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PageId" Type="int" Nullable="false" />
+          <Property Name="PageHtml" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="400" />
         </EntityType>
@@ -530,12 +531,7 @@
             <End Role="AdminGroup" EntitySet="AdminGroups" />
             <End Role="AdminGroupRole" EntitySet="AdminGroupRoles" />
           </AssociationSet>
-          <EntitySet Name="PageLayouts" EntityType="IMDGModel.PageLayout" />
           <EntitySet Name="Pages" EntityType="IMDGModel.Page" />
-          <AssociationSet Name="FK_PageLayout_Pages" Association="IMDGModel.FK_PageLayout_Pages">
-            <End Role="Page" EntitySet="Pages" />
-            <End Role="PageLayout" EntitySet="PageLayouts" />
-          </AssociationSet>
           <AssociationSet Name="FK_Pages_Pages" Association="IMDGModel.FK_Pages_Pages">
             <End Role="Page" EntitySet="Pages" />
             <End Role="Page1" EntitySet="Pages" />
@@ -547,6 +543,11 @@
           <AssociationSet Name="FK_PagesGallery_Pages" Association="IMDGModel.FK_PagesGallery_Pages">
             <End Role="Page" EntitySet="Pages" />
             <End Role="PagesGallery" EntitySet="PagesGalleries" />
+          </AssociationSet>
+          <EntitySet Name="PageLayouts" EntityType="IMDGModel.PageLayout" />
+          <AssociationSet Name="FK_PageLayout_Pages" Association="IMDGModel.FK_PageLayout_Pages">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="PageLayout" EntitySet="PageLayouts" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AlbumContent">
@@ -888,16 +889,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="PageLayout">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PageId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Page" Relationship="IMDGModel.FK_PageLayout_Pages" FromRole="PageLayout" ToRole="Page" />
-        </EntityType>
         <EntityType Name="Page">
           <Key>
             <PropertyRef Name="Id" />
@@ -913,24 +904,12 @@
           <Property Name="isHidden" Type="Boolean" Nullable="false" />
           <Property Name="isDeleted" Type="Boolean" Nullable="false" />
           <Property Name="isList" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="PageLayouts" Relationship="IMDGModel.FK_PageLayout_Pages" FromRole="Page" ToRole="PageLayout" />
           <NavigationProperty Name="Pages1" Relationship="IMDGModel.FK_Pages_Pages" FromRole="Page" ToRole="Page1" />
           <NavigationProperty Name="Page1" Relationship="IMDGModel.FK_Pages_Pages" FromRole="Page1" ToRole="Page" />
           <NavigationProperty Name="PagesContents" Relationship="IMDGModel.FK_PagesContents_Pages" FromRole="Page" ToRole="PagesContent" />
           <NavigationProperty Name="PagesGalleries" Relationship="IMDGModel.FK_PagesGallery_Pages" FromRole="Page" ToRole="PagesGallery" />
+          <NavigationProperty Name="PageLayouts" Relationship="IMDGModel.FK_PageLayout_Pages" FromRole="Page" ToRole="PageLayout" />
         </EntityType>
-        <Association Name="FK_PageLayout_Pages">
-          <End Type="IMDGModel.Page" Role="Page" Multiplicity="1" />
-          <End Type="IMDGModel.PageLayout" Role="PageLayout" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Page">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PageLayout">
-              <PropertyRef Name="PageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Pages_Pages">
           <End Type="IMDGModel.Page" Role="Page" Multiplicity="0..1" />
           <End Type="IMDGModel.Page" Role="Page1" Multiplicity="*" />
@@ -963,6 +942,29 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="PagesGallery">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PageLayout">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageId" Type="Int32" Nullable="false" />
+          <Property Name="PageHtml" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Page" Relationship="IMDGModel.FK_PageLayout_Pages" FromRole="PageLayout" ToRole="Page" />
+        </EntityType>
+        <Association Name="FK_PageLayout_Pages">
+          <End Type="IMDGModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="IMDGModel.PageLayout" Role="PageLayout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageLayout">
               <PropertyRef Name="PageId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1202,16 +1204,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PageLayouts">
-            <EntityTypeMapping TypeName="IMDGModel.PageLayout">
-              <MappingFragment StoreEntitySet="PageLayout">
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="PageId" ColumnName="PageId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Pages">
             <EntityTypeMapping TypeName="IMDGModel.Page">
               <MappingFragment StoreEntitySet="Pages">
@@ -1225,6 +1217,17 @@
                 <ScalarProperty Name="Link" ColumnName="Link" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageLayouts">
+            <EntityTypeMapping TypeName="IMDGModel.PageLayout">
+              <MappingFragment StoreEntitySet="PageLayout">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="PageHtml" ColumnName="PageHtml" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

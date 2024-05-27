@@ -109,6 +109,7 @@
     <Compile Include="Helpers\AlbumHelper.cs" />
     <Compile Include="Helpers\AlbumItemsHelper.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
+    <Compile Include="Helpers\PageLayoutHelper.cs" />
     <Compile Include="Helpers\LogsHelper.cs" />
     <Compile Include="Helpers\NewsletterSubscriptionHelper.cs" />
     <Compile Include="Helpers\PageContentTypeFieldHelper.cs" />

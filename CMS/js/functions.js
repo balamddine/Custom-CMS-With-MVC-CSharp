@@ -1,8 +1,23 @@
 ﻿$(document).ready(function () {
+    
+    initSelect2();
+    initButtonGroupDropDown();
+    initSortable();
+    removeFullScreen();
+
+})
+function removeFullScreen() {
+    $(document).on('keydown', function (event) {
+        if (event.key == "Escape") {
+            $('.fullscreen').removeClass("fullscreen");
+        }
+    });
+}
+function initSelect2() {
     //Initialize Select2 Elements
     $('.select2').select2()
-
-
+}
+function initButtonGroupDropDown() {
     $('.input-group-prepend .dropdown-item').click(function (event) {
         event.preventDefault(); // Prevent default link behavior
         var selectedText = $(this).find("a").text(); // Get the text of the clicked item
@@ -10,8 +25,12 @@
         button.html(selectedText); // Set the button text
         button.dropdown('toggle'); // Close the dropdown
     });
-   
-})
+
+}
+function initSortable(){
+    $('.connectedSortable').sortable({ placeholder: 'sort-highlight', connectWith: '.connectedSortable', handle: '.boxplus', forcePlaceholderSize: true, zIndex: 999999 })
+    $('.connectedSortable .boxplus').css('cursor', 'move')
+}
 function openWindow(url) {
     window.open(url, "_self");
 }

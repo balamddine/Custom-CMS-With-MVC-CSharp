@@ -116,6 +116,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PageId" Type="int" Nullable="false" />
+    <Property Name="PageHtml" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="400" />
   </EntityType>

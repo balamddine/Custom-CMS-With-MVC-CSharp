@@ -11,17 +11,19 @@ namespace Data.Models
     {
         public int Id { get; set; }
         public int PageId { get; set; }
+        public string PageHtml { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public string CreatedBy { get; set; }  
+        public string CreatedBy { get; set; }
 
         public static PageLayoutModel GetFromModel(PageLayout model)
         {
             PageLayoutModel b = new PageLayoutModel
             {
                 Id = model.Id,
-               CreatedBy = model.CreatedBy,
-               CreatedDate = model.CreatedDate,
-               PageId = model.PageId,
+                PageHtml = model.PageHtml,
+                CreatedBy = model.CreatedBy,
+                CreatedDate = model.CreatedDate,
+                PageId = model.PageId,
             };
 
             return b;

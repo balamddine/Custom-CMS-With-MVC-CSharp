@@ -9,6 +9,7 @@
          highlightTreemenu("#apage" + id);
      })
 </script>
+@Html.AntiForgeryToken()
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
@@ -27,15 +28,33 @@
             <div class="card">
                 <div class="card-header">
                     @{
-                        if (Model.Id!=Data.Common.Sitesettings.RootPageId && !ViewBag.RootHaveTemplate)
+                        if (Model.Id != Data.Common.Sitesettings.RootPageId && !ViewBag.RootHaveTemplate)
                         {
                             <p class="text-black">You should create a root template first </p>
                             return;
                         }
                     }
-                    <a title='Add blocks' data-id="#container1" class='modalLink plusign btn btn-info' data-target='#addBlock' data-toggle='modal' onclick="initModal(this)" href='javascript:;'><i class='fa fa-plus' aria-hidden='true'></i> Add blocks</a>
+                    <a title='Add blocks' data-id="#containerplus" class='modalLink plusign btn btn-info' data-target='#addBlock' data-toggle='modal' onclick="initModal(this)" href='javascript:;'><i class='fa fa-plus' aria-hidden='true'></i> Add blocks</a>
+                    <a title='Save layout' class='btn btn-primary float-right mb-1' data-url="@Url.Content("~/PagesLayout/_saveLayout")" onclick="saveLayout(this,event)" href='javascript:;'>Save layout</a>
+
+
                 </div>
-                <div class="card-body containerplus " id="container1">
+                <div class="mtools full-width-chart ">
+                    <a title='toggle fullscreen' class='float-right' onclick="toggleFullScreen()" href='javascript:;'><i class="fas fa-expand" style="color:#FFF;"></i></a>
+                </div>
+
+
+                <div class="card-body containerplus connectedSortable ui-sortable" id="containerplus">
+                    @{
+                        if (Model.mPageLayout != null)
+                        {
+                            @Html.Raw(Model.mPageLayout.PageHtml)
+                        }
+                        else
+                        {
+                            @Html.Raw(ViewBag.RootLayout)
+                        }
+                    }
 
                 </div>
             </div>
@@ -128,20 +147,20 @@
                             <div class="col-12">
                                 <label>Box height *</label>
                                 <div class="input-group input-group-lg">
-                                    <input type="number" min="1" max="100" value="50" id="boxHeight"  class="form-control">
+                                    <input type="number" min="1" max="100" value="50" id="boxHeight" class="form-control">
                                     <div class="input-group-prepend">
                                         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                             px
                                         </button>
-                                        <ul class="dropdown-menu">                                           
+                                        <ul class="dropdown-menu">
                                             <li class="dropdown-item"><a href="#">px</a></li>
-                                            <li class="dropdown-item"><a href="#">%</a></li>                                       
+                                            <li class="dropdown-item"><a href="#">%</a></li>
                                             <li class="dropdown-item"><a href="#">vh</a></li>
                                         </ul>
                                     </div>
 
 
-                                </div>                         
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -160,7 +179,10 @@
 
 @section scripts{
     <script>
-       
+
+        toggleFullScreen = () => {
+            $("#containerplus").toggleClass("fullscreen")
+        }
         initModal = (sender) => {
             document.getElementById("blockHidden").value = $(sender).data("id");
         }
@@ -193,9 +215,9 @@
             for (var i = 0; i < rowCount; i++) {
                 var html = "<div class='row mb-2'>";
                 for (var j = 0; j < boxCount; j++) {
-                        
+
                     const id = "box-" + uuidv4();
-                    html += "<div class='col-" + boxWidth + " boxplus' id='" + id + "' data-id='#" + id + "' data-target='#BboxInfoModal' data-toggle='modal' onclick='initBoxInfoModal(this)' >Click to add box info...</div>"
+                    html += "<div class='col-" + boxWidth + " boxplus mainBlocks' id='" + id + "' data-id='#" + id + "' data-target='#BboxInfoModal' data-toggle='modal' onclick='initBoxInfoModal(this)' >Click to add box info...</div>"
                 }
                 html += "</div>"
                 $(parent).append(html);
@@ -203,6 +225,10 @@
         }
         initBoxInfoModal = (sender) => {
             document.getElementById("blockItemHidden").value = $(sender).data("id");
+            $("#boxTitle").val($(sender).data("title"))
+            let boxHeight = $("#boxHeight");
+            boxHeight.val( $(sender).data("height"));           
+            boxHeight.parent().find(".btn").text($(sender).data("heightcurr"));
         }
         addBoxInfo = (e) => {
             let title = document.getElementById("boxTitle").value;
@@ -215,8 +241,43 @@
                 e.stopPropagation();
                 return false;
             }
+            $(parent).attr("data-title", title)
+            $(parent).attr("data-height", boxHeight.val())
+            $(parent).attr("data-heightcurr", boxHeightSelected)
             $(parent).html("<span class='boxtitle badge badge-warning' style='display:none'>" + title + "</span>");
-            $(parent).css("height", boxHeight.val() + boxHeightSelected)
+            $(parent).parent().css("height", boxHeight.val() + boxHeightSelected)
+
+        }
+
+        saveLayout = (sender, e) => {
+            var conf = confirm("Are you sure you want to save the current layout?")
+            if (!conf) { return; }
+            var doc = $("#containerplus").html().trim();
+            if (doc == "") {
+                alert("No data to save.")
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+            $.ajax({
+                url: $(sender).data("url"),
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    id:@Model.Id,
+                    htmlLayout: doc,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function (response) {
+                  window.location.reload()
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                    alert("error saving layout")
+                }
+            });
+
 
         }
     </script>
